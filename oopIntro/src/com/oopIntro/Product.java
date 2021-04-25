@@ -7,9 +7,10 @@ public class Product {
     String detail;
 
     // Created first constructor
-    public Product(){
+    public Product() {
         System.out.println("I worked");
     }
+
     // Created second constructor
     public Product(int id, String name, double unitPrice, String detail) {
         this(); //invoke first constructor

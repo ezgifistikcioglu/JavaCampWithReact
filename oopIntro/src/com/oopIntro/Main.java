@@ -22,18 +22,18 @@ public class Main {
         for (Product product : products) {
             System.out.println(product.name);
         }
-        ;
+
         System.out.println((products.length));
 
         //Created Category reference
-        Category category1 = new Category(1,"Bilgisayar");
+        Category category1 = new Category(1, "Bilgisayar");
         /*
          * Before using a constructor
            category1.id = 1;
            category1.name = "Bilgisayar";
          */
 
-        Category category2 = new Category(2,"Ev/Bahçe");
+        Category category2 = new Category(2, "Ev/Bahçe");
 
 
         //invoke ProductManager class.
