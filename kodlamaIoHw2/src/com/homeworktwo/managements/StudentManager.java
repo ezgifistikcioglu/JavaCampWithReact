@@ -4,7 +4,7 @@ import com.homeworktwo.dataTypes.Student;
 import com.homeworktwo.dataTypes.User;
 
 
-public class StudentManager {
+public class StudentManager extends UserManager{
 
     public void addHomework(User user){
         System.out.println("StudentManager: " + user.getHomework());

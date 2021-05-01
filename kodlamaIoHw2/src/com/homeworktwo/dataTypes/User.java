@@ -1,8 +1,7 @@
 package com.homeworktwo.dataTypes;
 
 public class User {
-    private int id;
-    private String fullName;
+    private int userId;
     private String emailAddress;
     private String password;
     private String contact;
@@ -13,9 +12,8 @@ public class User {
     public User() {
     }
 
-    public User(int id, String fullName, String emailAddress, String password, String contact, String address, String[] courses, String homework) {
-        this.id = id;
-        this.fullName = fullName;
+    public User(int userId, String emailAddress, String password, String contact, String address, String[] courses, String homework) {
+        this.userId = userId;
         this.emailAddress = emailAddress;
         this.password = password;
         this.contact = contact;
@@ -24,21 +22,14 @@ public class User {
         this.courses = courses;
     }
 
-    public int getId() {
-        return id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
 
     public String getEmailAddress() {
         return emailAddress;

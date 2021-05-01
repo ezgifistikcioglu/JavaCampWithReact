@@ -1,7 +1,7 @@
 package com.homeworktwo.dataTypes;
 
 //Not added yet.
-public class Course {
+public class Course{
     private int id;
     private int coursePrice;
     private int category;
