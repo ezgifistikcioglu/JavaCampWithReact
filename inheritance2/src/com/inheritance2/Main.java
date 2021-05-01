@@ -12,6 +12,6 @@ public class Main {
          */
 
         CustomerManager customerManager = new CustomerManager();
-        customerManager.add(new EmailLogger());
+        customerManager.add(new DatabaseLogger());
     }
 }

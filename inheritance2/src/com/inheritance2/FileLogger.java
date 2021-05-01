@@ -1,6 +1,6 @@
 package com.inheritance2;
 
-public class FileLogger extends Logger{
+public class FileLogger extends Mlogger{
     //Method overriding
     @Override
     public void log(){

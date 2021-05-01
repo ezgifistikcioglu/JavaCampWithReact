@@ -1,6 +1,6 @@
 package com.inheritance2;
 
-public class EmailLogger extends Logger{
+public class EmailLogger extends Mlogger{
     //Method overriding
     @Override
     public void log(){
