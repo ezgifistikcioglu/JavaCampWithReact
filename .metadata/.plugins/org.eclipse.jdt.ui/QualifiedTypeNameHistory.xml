@@ -1,2 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy/>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="interfaces.ICustomerCheckService"/>
+    <fullyQualifiedTypeName name="entities.Customer"/>
+    <fullyQualifiedTypeName name="interfaces.BaseCustomerManager"/>
+    <fullyQualifiedTypeName name="interfaces.ICustomerService"/>
+</qualifiedTypeNameHistroy>
