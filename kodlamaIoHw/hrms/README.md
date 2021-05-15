@@ -27,7 +27,7 @@
     - <img src="assets/postgre.png">
    
  -  Run main class and go to **localhost:8080/...**
- -  **Thats all !**🤞
+ -  **Thats all !** 🤞
 
 
 
