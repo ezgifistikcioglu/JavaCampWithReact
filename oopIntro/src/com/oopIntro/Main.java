@@ -13,19 +13,18 @@ public class Main {
         product2.setDiscount(10);
         product2.setUnitPrice(16000);
 
+        System.out.println(product1.getUnitPriceAfterDiscount());
         System.out.println(product2.getUnitPriceAfterDiscount());
 
-        Category category1 = new Category();
-        category1.setId(1);
-        category1.setName("Beverage");
+      // Category category1 = new Category();
+      // category1.setId(1);
+      // category1.setName("Beverage");
 
-        Category category2 = new Category();
-        category2.setId(2);
-        category2.setName("Food");
+      // Category category2 = new Category();
+      // category2.setId(2);
+      // category2.setName("Food");
 
-        System.out.println(category1.getName());
-        System.out.println(category2.getName());
-
-
+      // System.out.println(category1.getName());
+      // System.out.println(category2.getName());
     }
 }
