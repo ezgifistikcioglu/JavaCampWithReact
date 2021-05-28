@@ -8,19 +8,21 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "users")
-@Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "login")
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class Login {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
-    @Column(name = "email")
-    private String email;
+    @Column(name="user_id")
+    private int userId;
 
-    @Column(name = "password")
-    private String password;
+    @Column(name="verification_code")
+    private String verification_code;
+
+    @Column(name = "is_valid")
+    private boolean is_valid;
 }

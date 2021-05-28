@@ -29,4 +29,9 @@ public class PositionsController {
     public Result add(@RequestBody Position position){
         return this.positionService.add(position);
     }
+
+    @GetMapping("/getByJobName")
+    public DataResult<Position> getByJobName(@RequestParam String jobName){
+        return this.positionService.getByJobName(jobName);
+    }
 }

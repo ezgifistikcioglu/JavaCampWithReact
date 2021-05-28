@@ -1,5 +1,13 @@
 package kodlamaio.hrms.business.abstracts;
 
-public interface JobSeekerService {
+import kodlamaio.hrms.core.utilities.results.DataResult;
+import kodlamaio.hrms.core.utilities.results.Result;
+import kodlamaio.hrms.entities.concretes.JobSeeker;
 
+import java.util.List;
+
+public interface JobSeekerService {
+    //TODO DataResult<Jobseeker> getJobseekerByNationalId(String nationalId);
+    DataResult<List<JobSeeker>> getAll();
+    Result add(JobSeeker jobSeeker);
 }

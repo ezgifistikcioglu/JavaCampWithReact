@@ -1,8 +1,8 @@
 package kodlamaio.hrms.dataAccess.abstracts;
 
-import kodlamaio.hrms.entities.concretes.Position;
+import kodlamaio.hrms.entities.concretes.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<Position,Integer> {
-
+public interface UserRepository extends JpaRepository<User,Integer> {
+    User findUserByEmail(String email);
 }

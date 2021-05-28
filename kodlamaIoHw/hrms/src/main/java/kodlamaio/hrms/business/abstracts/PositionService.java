@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface PositionService {
     DataResult<List<Position>> getAll();
+    DataResult<Position> getByJobName(String jobName);
     Result add(Position position);
 }

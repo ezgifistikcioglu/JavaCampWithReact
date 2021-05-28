@@ -7,13 +7,14 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.Date;
 
-@Data
 @Entity
+@Data
 @Table(name = "job_seekers")
+@PrimaryKeyJoinColumn(name = "user_id")
 @AllArgsConstructor
 @NoArgsConstructor
 public class JobSeeker extends User {
-
+    @Id
     @Column(name = "job_seeker_id")
     private String job_seeker_id;
 

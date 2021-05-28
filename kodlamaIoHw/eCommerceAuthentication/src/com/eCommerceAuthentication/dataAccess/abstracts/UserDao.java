@@ -1,6 +1,5 @@
 package com.eCommerceAuthentication.dataAccess.abstracts;
 
-
 import com.eCommerceAuthentication.entities.concretes.User;
 
 import java.util.List;

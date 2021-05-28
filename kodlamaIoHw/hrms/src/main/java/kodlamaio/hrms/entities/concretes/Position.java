@@ -18,5 +18,5 @@ public class Position {
     private int id;
 
     @Column(name = "job_name")
-    private String job_name;
+    private String jobName;
 }

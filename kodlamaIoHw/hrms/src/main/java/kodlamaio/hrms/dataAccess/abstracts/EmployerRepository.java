@@ -1,8 +1,8 @@
 package kodlamaio.hrms.dataAccess.abstracts;
 
-import kodlamaio.hrms.entities.concretes.Position;
+import kodlamaio.hrms.entities.concretes.Employer;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface EmployerRepository extends JpaRepository<Position,Integer> {
+public interface EmployerRepository extends JpaRepository<Employer,Integer> {
 
 }
