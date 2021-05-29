@@ -7,7 +7,7 @@ import kodlamaio.hrms.entities.concretes.JobSeeker;
 import java.util.List;
 
 public interface JobSeekerService {
-    //TODO DataResult<Jobseeker> getJobseekerByNationalId(String nationalId);
+    DataResult<JobSeeker> getJobSeekerByTcNo(String tcNo);
     DataResult<List<JobSeeker>> getAll();
     Result add(JobSeeker jobSeeker);
 }

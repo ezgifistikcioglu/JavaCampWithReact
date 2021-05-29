@@ -1,7 +1,5 @@
 package services.fakeService;
 
-import kodlamaio.hrms.entities.concretes.Login;
-
 import java.time.LocalDate;
 
 public class FakeValidate {

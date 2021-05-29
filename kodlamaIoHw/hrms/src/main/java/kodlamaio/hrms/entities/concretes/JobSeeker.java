@@ -10,13 +10,10 @@ import java.util.Date;
 @Entity
 @Data
 @Table(name = "job_seekers")
-@PrimaryKeyJoinColumn(name = "user_id")
+@PrimaryKeyJoinColumn(name = "job_seeker_id", referencedColumnName="id")
 @AllArgsConstructor
 @NoArgsConstructor
 public class JobSeeker extends User {
-    @Id
-    @Column(name = "job_seeker_id")
-    private String job_seeker_id;
 
     @Column(name = "firstname")
     private String firstname;
@@ -25,8 +22,8 @@ public class JobSeeker extends User {
     private String lastname;
 
     @Column(name = "tc_no")
-    private String tc_no;
+    private String tcNo;
 
     @Column(name = "birth_year")
-    private Date birth_year;
+    private Date birthYear;
 }

@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/positions")
+@RequestMapping("/api/system_employees")
 public class SystemEmployeesController {
     private SystemEmployeeService systemEmployeeService;
 

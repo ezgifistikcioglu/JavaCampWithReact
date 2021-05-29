@@ -25,6 +25,11 @@ public class JobSeekerManager implements JobSeekerService {
 
 
     @Override
+    public DataResult<JobSeeker> getJobSeekerByTcNo(String tcNo) {
+        return null;
+    }
+
+    @Override
     public DataResult<List<JobSeeker>> getAll() {
         return new SuccessDataResult<List<JobSeeker>>(this.jobSeekerRepository.findAll(),"Listed data");
     }
