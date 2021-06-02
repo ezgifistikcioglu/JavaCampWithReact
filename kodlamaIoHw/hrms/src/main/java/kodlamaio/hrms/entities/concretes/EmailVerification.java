@@ -29,4 +29,9 @@ public class EmailVerification {
     @Column(name="user_id")
     private int userId;
 
+    public EmailVerification(int id, String authentication,boolean isApproved) {
+        this.id = id;
+        this.authentication = authentication;
+        this.isApproved = isApproved;
+    }
 }

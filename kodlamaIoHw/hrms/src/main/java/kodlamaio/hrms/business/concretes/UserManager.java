@@ -1,10 +1,7 @@
 package kodlamaio.hrms.business.concretes;
 
 import kodlamaio.hrms.business.abstracts.UserService;
-import kodlamaio.hrms.core.utilities.results.DataResult;
-import kodlamaio.hrms.core.utilities.results.Result;
-import kodlamaio.hrms.core.utilities.results.SuccessDataResult;
-import kodlamaio.hrms.core.utilities.results.SuccessResult;
+import kodlamaio.hrms.core.utilities.results.*;
 import kodlamaio.hrms.dataAccess.abstracts.UserRepository;
 import kodlamaio.hrms.entities.concretes.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,21 +21,6 @@ public class UserManager implements UserService {
     }
 
     @Override
-    public Result addUserAccount(User user) {
-        return null;
-    }
-
-    @Override
-    public boolean addVerificationEmail(User user) {
-        return false;
-    }
-
-    @Override
-    public boolean signUp(String email, String password) {
-        return false;
-    }
-
-    @Override
     public User getUser(int id) {
         return null;
     }
@@ -49,9 +31,22 @@ public class UserManager implements UserService {
     }
 
     @Override
-    public Result add(User User) {
-        this.userRepository.save(User);
-        return new SuccessResult("Added User");
+    public Result addUserAccount(User user) {
+
+        this.userRepository.save(user);
+        return new SuccessResult("Added user");
+    }
+
+    @Override
+    public Result updateUserAccount(User user) {
+        this.userRepository.save(user);
+        return new SuccessResult("Updated User");
+    }
+
+    @Override
+    public Result deleteUserAccount(User user) {
+        this.userRepository.delete(user);
+        return new SuccessResult("Deleted User");
     }
 
     @Override

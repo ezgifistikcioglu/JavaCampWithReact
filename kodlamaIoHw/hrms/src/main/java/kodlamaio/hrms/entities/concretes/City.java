@@ -8,29 +8,21 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.List;
 
-
 @Data
 @Entity
-@Table(name = "employers")
-@PrimaryKeyJoinColumn(name = "employer_id")
+@Table(name = "cities")
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler","advertisementList"})
-public class Employer extends User {
+public class City {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int id;
 
-    @Column(name = "company_name")
-    private String companyName;
+    @Column(name = "city_name")
+    private String cityName;
 
-    @Column(name = "telephone_no")
-    private String telephoneNumber;
-
-    @Column(name = "web_address")
-    private String webAddress;
-
-    @Column(name = "is_verified")
-    private boolean isVerify = false;
-
-    @OneToMany(mappedBy = "employer")
+    @OneToMany(mappedBy = "city")
     private List<Advertisement> advertisementList;
-
 }

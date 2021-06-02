@@ -7,6 +7,7 @@ import kodlamaio.hrms.entities.concretes.Position;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -28,6 +29,11 @@ public class PositionManager implements PositionService {
     @Override
     public DataResult<Position> getByJobName(String jobName) {
         return new SuccessDataResult<Position>(this.positionRepository.findByJobName(jobName));
+    }
+
+    @Override
+    public DataResult<Position> getByCreatedDate(LocalDate createdDate) {
+        return new SuccessDataResult<Position>(this.positionRepository.findByCreatedDate(createdDate));
     }
 
     @Override

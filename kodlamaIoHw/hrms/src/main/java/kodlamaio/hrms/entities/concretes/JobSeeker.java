@@ -10,7 +10,7 @@ import java.util.Date;
 @Entity
 @Data
 @Table(name = "job_seekers")
-@PrimaryKeyJoinColumn(name = "job_seeker_id", referencedColumnName="id")
+@PrimaryKeyJoinColumn(name = "job_seeker_id")
 @AllArgsConstructor
 @NoArgsConstructor
 public class JobSeeker extends User {
@@ -26,4 +26,7 @@ public class JobSeeker extends User {
 
     @Column(name = "birth_year")
     private Date birthYear;
+
+    @Column(name = "is_verified")
+    private boolean isVerify = false;
 }

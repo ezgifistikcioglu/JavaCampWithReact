@@ -10,6 +10,7 @@ import kodlamaio.hrms.entities.concretes.JobSeeker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -26,6 +27,21 @@ public class JobSeekerManager implements JobSeekerService {
 
     @Override
     public DataResult<JobSeeker> getJobSeekerByTcNo(String tcNo) {
+        return null;
+    }
+
+    @Override
+    public DataResult<JobSeeker> getJobSeekerByFirstname(String firstName) {
+        return null;
+    }
+
+    @Override
+    public DataResult<JobSeeker> getJobSeekerByLastname(String lastName) {
+        return null;
+    }
+
+    @Override
+    public DataResult<JobSeeker> getJobSeekerByBirthYear(Date birthYear) {
         return null;
     }
 

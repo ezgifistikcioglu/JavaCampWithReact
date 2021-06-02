@@ -9,20 +9,15 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "hrms_employees_verification")
-@PrimaryKeyJoinColumn(name = "user_id")
+@Table(name = "hrms_employees")
+@PrimaryKeyJoinColumn(name = "employees_id")
 @AllArgsConstructor
 @NoArgsConstructor
 public class SystemEmployee extends User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private int id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-    @JoinColumn(name = "id")
-    private User user;
+    @Column(name = "firstname")
+    private String firstName;
 
-    @Column(name = "is_approved")
-    private boolean isApproved;
+    @Column(name = "lastname")
+    private String lastName;
 }

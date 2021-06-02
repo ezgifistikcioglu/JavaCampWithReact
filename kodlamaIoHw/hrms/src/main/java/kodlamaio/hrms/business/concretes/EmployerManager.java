@@ -30,8 +30,20 @@ public class EmployerManager implements EmployerService {
     }
 
     @Override
-    public Result add(Employer employer) {
+    public Result addEmployer(Employer employer) {
         this.employerRepository.save(employer);
         return new SuccessResult("Added employer");
+    }
+
+    @Override
+    public Result updateEmployer(Employer employer) {
+        this.employerRepository.save(employer);
+        return new SuccessResult("Updated employer");
+    }
+
+    @Override
+    public Result deleteEmployer(Employer employer) {
+        this.employerRepository.delete(employer);
+        return new SuccessResult("Deleted employer");
     }
 }

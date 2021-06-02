@@ -5,7 +5,6 @@ import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.core.utilities.results.SuccessResult;
 import kodlamaio.hrms.dataAccess.abstracts.EmailVerificationRepository;
 import kodlamaio.hrms.entities.concretes.EmailVerification;
-import kodlamaio.hrms.entities.concretes.MernisVerification;
 import kodlamaio.hrms.entities.concretes.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,12 +21,9 @@ public class ValidateCheckEmailManager implements ValidateCheckEmailService {
         this.emailVerificationRepository = emailVerificationRepository;
     }
 
-
     @Override
     public boolean addNewAccount(User user) {
-        LoginWithEmail loginWithEmail = new LoginWithEmail();
-
-        if (loginWithEmail.loginWithEmail(user.getEmail())){
+        if (loginWithEmail(user.getEmail())){
             System.out.println("Authentication credentials succeeded.");
             return EmailWithRegex.isEmailValid(user.getEmail()) && EmailWithRegex.isPasswordValid(user.getPassword());
         }
@@ -54,5 +50,10 @@ public class ValidateCheckEmailManager implements ValidateCheckEmailService {
     public Result add(EmailVerification emailVerification) {
         this.emailVerificationRepository.save(emailVerification);
         return new SuccessResult("The verification code is saved!");
+    }
+
+    public boolean loginWithEmail(String email){
+        System.out.println("Signed in with Email Authentication. " + email);
+        return true;
     }
 }
