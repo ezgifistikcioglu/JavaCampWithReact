@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface SocialMediaForCvRepository extends JpaRepository<SocialMediaForCv, Integer> {
-    List<SocialMediaForCv> findByCvId(int id);
+    List<SocialMediaForCv> findAllByCvId(int id);
 }

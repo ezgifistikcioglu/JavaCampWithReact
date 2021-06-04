@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface EducationInformationForCVRepository extends JpaRepository<EducationInformationForCv, Integer> {
     List<EducationInformationForCv> findByEducationId(int id);
-
     List<EducationInformationForCv> findByEducationIdOrderBySchoolGraduationDate(int idWithoutDesc);
-
     List<EducationInformationForCv> findByEducationIdOrderBySchoolGraduationDateDesc (int idWithDesc);
 }
