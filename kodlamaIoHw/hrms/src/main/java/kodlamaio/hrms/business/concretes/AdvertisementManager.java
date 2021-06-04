@@ -104,10 +104,10 @@ public class AdvertisementManager implements AdvertisementService {
         return new SuccessDataResult<>(openAdvertisementList);
     }
 
-    @Override
-    public DataResult<List<Advertisement>> findAllByOrderByDateOfPublish() {
-        List<Advertisement> advertisementList = this.advertisementRepository.findAll();
-        advertisementList.sort(Comparator.comparing(Advertisement::getDateOfPublish));
-        return new SuccessDataResult<>(advertisementList);
-    }
+  //  @Override
+  //  public DataResult<List<Advertisement>> findAllByOrderByDateOfPublish() {
+  //     List<Advertisement> advertisementList = this.advertisementRepository.findAll();
+  //     advertisementList.sort(Comparator.comparing(Advertisement::getDateOfPublish));
+  //     return new SuccessDataResult<>(advertisementList);
+  //  }
 }

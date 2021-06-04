@@ -11,11 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserManeger implements UserService {
+public class UserManager implements UserService {
     private UserDao userDao;
 
     @Autowired
-    public UserManeger(UserDao userDao) {
+    public UserManager(UserDao userDao) {
         super();
         this.userDao = userDao;
     }

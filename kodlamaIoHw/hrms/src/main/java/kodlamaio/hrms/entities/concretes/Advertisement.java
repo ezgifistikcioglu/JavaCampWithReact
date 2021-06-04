@@ -5,6 +5,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -37,16 +41,13 @@ public class Advertisement {
     private boolean isAdvertisementDeleted;
 
     @Column(name = "application_deadline")
-    private Date applicationDeadline;
+    private LocalDate applicationDeadline;
 
-    @Column(name = "number_of_open position")
+    @Column(name = "number_of_open_position")
     private int numberOfOpenPosition;
 
-    @Column(name = "date_of_publish")
-    private Date dateOfPublish;
-
     @Column(name = "creation_date")
-    private Date creationDate;
+    private LocalDateTime creationDate = LocalDateTime.now();
 
     @ManyToOne
     @JoinColumn(name = "city_id")

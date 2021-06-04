@@ -54,8 +54,8 @@ public class AdvertisementController {
         return this.advertisementService.getAllOpenAdvertisementList();
     }
 
-    @GetMapping("/findAllByOrderByDateOfPublish")
-    public DataResult<List<Advertisement>> findAllByOrderByDateOfPublish(){
-        return this.advertisementService.findAllByOrderByDateOfPublish();
-    }
+    //@GetMapping("/findAllByOrderByDateOfPublish")
+    //public DataResult<List<Advertisement>> findAllByOrderByDateOfPublish(){
+    //    return this.advertisementService.findAllByOrderByDateOfPublish();
+    //}
 }

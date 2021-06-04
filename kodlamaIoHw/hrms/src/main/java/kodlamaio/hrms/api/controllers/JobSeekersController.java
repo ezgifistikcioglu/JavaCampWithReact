@@ -4,9 +4,13 @@ import kodlamaio.hrms.business.abstracts.JobSeekerService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.entities.concretes.JobSeeker;
+import kodlamaio.hrms.entities.dtos.LoginForJobSeekerDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -21,12 +25,22 @@ public class JobSeekersController {
     }
 
     @GetMapping("/getall")
-    public DataResult<List<JobSeeker>> getAll(){
-        return this.jobSeekerService.getAll();
+    public ResponseEntity<DataResult<List<JobSeeker>>> getAll(){
+        return ResponseEntity.ok(this.jobSeekerService.getAll());
     }
 
     @PostMapping("/add")
-    public Result add(@RequestBody JobSeeker jobSeeker){
-        return this.jobSeekerService.add(jobSeeker);
+    public ResponseEntity<Result> add(@RequestBody JobSeeker jobSeeker){
+        return ResponseEntity.ok(this.jobSeekerService.add(jobSeeker));
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<Result> register(@Valid @RequestBody LoginForJobSeekerDto jobSeekerForRegisterDto) {
+        final Result result = jobSeekerService.register(jobSeekerForRegisterDto);
+
+        if (!result.isSuccess())
+            return new ResponseEntity<Result>(result, HttpStatus.BAD_REQUEST);
+
+        return ResponseEntity.ok(result);
     }
 }

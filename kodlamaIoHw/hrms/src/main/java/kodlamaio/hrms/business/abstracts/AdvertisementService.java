@@ -20,5 +20,5 @@ public interface AdvertisementService {
 
     DataResult<List<Advertisement>> getAllAdvertisementList();
     DataResult<List<Advertisement>> getAllOpenAdvertisementList();
-    DataResult<List<Advertisement>> findAllByOrderByDateOfPublish();
+   // DataResult<List<Advertisement>> findAllByOrderByDateOfPublish();
 }

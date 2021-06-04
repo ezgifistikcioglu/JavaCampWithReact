@@ -6,18 +6,47 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
 @Table(name = "hrms_employees")
-@PrimaryKeyJoinColumn(name = "employees_id")
 @AllArgsConstructor
 @NoArgsConstructor
-public class SystemEmployee extends User {
+public class SystemEmployee {
+    @Column(name = "id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
+    @NotNull
+    @JoinColumn(name = "user_id")
+    @OneToOne()
+    private User user;
+
+    @NotBlank
+    @NotNull
     @Column(name = "firstname")
     private String firstName;
 
+    @NotBlank
+    @NotNull
     @Column(name = "lastname")
     private String lastName;
+
+    @NotBlank
+    @NotNull
+    @Column(name = "is_approved", columnDefinition = "boolean default false")
+    private boolean isApproved = false;
+
+    @NotBlank
+    @NotNull
+    @Column(name = "created_at", columnDefinition = "Date default CURRENT_DATE")
+    private final LocalDateTime createdAt = LocalDateTime.now();
+
+    @NotBlank
+    @NotNull
+    @Column(name = "approval_date")
+    private LocalDateTime approvalDate;
 }

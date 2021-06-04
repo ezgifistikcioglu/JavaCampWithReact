@@ -5,6 +5,7 @@ import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.entities.concretes.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,12 +22,12 @@ public class UsersController {
     }
 
     @GetMapping("/getall")
-    public DataResult<List<User>> getAll(){
-        return this.userService.getAllUser();
+    public ResponseEntity<DataResult<List<User>>> getAll(){
+        return ResponseEntity.ok(this.userService.getAllUser());
     }
 
     @PostMapping("/add")
-    public Result add(@RequestBody User user){
-        return this.userService.addUserAccount(user);
+    public ResponseEntity<Result> add(@RequestBody User user){
+        return ResponseEntity.ok(this.userService.addUserAccount(user));
     }
 }

@@ -5,10 +5,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name = "email_verification")
+@Table(name = "email_verifications")
 @AllArgsConstructor
 @NoArgsConstructor
 public class EmailVerification {
@@ -21,17 +24,26 @@ public class EmailVerification {
     private String authentication;
 
     @Column(name = "email")
+    @Email
     private String email;
 
     @Column(name = "is_approved")
     private boolean isApproved;
 
-    @Column(name="user_id")
-    private int userId;
+    @NotNull
+    @JoinColumn(name = "user_id")
+    @ManyToOne()
+    private User user;
 
-    public EmailVerification(int id, String authentication,boolean isApproved) {
-        this.id = id;
-        this.authentication = authentication;
-        this.isApproved = isApproved;
-    }
+    @NotNull
+    @Column(name = "created_at", columnDefinition = "Date default CURRENT_DATE")
+    private final LocalDateTime createdAt = LocalDateTime.now();
+
+    @NotNull
+    @Column(name = "expiration_date")
+    private LocalDateTime expirationDate;
+
+    @NotNull
+    @Column(name = "activation_date")
+    private LocalDateTime activationDate;
 }

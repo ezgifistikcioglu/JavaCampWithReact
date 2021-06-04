@@ -21,6 +21,11 @@ public class UserManager implements UserService {
     }
 
     @Override
+    public Result checkByEmail(String email) {
+        return this.userRepository.findUserByEmail(email).equals(null) ?  new SuccessResult("Added user email") : new ErrorsResult("The user with this email already exists.");
+    }
+
+    @Override
     public User getUser(int id) {
         return null;
     }
@@ -47,6 +52,11 @@ public class UserManager implements UserService {
     public Result deleteUserAccount(User user) {
         this.userRepository.delete(user);
         return new SuccessResult("Deleted User");
+    }
+
+    @Override
+    public Result confirmActivation(String email, String activationCode) {
+        return null;
     }
 
     @Override

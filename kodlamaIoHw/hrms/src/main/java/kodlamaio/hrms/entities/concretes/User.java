@@ -5,13 +5,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Date;
 
 @Data
 @Entity
 @Table(name = "users")
-@Inheritance(strategy = InheritanceType.JOINED)
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
@@ -21,6 +23,7 @@ public class User {
     private int id;
 
     @Column(name = "email")
+    @Email
     private String email;
 
     @Column(name = "password")
@@ -29,12 +32,9 @@ public class User {
     @Column(name = "confirm_password")
     private String confirmPassword;
 
-    @Column(name = "created_date",columnDefinition = "Default Date value - CURRENT_DATE")
+    @Column(name = "created_date",columnDefinition = "Default Date value CURRENT_DATE")
     private LocalDate createdAt = LocalDate.now();
 
-    @Column(name= "is_user_active", columnDefinition = "Default value - true")
-    private boolean isActiveUser = true;
-
-    @Column(name= "is_user_deleted", columnDefinition = "Default value - false")
+    @Column(name= "is_user_deleted", columnDefinition = "Default value false")
     private boolean isDeletedUser = false;
 }

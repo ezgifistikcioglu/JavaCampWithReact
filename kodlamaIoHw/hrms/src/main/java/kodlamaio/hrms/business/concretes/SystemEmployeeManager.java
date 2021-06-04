@@ -34,6 +34,11 @@ public class SystemEmployeeManager implements SystemEmployeeService {
     }
 
     @Override
+    public DataResult<SystemEmployee> getByUserId(int userId) {
+        return null;
+    }
+
+    @Override
     public Result addEmployer(SystemEmployee systemEmployee) {
         return null;
     }

@@ -11,7 +11,7 @@ public interface SystemEmployeeService {
     Result add(int id);
 
     DataResult<List<SystemEmployee>> getAllSystemEmployee();
-
+    DataResult<SystemEmployee> getByUserId(final int userId);
     Result addEmployer(SystemEmployee systemEmployee);
     Result updateEmployer(SystemEmployee systemEmployee);
     Result deleteEmployer(SystemEmployee systemEmployee);

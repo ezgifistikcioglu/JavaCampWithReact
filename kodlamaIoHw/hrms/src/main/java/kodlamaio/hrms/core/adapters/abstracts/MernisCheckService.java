@@ -1,7 +1,7 @@
 package kodlamaio.hrms.core.adapters.abstracts;
 
-import kodlamaio.hrms.entities.concretes.JobSeeker;
+import kodlamaio.hrms.entities.dtos.LoginForJobSeekerDto;
 
 public interface MernisCheckService {
-    boolean checkIfRealPerson(JobSeeker jobSeeker);
+    boolean checkIfRealPerson(LoginForJobSeekerDto jobSeeker);
 }
