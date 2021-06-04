@@ -4,7 +4,7 @@ import kodlamaio.hrms.business.abstracts.EmailVerificationService;
 import kodlamaio.hrms.business.abstracts.EmployerService;
 import kodlamaio.hrms.business.abstracts.SystemEmployeeService;
 import kodlamaio.hrms.business.abstracts.UserService;
-import kodlamaio.hrms.core.utilities.business.BusinessRules;
+import kodlamaio.hrms.core.utilities.business.Rules;
 import kodlamaio.hrms.core.utilities.results.*;
 import kodlamaio.hrms.dataAccess.abstracts.EmployerRepository;
 import kodlamaio.hrms.entities.concretes.Employer;
@@ -65,7 +65,7 @@ public class EmployerManager implements EmployerService {
 
     @Override
     public Result register(LoginForEmployerDto employerDto) {
-        var res = BusinessRules.run(
+        var res = Rules.run(
                 userService.checkByEmail(employerDto.getEmail()), checkPasswordMatch(employerDto.getPassword(),employerDto.getConfirmPassword()),
                isCorporateEmail(employerDto.getEmail(), employerDto.getWebAddress()),isEmailAvailable(employerDto.getEmail()));
 

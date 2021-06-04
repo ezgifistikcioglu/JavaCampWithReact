@@ -4,7 +4,7 @@ import kodlamaio.hrms.business.abstracts.EmailVerificationService;
 import kodlamaio.hrms.business.abstracts.JobSeekerService;
 import kodlamaio.hrms.business.abstracts.UserService;
 import kodlamaio.hrms.core.adapters.abstracts.MernisCheckService;
-import kodlamaio.hrms.core.utilities.business.BusinessRules;
+import kodlamaio.hrms.core.utilities.business.Rules;
 import kodlamaio.hrms.core.utilities.results.*;
 import kodlamaio.hrms.dataAccess.abstracts.JobSeekerRepository;
 import kodlamaio.hrms.entities.concretes.JobSeeker;
@@ -69,7 +69,7 @@ public class JobSeekerManager implements JobSeekerService {
     @Override
     public Result register(LoginForJobSeekerDto jobSeekerDto) {
 
-        var res = BusinessRules.run(
+        var res = Rules.run(
                 userService.checkByEmail(jobSeekerDto.getEmail()), checkPasswordMatch(jobSeekerDto.getPassword(),jobSeekerDto.getConfirmPassword()),
                  isThereTCNo(jobSeekerDto.getEmail()));
 
