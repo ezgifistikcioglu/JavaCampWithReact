@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/products")
+@CrossOrigin
 // Class that decides external requests (Controller)
 public class ProductsController {
 
