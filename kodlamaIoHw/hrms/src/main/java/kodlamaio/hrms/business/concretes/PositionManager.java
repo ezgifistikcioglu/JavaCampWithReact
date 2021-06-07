@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class PositionManager implements PositionService {
 
-    private PositionRepository positionRepository;
+    private final PositionRepository positionRepository;
 
     @Autowired
     public PositionManager(PositionRepository positionRepository) {
@@ -23,7 +23,7 @@ public class PositionManager implements PositionService {
 
     @Override
     public DataResult<List<Position>> getAll() {
-        return new SuccessDataResult<List<Position>>(this.positionRepository.findAll(),"Listed data");
+        return new SuccessDataResult<List<Position>>(this.positionRepository.findAll(), "Listed data");
     }
 
     @Override
@@ -38,10 +38,11 @@ public class PositionManager implements PositionService {
 
     @Override
     public Result add(Position position) {
-        if (getByJobName(position.getJobName()).getData() != null){
+        if (getByJobName(position.getJobName()).getData() != null) {
             return new ErrorsResult(position.getJobName() + "Positions cannot repeat");
+        } else {
+            this.positionRepository.save(position);
+            return new SuccessResult("Added position");
         }
-        this.positionRepository.save(position);
-        return new SuccessResult("Added position");
     }
 }

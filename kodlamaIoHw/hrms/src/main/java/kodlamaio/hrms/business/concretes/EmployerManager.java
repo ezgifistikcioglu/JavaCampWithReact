@@ -37,7 +37,7 @@ public class EmployerManager implements EmployerService {
 
     @Override
     public DataResult<List<Employer>> getAll() {
-        return new SuccessDataResult<List<Employer>>(this.employerRepository.findAll(),"Listed data");
+        return new SuccessDataResult<List<Employer>>(this.employerRepository.findAll(), "Listed data");
     }
 
     @Override
@@ -65,32 +65,47 @@ public class EmployerManager implements EmployerService {
 
     @Override
     public Result register(LoginForEmployerDto employerDto) {
-        var res = Rules.run(
-                userService.checkByEmail(employerDto.getEmail()), checkPasswordMatch(employerDto.getPassword(),employerDto.getConfirmPassword()),
-               isCorporateEmail(employerDto.getEmail(), employerDto.getWebAddress()),isEmailAvailable(employerDto.getEmail()));
+        var isExist = Rules.run(
+                userService.checkByEmail(employerDto.getEmail()),
+                isEmailAvailable(employerDto.getEmail())
+        );
 
-        if (!Objects.requireNonNull(res).isSuccess()){
-            return res;
+        // TODO : check here with by userManager add method
+        if (Objects.requireNonNull(isExist).isSuccess()) {
+            return new ErrorsResult("Employer registration failed : already exists : " + employerDto.getEmail());
+        } else {
+            var credentialsCheck = Rules.run(
+                    checkPasswordMatch(employerDto.getPassword(), employerDto.getConfirmPassword()),
+                    isCorporateEmail(employerDto.getEmail(), employerDto.getWebAddress())
+            );
+            if (Objects.requireNonNull(credentialsCheck).isSuccess()) {
+                return new ErrorsResult("Registration failed : Please Check Employer password , email and website : " + employerDto);
+            } else {
+                Employer employer = new Employer();
+                employer.setEmail(employerDto.getEmail());
+                employer.setCompanyName(employerDto.getCompanyName());
+                employer.setWebAddress(employerDto.getWebAddress());
+                employer.setTelephoneNumber(employerDto.getTelephoneNumber());
+                employer.setPassword(employerDto.getPassword());
+                employer.setConfirmPassword(employerDto.getConfirmPassword());
+                addEmployer(employer);
+                // TODO : check also save user repository too
+
+                emailVerificationService.sendActivationCode(employer, employer.getEmail());
+                SystemEmployee systemEmployee = new SystemEmployee();
+                systemEmployee.setUser(employer);
+                // TODO : check here
+                systemEmployeeService.addEmployer(systemEmployee);
+
+                return new SuccessResult("Employer registration completed successfully.");
+            }
         }
-        Employer employer = new Employer();
-        employer.setEmail(employerDto.getEmail());
-        employer.setCompanyName(employerDto.getCompanyName());
-        employer.setWebAddress(employerDto.getWebAddress());
-        employer.setTelephoneNumber(employerDto.getTelephoneNumber());
-        employer.setPassword(employerDto.getPassword());
-        employer.setConfirmPassword(employerDto.getConfirmPassword());
-        addEmployer(employer);
-
-        emailVerificationService.sendActivationCode(employer,employer.getEmail());
-        SystemEmployee systemEmployee = new SystemEmployee();
-        systemEmployee.setUser(employer);
-        systemEmployeeService.addEmployer(systemEmployee);
-
-        return new SuccessResult("Employer registration completed successfully.");
     }
+
     private Result checkPasswordMatch(final String password, final String confirmPassword) {
         return password.equals(confirmPassword) ? new SuccessResult("Successful password") : new ErrorsResult("Passwords not match");
     }
+
     private Result isCorporateEmail(final String email, final String website) {
         return email.split("@")[1].equals(website) ? new SuccessResult("Successful Email") : new ErrorsResult("Email not corporate");
     }

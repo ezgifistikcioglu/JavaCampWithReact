@@ -1,10 +1,8 @@
 package kodlamaio.hrms.api.controllers;
 
-import kodlamaio.hrms.business.abstracts.EducationInformationService;
 import kodlamaio.hrms.business.abstracts.WorkExperienceService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.Result;
-import kodlamaio.hrms.entities.concretes.EducationInformationForCv;
 import kodlamaio.hrms.entities.concretes.WorkExperienceForCv;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -15,12 +13,12 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/educations")
-public class WorkExperienceController {
+@RequestMapping("/api/work-experiences")
+public class WorkExperiencesController {
     private WorkExperienceService workExperienceService;
 
     @Autowired
-    public WorkExperienceController(WorkExperienceService workExperienceService) {
+    public WorkExperiencesController(WorkExperienceService workExperienceService) {
         super();
         this.workExperienceService = workExperienceService;
     }

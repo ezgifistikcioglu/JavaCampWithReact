@@ -7,9 +7,9 @@ import kodlamaio.hrms.entities.dtos.LoginForEmailVerificationDto;
 
 public interface EmailVerificationService {
 
-	Result add(EmailVerification emailVerification);
-	Result update(EmailVerification emailVerification);
-	Result delete(EmailVerification emailVerification);
+	Result addEmailVerification(EmailVerification emailVerification);
+	Result updateEmailVerification(EmailVerification emailVerification);
+	Result deleteEmailVerification(EmailVerification emailVerification);
 	Result sendActivationCode(User user, String... emails);
 
 	Result verify(LoginForEmailVerificationDto emailVerificationDto);

@@ -23,7 +23,7 @@ public class CVManager implements CVService {
 
     @Override
     public DataResult<List<CV>> getAll() {
-        return new SuccessDataResult<List<CV>>(this.cvRepository.findAll(),"Listed data");
+        return new SuccessDataResult<List<CV>>(this.cvRepository.findAll(), "Listed data");
     }
 
     @Override
@@ -38,11 +38,12 @@ public class CVManager implements CVService {
 
     @Override
     public Result add(CV cv) {
-        if (getByCvId(cv.getCvId()).getData() != null){
+        if (getByCvId(cv.getCvId()).getData() != null) {
             return new ErrorsResult(cv.getCvId() + "Same cv cannot repeat");
+        } else {
+            this.cvRepository.save(cv);
+            return new SuccessResult("Added new cv");
         }
-        this.cvRepository.save(cv);
-        return new SuccessResult("Added new cv");
     }
 
     @Override

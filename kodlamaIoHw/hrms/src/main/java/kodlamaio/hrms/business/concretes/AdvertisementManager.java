@@ -1,15 +1,12 @@
 package kodlamaio.hrms.business.concretes;
 
 import kodlamaio.hrms.business.abstracts.AdvertisementService;
-import kodlamaio.hrms.business.abstracts.EmployerService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.core.utilities.results.SuccessDataResult;
 import kodlamaio.hrms.core.utilities.results.SuccessResult;
 import kodlamaio.hrms.dataAccess.abstracts.AdvertisementRepository;
-import kodlamaio.hrms.dataAccess.abstracts.EmployerRepository;
 import kodlamaio.hrms.entities.concretes.Advertisement;
-import kodlamaio.hrms.entities.concretes.Employer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +17,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class AdvertisementManager implements AdvertisementService {
-    private AdvertisementRepository advertisementRepository;
+    private final AdvertisementRepository advertisementRepository;
 
     @Autowired
     public AdvertisementManager(AdvertisementRepository advertisementRepository) {
@@ -29,31 +26,24 @@ public class AdvertisementManager implements AdvertisementService {
     }
 
     @Override
-    public DataResult<Advertisement> getById(int id) {
-
-        return new SuccessDataResult<Advertisement>(this.advertisementRepository.getOne(id));
-    }
-
-    @Override
     public DataResult<Advertisement> findBySalaryMax(double maxSalary) throws NoSuchMethodException {
         List<Advertisement> advertisementList = this.advertisementRepository.findAll();
 
-        Advertisement findMaxSalary =  advertisementList.stream().max(Comparator.comparing(Advertisement::getMaxSalary)).orElseThrow(NoSuchMethodException::new);
+        Advertisement findMaxSalary = advertisementList.stream().max(Comparator.comparing(Advertisement::getMaxSalary)).orElseThrow(NoSuchMethodException::new);
         return new SuccessDataResult<>(this.advertisementRepository.findByMaxSalary(findMaxSalary.getMaxSalary()), "Max salary");
     }
 
     @Override
-    public DataResult<Advertisement> findBySalaryMin(double minSalary) throws NoSuchMethodException{
+    public DataResult<Advertisement> findBySalaryMin(double minSalary) throws NoSuchMethodException {
 
         List<Advertisement> advertisementList = this.advertisementRepository.findAll();
 
-        Advertisement findMaxSalary =  advertisementList.stream().max(Comparator.comparing(Advertisement::getMinSalary)).orElseThrow(NoSuchMethodException::new);
-        return new SuccessDataResult<Advertisement>(this.advertisementRepository.findByMinSalary(findMaxSalary.getMinSalary()), "Min salary");
+        Advertisement findMinSalary = advertisementList.stream().min(Comparator.comparing(Advertisement::getMinSalary)).orElseThrow(NoSuchMethodException::new);
+        return new SuccessDataResult<>(this.advertisementRepository.findByMinSalary(findMinSalary.getMinSalary()), "Min salary");
     }
 
     @Override
     public DataResult<Advertisement> findByEmployerId(int id) {
-
         return new SuccessDataResult<Advertisement>(this.advertisementRepository.findByEmployerId(id));
     }
 
@@ -78,15 +68,20 @@ public class AdvertisementManager implements AdvertisementService {
     @Override
     public Result changeOpenToClose(int id) {
         Optional<Advertisement> advertisement = this.advertisementRepository.findById(id);
-        String result = "";
-        if (advertisement.get().isAdvertisementOpen()){
-            advertisement.get().setAdvertisementOpen(false);
-            result = "isAdvertisementOpen updated True to False successfully.";
-        }else {
-            advertisement.get().setAdvertisementOpen(true);
-            result = "isAdvertisementOpen updated False to True successfully.";
+        String result;
+
+        if (!advertisement.isPresent()) {
+            result = "advertisement object not available with id : " + id;
+        } else {
+            if (advertisement.get().isAdvertisementOpen()) {
+                advertisement.get().setAdvertisementOpen(false);
+                result = "isAdvertisementOpen updated True to False successfully.";
+            } else {
+                advertisement.get().setAdvertisementOpen(true);
+                result = "isAdvertisementOpen updated False to True successfully.";
+            }
+            this.advertisementRepository.save(advertisement.get());
         }
-        this.advertisementRepository.save(advertisement.get());
         return new SuccessResult(result);
     }
 
@@ -104,10 +99,10 @@ public class AdvertisementManager implements AdvertisementService {
         return new SuccessDataResult<>(openAdvertisementList);
     }
 
-  //  @Override
-  //  public DataResult<List<Advertisement>> findAllByOrderByDateOfPublish() {
-  //     List<Advertisement> advertisementList = this.advertisementRepository.findAll();
-  //     advertisementList.sort(Comparator.comparing(Advertisement::getDateOfPublish));
-  //     return new SuccessDataResult<>(advertisementList);
-  //  }
+    //  @Override
+    //  public DataResult<List<Advertisement>> findAllByOrderByDateOfPublish() {
+    //     List<Advertisement> advertisementList = this.advertisementRepository.findAll();
+    //     advertisementList.sort(Comparator.comparing(Advertisement::getDateOfPublish));
+    //     return new SuccessDataResult<>(advertisementList);
+    //  }
 }

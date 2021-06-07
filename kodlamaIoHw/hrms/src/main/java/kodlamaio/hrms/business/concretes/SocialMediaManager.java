@@ -3,18 +3,16 @@ package kodlamaio.hrms.business.concretes;
 import kodlamaio.hrms.business.abstracts.SocialMediaService;
 import kodlamaio.hrms.core.utilities.results.*;
 import kodlamaio.hrms.dataAccess.abstracts.SocialMediaForCvRepository;
-import kodlamaio.hrms.entities.concretes.CV;
 import kodlamaio.hrms.entities.concretes.SocialMediaForCv;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SocialMediaManager implements SocialMediaService {
 
-    private SocialMediaForCvRepository socialMediaForCvRepository;
+    private final SocialMediaForCvRepository socialMediaForCvRepository;
 
     @Autowired
     public SocialMediaManager(SocialMediaForCvRepository socialMediaForCvRepository) {
@@ -26,24 +24,26 @@ public class SocialMediaManager implements SocialMediaService {
     public DataResult<List<SocialMediaForCv>> findAllByCvId(int id) {
         List<SocialMediaForCv> cv = socialMediaForCvRepository.findAllByCvId(id);
 
-        if (!cv.isEmpty())
+        if (cv.isEmpty()) {
             return new ErrorDataResult<List<SocialMediaForCv>>("This social media address Not Found");
-
-        return new SuccessDataResult<List<SocialMediaForCv>>(cv);
+        } else {
+            return new SuccessDataResult<List<SocialMediaForCv>>(cv);
+        }
     }
 
     @Override
     public DataResult<List<SocialMediaForCv>> getAll() {
-        return new SuccessDataResult<List<SocialMediaForCv>>(this.socialMediaForCvRepository.findAll(),"Listed data");
+        return new SuccessDataResult<List<SocialMediaForCv>>(this.socialMediaForCvRepository.findAll(), "Listed data");
     }
 
     @Override
     public Result add(SocialMediaForCv socialMedia) {
-        if (findAllByCvId(socialMedia.getCvId()).getData() != null){
+        if (findAllByCvId(socialMedia.getCvId()).getData() != null) {
             return new ErrorsResult(socialMedia.getCvId() + "Same social Media knowledge's cannot repeat");
+        } else {
+            this.socialMediaForCvRepository.save(socialMedia);
+            return new SuccessResult("Added new socialMedia knowledge");
         }
-        this.socialMediaForCvRepository.save(socialMedia);
-        return new SuccessResult("Added new socialMedia knowledge");
     }
 
     @Override

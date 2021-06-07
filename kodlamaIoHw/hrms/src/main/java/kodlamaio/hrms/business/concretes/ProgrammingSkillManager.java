@@ -22,21 +22,22 @@ public class ProgrammingSkillManager implements ProgrammingSkillService {
 
     @Override
     public DataResult<List<ProgrammingSkillForCv>> getAll() {
-        return new SuccessDataResult<List<ProgrammingSkillForCv>>(this.skillForCvRepository.findAll(),"Listed data");
+        return new SuccessDataResult<List<ProgrammingSkillForCv>>(this.skillForCvRepository.findAll(), "Listed data");
     }
 
     @Override
     public DataResult<List<ProgrammingSkillForCv>> findAllByCvId(int id) {
-        return new SuccessDataResult<List<ProgrammingSkillForCv>>(this.skillForCvRepository.findAllByCvId(id),"Added skill");
+        return new SuccessDataResult<List<ProgrammingSkillForCv>>(this.skillForCvRepository.findAllByCvId(id), "Added skill");
     }
 
     @Override
     public Result add(ProgrammingSkillForCv cv) {
-        if (findAllByCvId(cv.getCvId()).getData() != null){
+        if (findAllByCvId(cv.getCvId()).getData() != null) {
             return new ErrorsResult(cv.getCvId() + "Same skill cannot repeat");
+        } else {
+            this.skillForCvRepository.save(cv);
+            return new SuccessResult("Added new skill");
         }
-        this.skillForCvRepository.save(cv);
-        return new SuccessResult("Added new skill");
     }
 
     @Override

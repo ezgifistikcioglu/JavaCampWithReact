@@ -1,21 +1,20 @@
 package kodlamaio.hrms.business.concretes;
 
 import kodlamaio.hrms.business.abstracts.SystemEmployeeService;
-import kodlamaio.hrms.core.utilities.results.DataResult;
-import kodlamaio.hrms.core.utilities.results.Result;
-import kodlamaio.hrms.core.utilities.results.SuccessResult;
+import kodlamaio.hrms.core.utilities.results.*;
 import kodlamaio.hrms.dataAccess.abstracts.SystemEmployeeRepository;
 import kodlamaio.hrms.entities.concretes.SystemEmployee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
 public class SystemEmployeeManager implements SystemEmployeeService {
 
-    private SystemEmployeeRepository systemEmployeeRepository;
+    private final SystemEmployeeRepository systemEmployeeRepository;
 
     @Autowired
     public SystemEmployeeManager(SystemEmployeeRepository systemEmployeeRepository) {
@@ -25,31 +24,49 @@ public class SystemEmployeeManager implements SystemEmployeeService {
 
     @Override
     public Result add(int id) {
-        return new SuccessResult("Added employer");
+        Optional<SystemEmployee> employee = this.systemEmployeeRepository.findById(id);
+        return new SuccessResult("Added employer: " + employee);
     }
 
     @Override
     public DataResult<List<SystemEmployee>> getAllSystemEmployee() {
-        return null;
+        return new SuccessDataResult<>(this.systemEmployeeRepository.findAll(), "Listed data");
     }
 
     @Override
     public DataResult<SystemEmployee> getByUserId(int userId) {
-        return null;
+        Optional<SystemEmployee> systemEmployee = this.systemEmployeeRepository.findById(userId);
+
+        if (!systemEmployee.isPresent()) {
+            return new ErrorDataResult<>("System employee not found");
+        } else {
+            return new SuccessDataResult<>(systemEmployee.get());
+        }
     }
 
     @Override
     public Result addEmployer(SystemEmployee systemEmployee) {
-        return null;
+        if (getByUserId(systemEmployee.getId()).getData() != null) {
+            return new ErrorsResult("id: " + systemEmployee.getId() + "Employee first name: " + systemEmployee.getFirstName() + "Employee last name: " + systemEmployee.getLastName() + "Same employee cannot repeat");
+        } else {
+            this.systemEmployeeRepository.save(systemEmployee);
+            return new SuccessResult("Added employee");
+        }
     }
 
     @Override
     public Result updateEmployer(SystemEmployee systemEmployee) {
-        return null;
+        if (getByUserId(systemEmployee.getId()).getData() != null) {
+            return new ErrorsResult("id: " + systemEmployee.getId() + "Employee first name: " + systemEmployee.getFirstName() + "Employee last name: " + systemEmployee.getLastName() + "Same employee cannot repeat");
+        } else {
+            this.systemEmployeeRepository.save(systemEmployee);
+            return new SuccessResult("Updated employee");
+        }
     }
 
     @Override
     public Result deleteEmployer(SystemEmployee systemEmployee) {
-        return null;
+        this.systemEmployeeRepository.delete(systemEmployee);
+        return new SuccessResult("Deleted employee");
     }
 }

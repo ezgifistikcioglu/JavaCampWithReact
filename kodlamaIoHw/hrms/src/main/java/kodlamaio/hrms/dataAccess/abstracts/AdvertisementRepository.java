@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface AdvertisementRepository extends JpaRepository<Advertisement, Integer> {
+
     Advertisement findByEmployerId(int id);
 
     Advertisement findByMaxSalary(double maxSalary);
@@ -19,7 +20,6 @@ public interface AdvertisementRepository extends JpaRepository<Advertisement, In
     @Query("From Advertisement where isAdvertisementOpen = false")
     List<Advertisement> getAllCloseAdvertisementList();
 
-
-    @Query("From Advertisement where isAdvertisementOpen = true Order By dateOfPublish ASC")
+    @Query("From Advertisement where isAdvertisementOpen = true Order By createdDate ASC")
     List<Advertisement> findAllByOrderByDateOfPublish();
 }

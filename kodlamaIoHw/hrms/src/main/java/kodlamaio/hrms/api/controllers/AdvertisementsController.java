@@ -11,18 +11,26 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/advertisements")
-public class AdvertisementController {
+public class AdvertisementsController {
     private AdvertisementService advertisementService;
 
     @Autowired
-    public AdvertisementController(AdvertisementService advertisementService) {
+    public AdvertisementsController(AdvertisementService advertisementService) {
         this.advertisementService = advertisementService;
     }
 
     @PostMapping("/addAdvertisement")
-
     public Result addAdvertisement(@RequestBody Advertisement advertisement){
         return this.advertisementService.addAdvertisement(advertisement);
+    }
+
+    @PostMapping("/updateAdvertisement")
+    public Result updateAdvertisement(@RequestBody Advertisement advertisement){
+        return this.advertisementService.updateAdvertisement(advertisement);
+    }
+    @PostMapping("/deleteAdvertisement")
+    public Result deleteAdvertisement(@RequestBody int id){
+        return this.advertisementService.deleteAdvertisement(id);
     }
 
     @GetMapping("/getAllAdvertisementList")

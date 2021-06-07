@@ -5,6 +5,7 @@ import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.entities.concretes.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,13 +22,32 @@ public class UsersController {
         this.userService = userService;
     }
 
-    @GetMapping("/getall")
-    public ResponseEntity<DataResult<List<User>>> getAll(){
+    @GetMapping("/getUser")
+    public ResponseEntity<DataResult<User>> getUser(int id){
+        return ResponseEntity.ok(this.userService.getUser(id));
+    }
+
+    @GetMapping("/getAllUser")
+    public ResponseEntity<DataResult<List<User>>> getAllUser(){
         return ResponseEntity.ok(this.userService.getAllUser());
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<Result> add(@RequestBody User user){
-        return ResponseEntity.ok(this.userService.addUserAccount(user));
+    @PostMapping("/addUserAccount")
+    public ResponseEntity<Result> addUserAccount(@RequestBody User user){
+        final Result result = userService.addUserAccount(user);
+        if (!result.isSuccess())
+            return new ResponseEntity<Result>(result, HttpStatus.BAD_REQUEST);
+
+        return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/updateUserAccount")
+    public ResponseEntity<Result> updateUserAccount(@RequestBody User user){
+        return ResponseEntity.ok(this.userService.updateUserAccount(user));
+    }
+
+    @GetMapping("/deleteUserAccount")
+    public ResponseEntity<Result> deleteUserAccount(int id){
+        return ResponseEntity.ok(this.userService.deleteUserAccount(id));
     }
 }

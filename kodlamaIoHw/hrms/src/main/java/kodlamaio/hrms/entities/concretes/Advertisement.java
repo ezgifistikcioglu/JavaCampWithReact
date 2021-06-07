@@ -46,9 +46,9 @@ public class Advertisement {
     @Column(name = "number_of_open_position")
     private int numberOfOpenPosition;
 
-    @Column(name = "creation_date")
-    private LocalDateTime creationDate = LocalDateTime.now();
-
+    @Column(name = "created_date",columnDefinition = "Date default CURRENT_DATE")
+    private LocalDateTime createdDate = LocalDateTime.now();
+    
     @ManyToOne
     @JoinColumn(name = "city_id")
     private City city;

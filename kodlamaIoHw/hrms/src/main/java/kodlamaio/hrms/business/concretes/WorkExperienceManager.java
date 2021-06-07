@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class WorkExperienceManager implements WorkExperienceService {
 
-    private WorkExperienceForCvRepository workExperienceForCvRepository;
+    private final WorkExperienceForCvRepository workExperienceForCvRepository;
 
     @Autowired
     public WorkExperienceManager(WorkExperienceForCvRepository workExperienceForCvRepository) {
@@ -23,12 +23,12 @@ public class WorkExperienceManager implements WorkExperienceService {
 
     @Override
     public DataResult<List<WorkExperienceForCv>> getAll() {
-        return new SuccessDataResult<List<WorkExperienceForCv>>(this.workExperienceForCvRepository.findAll(),"Listed data");
+        return new SuccessDataResult<>(this.workExperienceForCvRepository.findAll(), "Listed data");
     }
 
     @Override
     public Result add(WorkExperienceForCv experience) {
-        if (findByExperienceId(experience.getCvId()).getData() != null){
+        if (findByExperienceId(experience.getCvId()).getData() != null) {
             return new ErrorsResult(experience.getCvId() + "Same experience cannot repeat");
         }
         this.workExperienceForCvRepository.save(experience);
@@ -49,12 +49,13 @@ public class WorkExperienceManager implements WorkExperienceService {
 
     @Override
     public DataResult<List<WorkExperienceForCv>> findByExperienceId(int id) {
-        List<WorkExperienceForCv> cv = workExperienceForCvRepository.findByExperienceId(id);
+        List<WorkExperienceForCv> experience = workExperienceForCvRepository.findByExperienceId(id);
 
-        if (!cv.isEmpty())
+        if (experience.isEmpty()) {
             return new ErrorDataResult<>("This Work Experience Not Found");
-
-        return new SuccessDataResult<List<WorkExperienceForCv>>(cv);
+        } else {
+            return new SuccessDataResult<>(experience);
+        }
     }
 
     @Override

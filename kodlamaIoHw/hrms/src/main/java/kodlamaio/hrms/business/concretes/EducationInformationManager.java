@@ -23,16 +23,17 @@ public class EducationInformationManager implements EducationInformationService 
 
     @Override
     public DataResult<List<EducationInformationForCv>> getAll() {
-        return new SuccessDataResult<List<EducationInformationForCv>>(this.educationInformationForCVRepository.findAll(),"Listed data");
+        return new SuccessDataResult<List<EducationInformationForCv>>(this.educationInformationForCVRepository.findAll(), "Listed data");
     }
 
     @Override
     public Result add(EducationInformationForCv education) {
-        if (findByEducationId(education.getCvId()).getData() != null){
+        if (findByEducationId(education.getCvId()).getData() != null) {
             return new ErrorsResult(education.getCvId() + "Same education cannot repeat");
+        } else {
+            this.educationInformationForCVRepository.save(education);
+            return new SuccessResult("Added new education");
         }
-        this.educationInformationForCVRepository.save(education);
-        return new SuccessResult("Added new education");
     }
 
     @Override

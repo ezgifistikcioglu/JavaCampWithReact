@@ -57,7 +57,7 @@ public class JobSeekerManager implements JobSeekerService {
 
     @Override
     public DataResult<List<JobSeeker>> getAll() {
-        return new SuccessDataResult<List<JobSeeker>>(this.jobSeekerRepository.findAll(),"Listed data");
+        return new SuccessDataResult<List<JobSeeker>>(this.jobSeekerRepository.findAll(), "Listed data");
     }
 
     @Override
@@ -70,10 +70,10 @@ public class JobSeekerManager implements JobSeekerService {
     public Result register(LoginForJobSeekerDto jobSeekerDto) {
 
         var res = Rules.run(
-                userService.checkByEmail(jobSeekerDto.getEmail()), checkPasswordMatch(jobSeekerDto.getPassword(),jobSeekerDto.getConfirmPassword()),
-                 isThereTCNo(jobSeekerDto.getEmail()));
+                userService.checkByEmail(jobSeekerDto.getEmail()), checkPasswordMatch(jobSeekerDto.getPassword(), jobSeekerDto.getConfirmPassword()),
+                isThereTCNo(jobSeekerDto.getEmail()));
 
-        if (!Objects.requireNonNull(res).isSuccess()){
+        if (!Objects.requireNonNull(res).isSuccess()) {
             return res;
         }
         JobSeeker jobSeeker = new JobSeeker();
@@ -87,7 +87,7 @@ public class JobSeekerManager implements JobSeekerService {
 
         add(jobSeeker);
 
-        emailVerificationService.sendActivationCode(jobSeeker,jobSeeker.getEmail());
+        emailVerificationService.sendActivationCode(jobSeeker, jobSeeker.getEmail());
         mernisCheckService.checkIfRealPerson(jobSeekerDto);
 
         return new SuccessResult("Job Seeker registration completed successfully.");
@@ -99,6 +99,7 @@ public class JobSeekerManager implements JobSeekerService {
         return res == null ? new SuccessResult("True TC")
                 : new ErrorsResult("There is already a job seeker with this TC number.");
     }
+
     private Result checkPasswordMatch(final String password, final String confirmPassword) {
         return password.equals(confirmPassword) ? new SuccessResult("Successful password") : new ErrorsResult("Passwords not match");
     }

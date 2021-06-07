@@ -8,7 +8,6 @@ import java.util.List;
 
 public interface AdvertisementService {
 
-    DataResult<Advertisement> getById(int id);
     DataResult<Advertisement> findBySalaryMax(double maxSalary) throws NoSuchMethodException;
     DataResult<Advertisement> findBySalaryMin(double minSalary) throws NoSuchMethodException;
     DataResult<Advertisement> findByEmployerId(int id);
