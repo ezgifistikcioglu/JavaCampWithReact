@@ -11,8 +11,9 @@ import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 
-@Data
+
 @Entity
+@Data
 @Table(name = "employers")
 @PrimaryKeyJoinColumn(name = "employer_id")
 @AllArgsConstructor

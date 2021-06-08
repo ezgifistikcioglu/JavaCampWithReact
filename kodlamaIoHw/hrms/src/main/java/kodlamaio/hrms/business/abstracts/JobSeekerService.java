@@ -14,7 +14,10 @@ public interface JobSeekerService {
     DataResult<JobSeeker> getJobSeekerByLastname(String lastName);
     DataResult<JobSeeker> getJobSeekerByBirthYear(Date birthYear);
     DataResult<List<JobSeeker>> getAll();
-    Result add(JobSeeker jobSeeker);
+    DataResult<List<JobSeeker>> findJobSeekersById(int id);
+    Result addJobSeeker(JobSeeker jobSeeker);
+    Result updateJobSeeker(JobSeeker jobSeeker);
+    Result deleteJobSeeker(int id);
     Result register(LoginForJobSeekerDto jobSeeker);
-    Result isThereTCNo(String tcNo);
+    boolean isExistTCNo(String tcNo);
 }

@@ -13,7 +13,7 @@ public interface EmployerService {
 
     Result addEmployer(Employer employer);
     Result updateEmployer(Employer employer);
-    Result deleteEmployer(Employer employer);
+    Result deleteEmployer(int id);
     Result isEmailAvailable(String email);
     Result register(LoginForEmployerDto employerDto);
 }

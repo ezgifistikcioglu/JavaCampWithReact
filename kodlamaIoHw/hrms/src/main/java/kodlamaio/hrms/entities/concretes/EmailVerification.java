@@ -39,7 +39,7 @@ public class EmailVerification {
     @Column(name = "created_at", columnDefinition = "Date default CURRENT_DATE")
     private final LocalDateTime createdAt = LocalDateTime.now();
 
-    @NotNull
+
     @Column(name = "expiration_date")
     private LocalDateTime expirationDate;
 

@@ -17,22 +17,18 @@ import javax.validation.constraints.NotNull;
 public class JobSeeker extends User {
 
     @Column(name = "firstname")
-    @NotBlank
     @NotNull
     private String firstname;
 
     @Column(name = "lastname")
-    @NotBlank
     @NotNull
     private String lastname;
 
     @Column(name = "tc_no")
-    @NotBlank
     @NotNull
     private String tcNo;
 
     @Column(name = "birth_year")
-    @NotBlank
     @NotNull
     private int birthYear;
 

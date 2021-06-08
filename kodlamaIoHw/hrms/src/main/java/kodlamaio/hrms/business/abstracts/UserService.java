@@ -7,7 +7,7 @@ import kodlamaio.hrms.entities.concretes.User;
 import java.util.List;
 
 public interface UserService {
-    Result checkByEmail(String email);
+    Result checkUserByEmail(String email);
 
 
     Result addUserAccount(User user);

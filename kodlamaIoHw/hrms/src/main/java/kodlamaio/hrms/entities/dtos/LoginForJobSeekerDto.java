@@ -22,7 +22,6 @@ public class LoginForJobSeekerDto {
     @NotBlank
     private String tcNo;
 
-    @NotBlank
     @NotNull
     private int birthYear;
 

@@ -52,10 +52,12 @@ public class EducationInformationManager implements EducationInformationService 
     public DataResult<List<EducationInformationForCv>> findByEducationId(int id) {
         List<EducationInformationForCv> cv = educationInformationForCVRepository.findByEducationId(id);
 
-        if (!cv.isEmpty())
+        if (!cv.isEmpty()){
             return new ErrorDataResult<>("This educationInformation Not Found");
 
-        return new SuccessDataResult<List<EducationInformationForCv>>(cv);
+        }else {
+            return new SuccessDataResult<>(cv);
+        }
     }
 
     @Override

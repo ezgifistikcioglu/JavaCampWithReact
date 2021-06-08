@@ -42,14 +42,31 @@ public class EmailVerificationManager implements EmailVerificationService {
 
     @Override
     public Result updateEmailVerification(EmailVerification emailVerification) {
-        this.emailVerificationRepository.save(emailVerification);
-        return new SuccessDataResult<>(emailVerification, "Activation code update successfully");
+        Optional<EmailVerification> emailVerificationOptional = this.emailVerificationRepository.findById(emailVerification.getId());
+
+        if (!emailVerificationOptional.isPresent()) {
+            return new ErrorsResult("This email ( id " + emailVerification.getId() + "-" + emailVerification.getEmail() + " ) doesnt available!");
+        } else {
+                emailVerificationOptional.get().setEmail(emailVerification.getEmail());
+                emailVerificationOptional.get().setAuthentication(emailVerification.getAuthentication());
+                emailVerificationOptional.get().setUser(emailVerification.getUser());
+
+                this.emailVerificationRepository.save(emailVerificationOptional.get());
+                return new SuccessResult("EmailVerification (" + emailVerification.getId() + ") updated successfully.");
+        }
     }
 
     @Override
-    public Result deleteEmailVerification(EmailVerification emailVerification) {
-        this.emailVerificationRepository.delete(emailVerification);
-        return new SuccessDataResult<>(emailVerification, "Activation code delete successfully");
+    public Result deleteEmailVerification(int id) {
+        Optional<EmailVerification> emailVerificationOptional = this.emailVerificationRepository.findById(id);
+
+        if (!emailVerificationOptional.isPresent()) {
+            return new ErrorDataResult<>("User not found");
+        } else {
+
+            this.emailVerificationRepository.save(emailVerificationOptional.get());
+            return new SuccessResult("Deleted Email with id :" + id);
+        }
     }
 
     @Override
@@ -61,7 +78,8 @@ public class EmailVerificationManager implements EmailVerificationService {
             emailVerification.setEmail(email);
             verCode = "test"; // TODO check this verification code structure
             emailVerification.setAuthentication(verCode);
-            emailVerification.setActivationDate(LocalDateTime.now().plusMonths(1));
+            emailVerification.setActivationDate(LocalDateTime.now());
+            emailVerification.setExpirationDate(LocalDateTime.now().plusMonths(1));
 
             emailVerificationRepository.save(emailVerification);
 
@@ -77,7 +95,8 @@ public class EmailVerificationManager implements EmailVerificationService {
 
     @Override
     public Result verify(LoginForEmailVerificationDto emailVerificationDto) {
-        final Optional<EmailVerification> emailVerification = this.emailVerificationRepository.findByEmailAndAuthentication(emailVerificationDto.getEmail(), emailVerificationDto.getActivationCode());
+         Optional<EmailVerification> emailVerification = this.emailVerificationRepository.findByEmailAndAuthentication(emailVerificationDto.getEmail(), emailVerificationDto.getActivationCode());
+
         if (!emailVerification.isPresent()) {
             return new ErrorsResult("Failed to verify email.");
         } else {

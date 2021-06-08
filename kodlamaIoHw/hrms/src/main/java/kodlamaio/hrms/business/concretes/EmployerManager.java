@@ -4,33 +4,28 @@ import kodlamaio.hrms.business.abstracts.EmailVerificationService;
 import kodlamaio.hrms.business.abstracts.EmployerService;
 import kodlamaio.hrms.business.abstracts.SystemEmployeeService;
 import kodlamaio.hrms.business.abstracts.UserService;
-import kodlamaio.hrms.core.utilities.business.Rules;
 import kodlamaio.hrms.core.utilities.results.*;
 import kodlamaio.hrms.dataAccess.abstracts.EmployerRepository;
 import kodlamaio.hrms.entities.concretes.Employer;
 import kodlamaio.hrms.entities.concretes.SystemEmployee;
 import kodlamaio.hrms.entities.dtos.LoginForEmployerDto;
-import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
 public class EmployerManager implements EmployerService {
 
-    private EmployerRepository employerRepository;
-    private UserService userService;
+    private final EmployerRepository employerRepository;
     private EmailVerificationService emailVerificationService;
     private SystemEmployeeService systemEmployeeService;
 
     @Autowired
-    public EmployerManager(EmployerRepository employerRepository, UserService userService, EmailVerificationService emailVerificationService, SystemEmployeeService systemEmployeeService) {
+    public EmployerManager(EmployerRepository employerRepository, EmailVerificationService emailVerificationService, SystemEmployeeService systemEmployeeService) {
         super();
         this.employerRepository = employerRepository;
-        this.userService = userService;
         this.emailVerificationService = emailVerificationService;
         this.systemEmployeeService = systemEmployeeService;
     }
@@ -48,14 +43,37 @@ public class EmployerManager implements EmployerService {
 
     @Override
     public Result updateEmployer(Employer employer) {
-        this.employerRepository.save(employer);
-        return new SuccessResult("Updated employer");
+
+        Optional<Employer> employerOptional = this.employerRepository.findById(employer.getId());
+
+        if (!employerOptional.isPresent()) {
+            return new ErrorsResult("This employer ( id " + employer.getId() + "-" + employer.getEmail() + " ) doesnt available!");
+        } else {
+
+            employerOptional.get().setEmail(employer.getEmail());
+            employerOptional.get().setPassword(employer.getPassword());
+            employerOptional.get().setConfirmPassword(employer.getConfirmPassword());
+            employerOptional.get().setDeletedUser(employer.isDeletedUser());
+            employerOptional.get().setCompanyName(employer.getCompanyName());
+            employerOptional.get().setWebAddress(employer.getWebAddress());
+            employerOptional.get().setAdvertisementList(employer.getAdvertisementList());
+            employerOptional.get().setTelephoneNumber(employer.getTelephoneNumber());
+
+            this.employerRepository.save(employerOptional.get());
+            return new SuccessResult("Employer (" + employer.getId() + ") updated successfully.");
+        }
     }
 
     @Override
-    public Result deleteEmployer(Employer employer) {
-        this.employerRepository.delete(employer);
-        return new SuccessResult("Deleted employer");
+    public Result deleteEmployer(int id) {
+        Optional<Employer> employerOptional = this.employerRepository.findById(id);
+
+        if (!employerOptional.isPresent()) {
+            return new ErrorDataResult<>("JobSeeker not found");
+        } else {
+            this.employerRepository.deleteById(id);
+            return new SuccessResult("Deleted employer with id :" + id);
+        }
     }
 
     @Override
@@ -65,48 +83,47 @@ public class EmployerManager implements EmployerService {
 
     @Override
     public Result register(LoginForEmployerDto employerDto) {
-        var isExist = Rules.run(
-                userService.checkByEmail(employerDto.getEmail()),
-                isEmailAvailable(employerDto.getEmail())
-        );
-
-        // TODO : check here with by userManager add method
-        if (Objects.requireNonNull(isExist).isSuccess()) {
-            return new ErrorsResult("Employer registration failed : already exists : " + employerDto.getEmail());
+        if (!isCorporateEmail(employerDto.getEmail(), employerDto.getWebAddress())) {
+            return new ErrorsResult("Error : Email not valid! " + employerDto.getEmail());
         } else {
-            var credentialsCheck = Rules.run(
-                    checkPasswordMatch(employerDto.getPassword(), employerDto.getConfirmPassword()),
-                    isCorporateEmail(employerDto.getEmail(), employerDto.getWebAddress())
-            );
-            if (Objects.requireNonNull(credentialsCheck).isSuccess()) {
-                return new ErrorsResult("Registration failed : Please Check Employer password , email and website : " + employerDto);
+            if (this.employerRepository.findByEmail(employerDto.getEmail()).isPresent()) {
+                return new ErrorsResult("Error : This email : " + employerDto.getEmail() + " already exists!");
             } else {
-                Employer employer = new Employer();
-                employer.setEmail(employerDto.getEmail());
-                employer.setCompanyName(employerDto.getCompanyName());
-                employer.setWebAddress(employerDto.getWebAddress());
-                employer.setTelephoneNumber(employerDto.getTelephoneNumber());
-                employer.setPassword(employerDto.getPassword());
-                employer.setConfirmPassword(employerDto.getConfirmPassword());
-                addEmployer(employer);
-                // TODO : check also save user repository too
+                if (!checkPasswordMatch(employerDto.getPassword(), employerDto.getConfirmPassword()) && !isCorporateEmail(employerDto.getEmail(), employerDto.getWebAddress())) {
+                    return new ErrorsResult("Error : Please Check Employer password , email and website : " + employerDto);
+                } else {
+                    Employer employer = new Employer();
+                    employer.setEmail(employerDto.getEmail());
+                    employer.setCompanyName(employerDto.getCompanyName());
+                    employer.setWebAddress(employerDto.getWebAddress());
+                    employer.setTelephoneNumber(employerDto.getTelephoneNumber());
+                    employer.setPassword(employerDto.getPassword());
+                    employer.setConfirmPassword(employerDto.getConfirmPassword());
+                    addEmployer(employer);
+                    // TODO : check also save user repository too
 
-                emailVerificationService.sendActivationCode(employer, employer.getEmail());
-                SystemEmployee systemEmployee = new SystemEmployee();
-                systemEmployee.setUser(employer);
-                // TODO : check here
-                systemEmployeeService.addEmployer(systemEmployee);
+                    emailVerificationService.sendActivationCode(employer, employer.getEmail());
+                    SystemEmployee systemEmployee = new SystemEmployee();
+                    systemEmployee.setUser(employer);
+                    // TODO : check here, Does this check add Employer
+                    systemEmployeeService.addEmployer(systemEmployee);
 
-                return new SuccessResult("Employer registration completed successfully.");
+                    return new SuccessResult("Employer registration completed successfully.");
+                }
             }
         }
     }
 
-    private Result checkPasswordMatch(final String password, final String confirmPassword) {
-        return password.equals(confirmPassword) ? new SuccessResult("Successful password") : new ErrorsResult("Passwords not match");
+    private boolean checkPasswordMatch(String password, String confirmPassword) {
+        boolean resultValidate = password.length() >= 4;
+        if (!resultValidate) {
+            System.out.println("Password must not be less than 4 characters, please check your password: " + password);
+            return false;
+        }
+        return password.equals(confirmPassword);
     }
 
-    private Result isCorporateEmail(final String email, final String website) {
-        return email.split("@")[1].equals(website) ? new SuccessResult("Successful Email") : new ErrorsResult("Email not corporate");
+    private boolean isCorporateEmail(final String email, final String website) {
+        return email.split("@")[1].equals(website);
     }
 }

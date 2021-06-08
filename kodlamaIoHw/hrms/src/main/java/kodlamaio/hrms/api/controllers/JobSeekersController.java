@@ -25,13 +25,23 @@ public class JobSeekersController {
     }
 
     @GetMapping("/getall")
-    public ResponseEntity<DataResult<List<JobSeeker>>> getAll(){
-        return ResponseEntity.ok(this.jobSeekerService.getAll());
+    public DataResult<List<JobSeeker>> getAll(){
+        return this.jobSeekerService.getAll();
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<Result> add(@RequestBody JobSeeker jobSeeker){
-        return ResponseEntity.ok(this.jobSeekerService.add(jobSeeker));
+    @PostMapping("/addJobSeeker")
+    public ResponseEntity<Result> addJobSeeker(@RequestBody JobSeeker jobSeeker){
+        return ResponseEntity.ok(this.jobSeekerService.addJobSeeker(jobSeeker));
+    }
+
+    @PostMapping("/updateJobSeeker")
+    public ResponseEntity<Result> updateJobSeeker(@RequestBody JobSeeker jobSeeker){
+        return ResponseEntity.ok(this.jobSeekerService.updateJobSeeker(jobSeeker));
+    }
+
+    @PostMapping("/deleteJobSeeker")
+    public ResponseEntity<Result> deleteJobSeeker(@RequestBody int id){
+        return ResponseEntity.ok(this.jobSeekerService.deleteJobSeeker(id));
     }
 
     @PostMapping("/register")

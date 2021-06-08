@@ -1,20 +1,16 @@
 package kodlamaio.hrms.business.concretes;
 
 import kodlamaio.hrms.business.abstracts.UserService;
-import kodlamaio.hrms.core.utilities.business.Rules;
 import kodlamaio.hrms.core.utilities.results.*;
 import kodlamaio.hrms.dataAccess.abstracts.UserRepository;
-import kodlamaio.hrms.entities.concretes.Advertisement;
-import kodlamaio.hrms.entities.concretes.Employer;
-import kodlamaio.hrms.entities.concretes.SystemEmployee;
 import kodlamaio.hrms.entities.concretes.User;
-import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class UserManager implements UserService {
@@ -28,8 +24,8 @@ public class UserManager implements UserService {
     }
 
     @Override
-    public Result checkByEmail(String email) {
-        return this.userRepository.findUserByEmail(email) == null ? new SuccessResult("user email available for add") : new ErrorsResult("The user with this email already exists.");
+    public Result checkUserByEmail(String email) {
+        return this.userRepository.findUserByEmail(email) != null ? new SuccessResult("user email available for add") : new ErrorsResult("The user with this email already exists.");
     }
 
     @Override
@@ -59,8 +55,7 @@ public class UserManager implements UserService {
                 if (!checkPasswordMatch(user.getPassword(), user.getConfirmPassword())) {
                     return new ErrorsResult("Error : Check User password matching : " + user.getPassword() +"-"+user.getConfirmPassword());
                 } else {
-                    // TODO : check user verification
-                    // emailVerificationService.sendActivationCode(employer, employer.getEmail());
+                    // TODO : check user verification if it need that.
                     this.userRepository.save(user);
                     return new SuccessResult("Added user successfully");
                 }
@@ -98,13 +93,13 @@ public class UserManager implements UserService {
             return new ErrorDataResult<>("User not found");
         } else {
             this.userRepository.deleteById(id);
-            return new SuccessResult("Deleted User wit id :" + id);
+            return new SuccessResult("Deleted User with id :" + id);
         }
     }
 
     @Override
     public DataResult<User> findUserByEmail(String email) {
-        final User user = userRepository.findUserByEmail(email);
+        User user = userRepository.findUserByEmail(email);
 
         if (user == null) {
             return new ErrorDataResult<>("User not found");
@@ -114,10 +109,23 @@ public class UserManager implements UserService {
     }
 
     private boolean checkPasswordMatch(String password, String confirmPassword) {
+        boolean resultValidate = password.length() >= 4;
+        if (!resultValidate) {
+            System.out.println("Password must not be less than 4 characters, please check your password: " + password);
+            return false;
+        }
         return password.equals(confirmPassword);
     }
 
     private boolean isEmailValid(String email) {
-        return email.contains("@");
+        String emailRegex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+        Pattern pattern = Pattern.compile(emailRegex);
+        Matcher matcher = pattern.matcher(email);
+
+        boolean resultValidate = matcher.matches();
+        if (!resultValidate) {
+            System.out.println("Email address type not correct, please check your email address type: " + email);
+        }
+        return resultValidate;
     }
 }

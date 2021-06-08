@@ -47,10 +47,10 @@ public class SystemEmployeeManager implements SystemEmployeeService {
     @Override
     public Result addEmployer(SystemEmployee systemEmployee) {
         if (getByUserId(systemEmployee.getId()).getData() != null) {
-            return new ErrorsResult("id: " + systemEmployee.getId() + "Employee first name: " + systemEmployee.getFirstName() + "Employee last name: " + systemEmployee.getLastName() + "Same employee cannot repeat");
+            return new ErrorsResult("id: " + systemEmployee.getId() + "Employer first name: " + systemEmployee.getFirstName() + "Employer last name: " + systemEmployee.getLastName() + "Same employee cannot repeat");
         } else {
             this.systemEmployeeRepository.save(systemEmployee);
-            return new SuccessResult("Added employee");
+            return new SuccessResult("Added Employer");
         }
     }
 

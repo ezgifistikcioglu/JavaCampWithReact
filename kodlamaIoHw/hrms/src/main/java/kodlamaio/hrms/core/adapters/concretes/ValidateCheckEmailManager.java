@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ValidateCheckEmailManager implements ValidateCheckEmailService {
 
-    private EmailVerificationRepository emailVerificationRepository;
+    private final EmailVerificationRepository emailVerificationRepository;
 
     @Autowired
     public ValidateCheckEmailManager(EmailVerificationRepository emailVerificationRepository) {
