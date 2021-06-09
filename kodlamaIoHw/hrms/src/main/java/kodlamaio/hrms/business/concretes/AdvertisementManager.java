@@ -88,7 +88,7 @@ public class AdvertisementManager implements AdvertisementService {
     @Override
     public DataResult<List<Advertisement>> getAllAdvertisementList() {
         List<Advertisement> advertisementList = this.advertisementRepository.findAll();
-        return new SuccessDataResult<>(advertisementList);
+        return new SuccessDataResult<>(advertisementList, "Advertisements listed successfully");
     }
 
     @Override

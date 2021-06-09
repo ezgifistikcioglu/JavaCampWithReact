@@ -36,7 +36,7 @@ public class SocialMediaForCv {
     @NotNull
     @JoinColumn(name = "cv_id", insertable = false, updatable = false)
     @ManyToOne()
-    private CV cv;
+    private Cv cv;
 
     @Column(name = "cv_id")
     private int cvId;

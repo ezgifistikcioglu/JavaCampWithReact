@@ -12,6 +12,8 @@ public interface JobSeekerRepository extends JpaRepository<JobSeeker,Integer> {
 
     List<JobSeeker> findJobSeekersById(int id);
 
+    JobSeeker getById(int id);
+
     JobSeeker findJobSeekerByFirstname(String firstName);
 
     JobSeeker findJobSeekerByLastname(String lastName);

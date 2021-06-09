@@ -11,9 +11,12 @@ import kodlamaio.hrms.entities.dtos.LoginForJobSeekerDto;
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import services.ImageService.concretes.PhotoUploadAdapter;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,6 +28,7 @@ public class JobSeekerManager implements JobSeekerService {
     private final UserService userService;
     private final EmailVerificationService emailVerificationService;
     private final MernisCheckService mernisCheckService;
+    private PhotoUploadAdapter photoUploadAdapter;
 
     @Autowired
     public JobSeekerManager(JobSeekerRepository jobSeekerRepository, UserService userService, EmailVerificationService emailVerificationService, MernisCheckService mernisCheckService) {
@@ -111,6 +115,16 @@ public class JobSeekerManager implements JobSeekerService {
             this.jobSeekerRepository.deleteById(id);
             return new SuccessResult("Deleted JobSeeker with id :" + id);
         }
+    }
+
+    @Override
+    public Result uploadPhoto(int id, MultipartFile multipartFile) {
+        Map<String, String> uploadResult = photoUploadAdapter.uploadPhoto(multipartFile).getData();
+        String url = String.valueOf(uploadResult.get("url"));
+        JobSeeker jobSeeker = jobSeekerRepository.getById(id);
+        jobSeeker.setPhotos(url);
+        this.jobSeekerRepository.save(jobSeeker);
+        return new SuccessResult("Photo successfully added!");
     }
 
     @Override

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -52,5 +53,11 @@ public class JobSeekersController {
             return new ResponseEntity<Result>(result, HttpStatus.BAD_REQUEST);
 
         return ResponseEntity.ok(result);
+    }
+
+    @RequestMapping(value = "/uploadPhoto", method = RequestMethod.POST, consumes = { "multipart/form-data" })
+    @ResponseBody
+    public Result uploadPhoto(@RequestParam int id, @RequestPart("file") MultipartFile image) {
+        return this.jobSeekerService.uploadPhoto(id, image);
     }
 }

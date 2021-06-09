@@ -3,7 +3,7 @@ package kodlamaio.hrms.business.concretes;
 import kodlamaio.hrms.business.abstracts.CVService;
 import kodlamaio.hrms.core.utilities.results.*;
 import kodlamaio.hrms.dataAccess.abstracts.CVRepository;
-import kodlamaio.hrms.entities.concretes.CV;
+import kodlamaio.hrms.entities.concretes.Cv;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,22 +22,22 @@ public class CVManager implements CVService {
     }
 
     @Override
-    public DataResult<List<CV>> getAll() {
-        return new SuccessDataResult<List<CV>>(this.cvRepository.findAll(), "Listed data");
+    public DataResult<List<Cv>> getAll() {
+        return new SuccessDataResult<List<Cv>>(this.cvRepository.findAll(), "Listed data");
     }
 
     @Override
-    public DataResult<CV> getByCvId(int cvId) {
-        Optional<CV> cv = cvRepository.getByCvId(cvId);
+    public DataResult<Cv> getByCvId(int cvId) {
+        Optional<Cv> cv = cvRepository.getByCvId(cvId);
 
         if (!cv.isPresent())
-            return new ErrorDataResult<CV>("This CV Not Found");
+            return new ErrorDataResult<Cv>("This CV Not Found");
 
-        return new SuccessDataResult<CV>(cv.get());
+        return new SuccessDataResult<Cv>(cv.get());
     }
 
     @Override
-    public Result add(CV cv) {
+    public Result add(Cv cv) {
         if (getByCvId(cv.getCvId()).getData() != null) {
             return new ErrorsResult(cv.getCvId() + "Same cv cannot repeat");
         } else {
@@ -47,13 +47,13 @@ public class CVManager implements CVService {
     }
 
     @Override
-    public Result update(CV cv) {
+    public Result update(Cv cv) {
         this.cvRepository.save(cv);
         return new SuccessResult("Updated cv");
     }
 
     @Override
-    public Result delete(CV cv) {
+    public Result delete(Cv cv) {
         this.cvRepository.delete(cv);
         return new SuccessResult("Deleted cv");
     }

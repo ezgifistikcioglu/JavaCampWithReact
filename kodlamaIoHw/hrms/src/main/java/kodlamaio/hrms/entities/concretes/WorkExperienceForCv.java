@@ -42,7 +42,7 @@ public class WorkExperienceForCv {
 
     @JoinColumn(name = "cv_id", insertable = false, updatable = false)
     @ManyToOne()
-    private CV cv;
+    private Cv cv;
 
     @NotNull
     @JoinColumn(name = "position_id")

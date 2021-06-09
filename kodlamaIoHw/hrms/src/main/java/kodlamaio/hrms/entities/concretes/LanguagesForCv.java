@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -37,7 +36,7 @@ public class LanguagesForCv {
     @NotNull
     @JoinColumn(name = "cv_id", insertable = false, updatable = false)
     @ManyToOne()
-    private CV cv;
+    private Cv cv;
 
     @Column(name = "cv_id")
     private int cvId;

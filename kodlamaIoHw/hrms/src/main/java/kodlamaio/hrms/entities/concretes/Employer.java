@@ -20,17 +20,14 @@ import java.util.List;
 @NoArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler","advertisementList"})
 public class Employer extends User {
-    @NotBlank
     @NotNull
     @Column(name = "company_name")
     private String companyName;
 
-    @NotBlank
     @NotNull
     @Column(name = "telephone_no")
     private String telephoneNumber;
 
-    @NotBlank
     @NotNull
     @Column(name = "web_address")
     private String webAddress;
