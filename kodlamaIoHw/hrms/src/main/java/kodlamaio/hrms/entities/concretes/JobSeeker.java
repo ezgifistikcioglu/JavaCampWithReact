@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -36,10 +35,11 @@ public class JobSeeker extends User {
     @NotNull
     private int birthYear;
 
-    @Column(name = "photos", nullable = true, length = 64)
-    private String photos;
-
     @JsonIgnore
     @OneToMany(mappedBy = "jobSeeker")
     private List<Cv> cvs;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "jobSeeker")
+    private PhotoInfo photoInfo;
 }

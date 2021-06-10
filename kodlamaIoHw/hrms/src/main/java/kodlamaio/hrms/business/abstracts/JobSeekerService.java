@@ -14,12 +14,16 @@ public interface JobSeekerService {
     DataResult<JobSeeker> getJobSeekerByFirstname(String firstName);
     DataResult<JobSeeker> getJobSeekerByLastname(String lastName);
     DataResult<JobSeeker> getJobSeekerByBirthYear(Date birthYear);
+    DataResult<JobSeeker> getById(int id);
+
     DataResult<List<JobSeeker>> getAll();
     DataResult<List<JobSeeker>> findJobSeekersById(int id);
+
     Result addJobSeeker(JobSeeker jobSeeker);
     Result updateJobSeeker(JobSeeker jobSeeker);
     Result deleteJobSeeker(int id);
-    Result uploadPhoto(int id, MultipartFile multipartFile);
+
     Result register(LoginForJobSeekerDto jobSeeker);
+
     boolean isExistTCNo(String tcNo);
 }

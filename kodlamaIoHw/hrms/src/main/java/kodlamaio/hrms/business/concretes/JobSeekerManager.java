@@ -2,6 +2,7 @@ package kodlamaio.hrms.business.concretes;
 
 import kodlamaio.hrms.business.abstracts.EmailVerificationService;
 import kodlamaio.hrms.business.abstracts.JobSeekerService;
+import kodlamaio.hrms.business.abstracts.PhotoService;
 import kodlamaio.hrms.business.abstracts.UserService;
 import kodlamaio.hrms.core.adapters.abstracts.MernisCheckService;
 import kodlamaio.hrms.core.utilities.results.*;
@@ -11,12 +12,9 @@ import kodlamaio.hrms.entities.dtos.LoginForJobSeekerDto;
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-import services.ImageService.concretes.PhotoUploadAdapter;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -28,15 +26,16 @@ public class JobSeekerManager implements JobSeekerService {
     private final UserService userService;
     private final EmailVerificationService emailVerificationService;
     private final MernisCheckService mernisCheckService;
-    private PhotoUploadAdapter photoUploadAdapter;
+    private final PhotoService photoService;
 
     @Autowired
-    public JobSeekerManager(JobSeekerRepository jobSeekerRepository, UserService userService, EmailVerificationService emailVerificationService, MernisCheckService mernisCheckService) {
+    public JobSeekerManager(JobSeekerRepository jobSeekerRepository, UserService userService, EmailVerificationService emailVerificationService, MernisCheckService mernisCheckService, PhotoService photoService) {
         super();
         this.jobSeekerRepository = jobSeekerRepository;
         this.userService = userService;
         this.emailVerificationService = emailVerificationService;
         this.mernisCheckService = mernisCheckService;
+        this.photoService = photoService;
     }
 
 
@@ -58,6 +57,11 @@ public class JobSeekerManager implements JobSeekerService {
     @Override
     public DataResult<JobSeeker> getJobSeekerByBirthYear(Date birthYear) {
         return null;
+    }
+
+    @Override
+    public DataResult<JobSeeker> getById(int id) {
+        return new SuccessDataResult<>(this.jobSeekerRepository.getById(id));
     }
 
     @Override
@@ -118,16 +122,6 @@ public class JobSeekerManager implements JobSeekerService {
     }
 
     @Override
-    public Result uploadPhoto(int id, MultipartFile multipartFile) {
-        Map<String, String> uploadResult = photoUploadAdapter.uploadPhoto(multipartFile).getData();
-        String url = String.valueOf(uploadResult.get("url"));
-        JobSeeker jobSeeker = jobSeekerRepository.getById(id);
-        jobSeeker.setPhotos(url);
-        this.jobSeekerRepository.save(jobSeeker);
-        return new SuccessResult("Photo successfully added!");
-    }
-
-    @Override
     public Result register(LoginForJobSeekerDto jobSeekerDto) {
 
         if (mernisCheckService.checkIfRealPerson(jobSeekerDto)) {
@@ -153,7 +147,6 @@ public class JobSeekerManager implements JobSeekerService {
                         jobSeeker.setLastname(jobSeekerDto.getLastname());
                         jobSeeker.setPassword(jobSeekerDto.getPassword());
                         jobSeeker.setConfirmPassword(jobSeekerDto.getConfirmPassword());
-
                         addJobSeeker(jobSeeker);
 
                         emailVerificationService.sendActivationCode(jobSeeker, jobSeeker.getEmail());

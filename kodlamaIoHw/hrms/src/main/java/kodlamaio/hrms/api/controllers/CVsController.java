@@ -4,6 +4,7 @@ import kodlamaio.hrms.business.abstracts.CVService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.entities.concretes.Cv;
+import kodlamaio.hrms.entities.dtos.CvDetailForJobSeekerDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,8 +35,8 @@ public class CVsController {
     }
 
     @PostMapping("/delete")
-    public ResponseEntity<Result> delete(@RequestBody @Valid Cv cv){
-        return ResponseEntity.ok(this.cvService.delete(cv));
+    public ResponseEntity<Result> delete(@RequestBody @Valid int id){
+        return ResponseEntity.ok(this.cvService.delete(id));
     }
     @PostMapping("/update")
     public ResponseEntity<Result> update(@RequestBody @Valid Cv cv){
@@ -46,5 +47,10 @@ public class CVsController {
     public ResponseEntity<DataResult<Cv>> getByCvId(@RequestParam int id){
         DataResult<Cv> result = cvService.getByCvId(id);
         return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/getCvDetailForJobSeekerById")
+    public DataResult<CvDetailForJobSeekerDto> getCvDetailForJobSeekerById(int id){
+        return this.cvService.getCvDetailForJobSeekerById(id);
     }
 }

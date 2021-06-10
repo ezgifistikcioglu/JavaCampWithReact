@@ -3,6 +3,7 @@ package kodlamaio.hrms.dataAccess.abstracts;
 import kodlamaio.hrms.entities.concretes.JobSeeker;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
@@ -18,5 +19,5 @@ public interface JobSeekerRepository extends JpaRepository<JobSeeker,Integer> {
 
     JobSeeker findJobSeekerByLastname(String lastName);
 
-    JobSeeker findJobSeekerByBirthYear(Date birthYear);
+    JobSeeker findJobSeekerByBirthYear(@NotNull int birthYear);
 }

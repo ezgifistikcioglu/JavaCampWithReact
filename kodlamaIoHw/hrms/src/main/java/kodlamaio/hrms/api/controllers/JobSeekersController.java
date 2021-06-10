@@ -35,6 +35,11 @@ public class JobSeekersController {
         return ResponseEntity.ok(this.jobSeekerService.addJobSeeker(jobSeeker));
     }
 
+    @GetMapping("/getById")
+    public DataResult<JobSeeker> getById(@RequestParam int id) {
+        return this.jobSeekerService.getById(id);
+    }
+
     @PostMapping("/updateJobSeeker")
     public ResponseEntity<Result> updateJobSeeker(@RequestBody JobSeeker jobSeeker){
         return ResponseEntity.ok(this.jobSeekerService.updateJobSeeker(jobSeeker));
@@ -53,11 +58,5 @@ public class JobSeekersController {
             return new ResponseEntity<Result>(result, HttpStatus.BAD_REQUEST);
 
         return ResponseEntity.ok(result);
-    }
-
-    @RequestMapping(value = "/uploadPhoto", method = RequestMethod.POST, consumes = { "multipart/form-data" })
-    @ResponseBody
-    public Result uploadPhoto(@RequestParam int id, @RequestPart("file") MultipartFile image) {
-        return this.jobSeekerService.uploadPhoto(id, image);
     }
 }

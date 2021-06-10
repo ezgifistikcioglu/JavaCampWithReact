@@ -6,8 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
@@ -23,7 +21,9 @@ public class Cv {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int cvId;
 
-    @NotBlank
+    @Column(name="photo")
+    private String photo;
+
     @Column(name = "cover_letter")
     private String coverLetter;
 

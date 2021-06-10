@@ -9,7 +9,7 @@
   <Settings>
     <Url>https://tckimlik.nvi.gov.tr/service/kpspublic.asmx</Url>
     <ClassPrefix/>
-    <PackageName>services.mernisService</PackageName>
+    <PackageName>kodlamaio.hrms.services.mernisService</PackageName>
     <AddDocumentation>false</AddDocumentation>
     <EnableAdvancedFeatures>true</EnableAdvancedFeatures>
     <EnableMTOM>false</EnableMTOM>

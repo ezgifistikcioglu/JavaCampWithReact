@@ -21,4 +21,5 @@ public class LoginForJobSeekerDto {
     private String password;
 
     private String confirmPassword;
+
 }

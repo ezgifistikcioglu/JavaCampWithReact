@@ -1,4 +1,4 @@
-package services.mernisService;
+package kodlamaio.hrms.services.mernisService;
 
 //----------------------------------------------------
 //
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class GSPKPSPublicSoap
+public class GSPKPSPublicSoap12
 {
     interface GSPIWcfMethod
     {
@@ -35,14 +35,14 @@ public class GSPKPSPublicSoap
     public boolean enableLogging;
 
 
-    public GSPKPSPublicSoap(){}
+    public GSPKPSPublicSoap12(){}
 
-    public GSPKPSPublicSoap(String url)
+    public GSPKPSPublicSoap12(String url)
     {
         this.url = url;
     }
 
-    public GSPKPSPublicSoap(String url,int timeOut)
+    public GSPKPSPublicSoap12(String url,int timeOut)
     {
         this.url = url;
         this.timeOut=timeOut;
@@ -77,7 +77,7 @@ public class GSPKPSPublicSoap
 
     protected GSPExtendedSoapSerializationEnvelope createEnvelope()
     {
-        GSPExtendedSoapSerializationEnvelope envelope= new GSPExtendedSoapSerializationEnvelope(GSPExtendedSoapSerializationEnvelope.VER11);
+        GSPExtendedSoapSerializationEnvelope envelope= new GSPExtendedSoapSerializationEnvelope(GSPExtendedSoapSerializationEnvelope.VER12);
         envelope.enableLogging = enableLogging;
     
         return envelope;

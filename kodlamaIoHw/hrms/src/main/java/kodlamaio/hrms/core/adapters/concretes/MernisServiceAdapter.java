@@ -3,7 +3,7 @@ package kodlamaio.hrms.core.adapters.concretes;
 import kodlamaio.hrms.core.adapters.abstracts.MernisCheckService;
 import kodlamaio.hrms.entities.dtos.LoginForJobSeekerDto;
 import org.springframework.stereotype.Service;
-import services.mernisService.GSPKPSPublicSoap;
+import kodlamaio.hrms.services.mernisService.GSPKPSPublicSoap;
 
 @Service
 public class MernisServiceAdapter implements MernisCheckService {
