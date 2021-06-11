@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/languages")
 public class LanguagesController {
-    private LanguageService languageService;
+    private final LanguageService languageService;
 
     @Autowired
     public LanguagesController(LanguageService languageService) {
@@ -22,27 +22,28 @@ public class LanguagesController {
     }
 
     @GetMapping("/getall")
-    public ResponseEntity<DataResult<List<LanguagesForCv>>> getAll(){
+    public ResponseEntity<DataResult<List<LanguagesForCv>>> getAll() {
         DataResult<List<LanguagesForCv>> result = languageService.getAll();
         return ResponseEntity.ok(result);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Result> add(@RequestBody @Valid LanguagesForCv cv){
+    public ResponseEntity<Result> add(@RequestBody @Valid LanguagesForCv cv) {
         return ResponseEntity.ok(this.languageService.add(cv));
     }
 
     @PostMapping("/delete")
-    public ResponseEntity<Result> delete(@RequestBody @Valid LanguagesForCv cv){
+    public ResponseEntity<Result> delete(@RequestBody @Valid LanguagesForCv cv) {
         return ResponseEntity.ok(this.languageService.delete(cv));
     }
+
     @PostMapping("/update")
-    public ResponseEntity<Result> update(@RequestBody @Valid LanguagesForCv cv){
+    public ResponseEntity<Result> update(@RequestBody @Valid LanguagesForCv cv) {
         return ResponseEntity.ok(this.languageService.update(cv));
     }
 
     @GetMapping("/findAllByLanguageId")
-    public ResponseEntity<DataResult<List<LanguagesForCv>>> findAllByLanguageId(@RequestParam int id){
+    public ResponseEntity<DataResult<List<LanguagesForCv>>> findAllByLanguageId(@RequestParam int id) {
         DataResult<List<LanguagesForCv>> result = languageService.findAllByLanguageId(id);
         return ResponseEntity.ok(result);
     }

@@ -6,10 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Data
 @Entity
@@ -33,9 +30,9 @@ public class User {
     @Column(name = "confirm_password")
     private String confirmPassword;
 
-    @Column(name = "created_date",columnDefinition = "Default Date value CURRENT_DATE")
+    @Column(name = "created_date", columnDefinition = "Default Date value CURRENT_DATE")
     private LocalDate createdAt = LocalDate.now();
 
-    @Column(name= "is_user_deleted", columnDefinition = "Default value false")
+    @Column(name = "is_user_deleted", columnDefinition = "Default value false")
     private boolean isDeletedUser = false;
 }

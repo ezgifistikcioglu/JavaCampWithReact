@@ -16,7 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/employers")
 public class EmployersController {
-    private EmployerService employerService;
+    private final EmployerService employerService;
 
     @Autowired
     public EmployersController(EmployerService employerService) {
@@ -25,12 +25,12 @@ public class EmployersController {
     }
 
     @GetMapping("/getall")
-    public DataResult<List<Employer>> getAll(){
+    public DataResult<List<Employer>> getAll() {
         return this.employerService.getAll();
     }
 
     @PostMapping("/add")
-    public Result add(@RequestBody Employer employer){
+    public Result add(@RequestBody Employer employer) {
         return this.employerService.addEmployer(employer);
     }
 
@@ -39,7 +39,7 @@ public class EmployersController {
         final Result result = employerService.register(loginForEmployerDto);
 
         if (!result.isSuccess())
-            return new ResponseEntity<Result>(result, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 
         return ResponseEntity.ok(result);
     }

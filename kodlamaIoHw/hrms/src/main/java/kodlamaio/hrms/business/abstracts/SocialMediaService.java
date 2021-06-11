@@ -6,11 +6,14 @@ import kodlamaio.hrms.entities.concretes.SocialMediaForCv;
 
 import java.util.List;
 
-public interface SocialMediaService{
-	DataResult<List<SocialMediaForCv>> findAllByCvId(int id);
-	DataResult<List<SocialMediaForCv>> getAll();
+public interface SocialMediaService {
+    DataResult<List<SocialMediaForCv>> findAllByCvId(int id);
 
-	Result add(SocialMediaForCv socialMedia);
-	Result update(SocialMediaForCv socialMedia);
-	Result delete(SocialMediaForCv socialMedia);
+    DataResult<List<SocialMediaForCv>> getAll();
+
+    Result add(SocialMediaForCv socialMedia);
+
+    Result update(SocialMediaForCv socialMedia);
+
+    Result delete(SocialMediaForCv socialMedia);
 }

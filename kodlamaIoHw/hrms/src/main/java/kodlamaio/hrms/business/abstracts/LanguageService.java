@@ -7,11 +7,15 @@ import kodlamaio.hrms.entities.concretes.LanguagesForCv;
 import java.util.List;
 
 public interface LanguageService {
-	DataResult<List<LanguagesForCv>> findAllByLanguageId(int id);
+    DataResult<List<LanguagesForCv>> findAllByLanguageId(int id);
 
-	DataResult<List<LanguagesForCv>> getAll();
+    DataResult<LanguagesForCv> getByLanguageId(int id);
 
-	Result add(LanguagesForCv language);
-	Result update(LanguagesForCv language);
-	Result delete(LanguagesForCv language);
+    DataResult<List<LanguagesForCv>> getAll();
+
+    Result add(LanguagesForCv language);
+
+    Result update(LanguagesForCv language);
+
+    Result delete(LanguagesForCv language);
 }

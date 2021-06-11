@@ -14,13 +14,13 @@ import java.util.Optional;
 @Service
 public class CVManager implements CVService {
 
-    private CVRepository cvRepository;
-    private EducationInformationService informationService;
-    private LanguageService languageService;
-    private WorkExperienceService experienceService;
-    private ProgrammingSkillService skillService;
-    private SocialMediaService socialMediaService;
-    private JobSeekerService jobSeekerService;
+    private final CVRepository cvRepository;
+    private final EducationInformationService informationService;
+    private final LanguageService languageService;
+    private final WorkExperienceService experienceService;
+    private final ProgrammingSkillService skillService;
+    private final SocialMediaService socialMediaService;
+    private final JobSeekerService jobSeekerService;
 
 
     @Autowired
@@ -37,7 +37,7 @@ public class CVManager implements CVService {
 
     @Override
     public DataResult<List<Cv>> getAll() {
-        return new SuccessDataResult<List<Cv>>(this.cvRepository.findAll(), "Listed data");
+        return new SuccessDataResult<>(this.cvRepository.findAll(), "Listed data");
     }
 
     @Override
@@ -45,24 +45,25 @@ public class CVManager implements CVService {
         Optional<Cv> cv = cvRepository.getByCvId(cvId);
 
         if (!cv.isPresent())
-            return new ErrorDataResult<Cv>("This CV Not Found");
+            return new ErrorDataResult<>("This CV Not Found");
 
-        return new SuccessDataResult<Cv>(cv.get());
+        return new SuccessDataResult<>(cv.get());
     }
 
     @Override
     public DataResult<CvDetailForJobSeekerDto> getCvDetailForJobSeekerById(int cvId) {
         CvDetailForJobSeekerDto jobSeekerDto = this.cvRepository.getCvDetailForJobSeekerById(cvId);
 
-        if (jobSeekerDto.equals(null)){
+        if (jobSeekerDto == null) {
             return new ErrorDataResult<>("This cv not found");
-        }else {
+        } else {
             jobSeekerDto.setEducationInformationForCvs(this.informationService.findByEducationId(jobSeekerDto.getJobSeeker().getId()).getData());
             jobSeekerDto.setWorkExperienceForCvs(this.experienceService.findByExperienceId(jobSeekerDto.getId()).getData());
             jobSeekerDto.setLanguagesForCvs(this.languageService.findAllByLanguageId(jobSeekerDto.getId()).getData());
             jobSeekerDto.setSocialMediaForCvs(this.socialMediaService.findAllByCvId(jobSeekerDto.getId()).getData());
             jobSeekerDto.setProgrammingSkillForCvs(this.skillService.findAllByCvId(jobSeekerDto.getId()).getData());
-            return new SuccessDataResult<>(jobSeekerDto,"CV information has been successfully retrieved.");
+            jobSeekerDto.setJobSeeker(this.jobSeekerService.getById(jobSeekerDto.getId()).getData());
+            return new SuccessDataResult<>(jobSeekerDto, "CV information has been successfully retrieved.");
         }
     }
 

@@ -11,10 +11,14 @@ public interface UserService {
 
 
     Result addUserAccount(User user);
+
     Result updateUserAccount(User user);
+
     Result deleteUserAccount(int id);
 
     DataResult<User> getUser(int id);
+
     DataResult<List<User>> getAllUser();
+
     DataResult<User> findUserByEmail(String email);
 }

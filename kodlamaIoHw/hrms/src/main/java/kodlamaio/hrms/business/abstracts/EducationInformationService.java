@@ -11,10 +11,14 @@ public interface EducationInformationService {
     DataResult<List<EducationInformationForCv>> getAll();
 
     Result add(EducationInformationForCv education);
+
     Result update(EducationInformationForCv education);
+
     Result delete(EducationInformationForCv education);
 
     DataResult<List<EducationInformationForCv>> findByEducationId(int id);
+
     DataResult<List<EducationInformationForCv>> findByEducationIdOrderBySchoolGraduationDate(int idWithoutDesc);
-    DataResult<List<EducationInformationForCv>> findByEducationIdOrderBySchoolGraduationDateDesc (int idWithDesc, Sort.Direction direction);
+
+    DataResult<List<EducationInformationForCv>> findByEducationIdOrderBySchoolGraduationDateDesc(int idWithDesc, Sort.Direction direction);
 }

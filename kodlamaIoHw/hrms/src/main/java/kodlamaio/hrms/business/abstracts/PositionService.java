@@ -9,7 +9,12 @@ import java.util.List;
 
 public interface PositionService {
     DataResult<List<Position>> getAll();
+
+    DataResult<Position> findById(int id);
+
     DataResult<Position> getByJobName(String jobName);
+
     DataResult<Position> getByCreatedDate(LocalDate createdDate);
+
     Result add(Position position);
 }

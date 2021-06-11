@@ -9,13 +9,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/work-experiences")
 public class WorkExperiencesController {
-    private WorkExperienceService workExperienceService;
+    private final WorkExperienceService workExperienceService;
 
     @Autowired
     public WorkExperiencesController(WorkExperienceService workExperienceService) {
@@ -24,27 +23,28 @@ public class WorkExperiencesController {
     }
 
     @GetMapping("/getall")
-    public ResponseEntity<DataResult<List<WorkExperienceForCv>>> getAll(){
+    public ResponseEntity<DataResult<List<WorkExperienceForCv>>> getAll() {
         DataResult<List<WorkExperienceForCv>> result = workExperienceService.getAll();
         return ResponseEntity.ok(result);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Result> add(@RequestBody @Valid WorkExperienceForCv cv){
+    public ResponseEntity<Result> add(@RequestBody WorkExperienceForCv cv) {
         return ResponseEntity.ok(this.workExperienceService.add(cv));
     }
 
     @PostMapping("/delete")
-    public ResponseEntity<Result> delete(@RequestBody @Valid WorkExperienceForCv cv){
+    public ResponseEntity<Result> delete(@RequestBody WorkExperienceForCv cv) {
         return ResponseEntity.ok(this.workExperienceService.delete(cv));
     }
+
     @PostMapping("/update")
-    public ResponseEntity<Result> update(@RequestBody @Valid WorkExperienceForCv cv){
+    public ResponseEntity<Result> update(@RequestBody WorkExperienceForCv cv) {
         return ResponseEntity.ok(this.workExperienceService.update(cv));
     }
 
     @GetMapping("/findByExperienceIdOrderByBusinessLeavingDateDesc")
-    public ResponseEntity<DataResult<List<WorkExperienceForCv>>> findByExperienceIdOrderByBusinessLeavingDateDesc(@RequestParam int id, @RequestParam Sort.Direction d){
+    public ResponseEntity<DataResult<List<WorkExperienceForCv>>> findByExperienceIdOrderByBusinessLeavingDateDesc(@RequestParam int id, @RequestParam Sort.Direction d) {
         DataResult<List<WorkExperienceForCv>> result = workExperienceService.findByExperienceIdOrderByBusinessLeavingDateDesc(id, d);
         return ResponseEntity.ok(result);
     }

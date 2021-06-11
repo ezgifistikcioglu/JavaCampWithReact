@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/users")
 public class UsersController {
-   private UserService userService;
+    private final UserService userService;
 
     @Autowired
     public UsersController(UserService userService) {
@@ -23,31 +23,32 @@ public class UsersController {
     }
 
     @GetMapping("/getUser")
-    public ResponseEntity<DataResult<User>> getUser(int id){
+    public ResponseEntity<DataResult<User>> getUser(int id) {
         return ResponseEntity.ok(this.userService.getUser(id));
     }
 
     @GetMapping("/getAllUser")
-    public ResponseEntity<DataResult<List<User>>> getAllUser(){
+    public ResponseEntity<DataResult<List<User>>> getAllUser() {
         return ResponseEntity.ok(this.userService.getAllUser());
     }
 
     @PostMapping("/addUserAccount")
-    public ResponseEntity<Result> addUserAccount(@RequestBody User user){
+    public ResponseEntity<Result> addUserAccount(@RequestBody User user) {
         final Result result = userService.addUserAccount(user);
-        if (!result.isSuccess())
-            return new ResponseEntity<Result>(result, HttpStatus.BAD_REQUEST);
-
-        return ResponseEntity.ok(result);
+        if (!result.isSuccess()) {
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        } else {
+            return ResponseEntity.ok(result);
+        }
     }
 
     @PostMapping("/updateUserAccount")
-    public ResponseEntity<Result> updateUserAccount(@RequestBody User user){
+    public ResponseEntity<Result> updateUserAccount(@RequestBody User user) {
         return ResponseEntity.ok(this.userService.updateUserAccount(user));
     }
 
     @GetMapping("/deleteUserAccount")
-    public ResponseEntity<Result> deleteUserAccount(int id){
+    public ResponseEntity<Result> deleteUserAccount(int id) {
         return ResponseEntity.ok(this.userService.deleteUserAccount(id));
     }
 }

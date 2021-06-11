@@ -6,7 +6,6 @@ import kodlamaio.hrms.dataAccess.abstracts.EmailVerificationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 @Service
 public class ValidateCheckEmailManager implements ValidateCheckEmailService {
 
@@ -17,7 +16,7 @@ public class ValidateCheckEmailManager implements ValidateCheckEmailService {
         super();
         this.emailVerificationRepository = emailVerificationRepository;
     }
-    
+
     @Override
     public Result sendValidationEmail(String cc, String emailSubject, String emailContent) {
         return null;

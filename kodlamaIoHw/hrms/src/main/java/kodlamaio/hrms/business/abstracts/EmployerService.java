@@ -11,9 +11,15 @@ public interface EmployerService {
 
     DataResult<List<Employer>> getAll();
 
+    DataResult<Employer> getById(int id);
+
     Result addEmployer(Employer employer);
+
     Result updateEmployer(Employer employer);
+
     Result deleteEmployer(int id);
+
     Result isEmailAvailable(String email);
+
     Result register(LoginForEmployerDto employerDto);
 }

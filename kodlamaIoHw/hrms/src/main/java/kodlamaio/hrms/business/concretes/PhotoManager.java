@@ -18,49 +18,49 @@ import java.util.Map;
 @Service
 public class PhotoManager implements PhotoService {
 
-	private PhotoRepository photoRepository;
-	private CloudinaryPhotoService cloudinaryPhotoService;
+    private final PhotoRepository photoRepository;
+    private final CloudinaryPhotoService cloudinaryPhotoService;
 
-	@Autowired
-	public PhotoManager(PhotoRepository photoRepository, CloudinaryPhotoService cloudinaryPhotoService) {
-		super();
-		this.photoRepository = photoRepository;
-		this.cloudinaryPhotoService = cloudinaryPhotoService;
-	}
+    @Autowired
+    public PhotoManager(PhotoRepository photoRepository, CloudinaryPhotoService cloudinaryPhotoService) {
+        super();
+        this.photoRepository = photoRepository;
+        this.cloudinaryPhotoService = cloudinaryPhotoService;
+    }
 
-	@Override
-	public Result add(PhotoInfo photoInfo, MultipartFile imageFile) {
-		@SuppressWarnings("unchecked")
-		Map<String,String> uploadImage = this.cloudinaryPhotoService.uploadPhoto(imageFile).getData();
-		photoInfo.setPhotoUrl(uploadImage.get("url"));
-		this.photoRepository.save(photoInfo);
-		return new SuccessResult("Your Photo Has Been Successfully Added To The System");
-	}
+    @Override
+    public Result add(PhotoInfo photoInfo, MultipartFile imageFile) {
+        @SuppressWarnings("unchecked")
+        Map<String, String> uploadImage = this.cloudinaryPhotoService.uploadPhoto(imageFile).getData();
+        photoInfo.setPhotoUrl(uploadImage.get("url"));
+        this.photoRepository.save(photoInfo);
+        return new SuccessResult("Your Photo Has Been Successfully Added To The System");
+    }
 
-	@Override
-	public Result update(PhotoInfo photoInfo) {
-		this.photoRepository.save(photoInfo);
-		return new SuccessResult("Your Photo Has Been Successfully Updated");
-	}
+    @Override
+    public Result update(PhotoInfo photoInfo) {
+        this.photoRepository.save(photoInfo);
+        return new SuccessResult("Your Photo Has Been Successfully Updated");
+    }
 
-	@Override
-	public Result delete(int id) {
-		this.photoRepository.deleteById(id);
-		return new SuccessResult("Your Photo Has Been Deleted");
-	}
+    @Override
+    public Result delete(int id) {
+        this.photoRepository.deleteById(id);
+        return new SuccessResult("Your Photo Has Been Deleted");
+    }
 
-	@Override
-	public DataResult<PhotoInfo> getById(int id) {
-		return new SuccessDataResult<PhotoInfo>(this.photoRepository.getById(id));
-	}
+    @Override
+    public DataResult<PhotoInfo> getById(int id) {
+        return new SuccessDataResult<>(this.photoRepository.getById(id));
+    }
 
-	@Override
-	public DataResult<List<PhotoInfo>> getAll() {
-		return new SuccessDataResult<List<PhotoInfo>>(this.photoRepository.findAll());
-	}
+    @Override
+    public DataResult<List<PhotoInfo>> getAll() {
+        return new SuccessDataResult<>(this.photoRepository.findAll());
+    }
 
-	@Override
-	public DataResult<PhotoInfo> getByJobSeekerId(int id) {
-		return new SuccessDataResult<PhotoInfo>(this.photoRepository.getByJobSeekerId(id));
-	}
+    @Override
+    public DataResult<PhotoInfo> getByJobSeekerId(int id) {
+        return new SuccessDataResult<>(this.photoRepository.getByJobSeekerId(id));
+    }
 }

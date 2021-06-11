@@ -3,7 +3,6 @@ package kodlamaio.hrms.business.concretes;
 import kodlamaio.hrms.business.abstracts.EmailVerificationService;
 import kodlamaio.hrms.business.abstracts.EmployerService;
 import kodlamaio.hrms.business.abstracts.SystemEmployeeService;
-import kodlamaio.hrms.business.abstracts.UserService;
 import kodlamaio.hrms.core.utilities.results.*;
 import kodlamaio.hrms.dataAccess.abstracts.EmployerRepository;
 import kodlamaio.hrms.entities.concretes.Employer;
@@ -19,8 +18,8 @@ import java.util.Optional;
 public class EmployerManager implements EmployerService {
 
     private final EmployerRepository employerRepository;
-    private EmailVerificationService emailVerificationService;
-    private SystemEmployeeService systemEmployeeService;
+    private final EmailVerificationService emailVerificationService;
+    private final SystemEmployeeService systemEmployeeService;
 
     @Autowired
     public EmployerManager(EmployerRepository employerRepository, EmailVerificationService emailVerificationService, SystemEmployeeService systemEmployeeService) {
@@ -32,7 +31,18 @@ public class EmployerManager implements EmployerService {
 
     @Override
     public DataResult<List<Employer>> getAll() {
-        return new SuccessDataResult<List<Employer>>(this.employerRepository.findAll(), "Listed data");
+        return new SuccessDataResult<>(this.employerRepository.findAll(), "Listed data");
+    }
+
+    @Override
+    public DataResult<Employer> getById(int id) {
+        Optional<Employer> employer = this.employerRepository.findById(id);
+
+        if (!employer.isPresent()) {
+            return new ErrorDataResult<>("Employer not found");
+        } else {
+            return new SuccessDataResult<>(employer.get());
+        }
     }
 
     @Override

@@ -9,11 +9,14 @@ import java.util.List;
 
 public interface CVService {
     DataResult<List<Cv>> getAll();
+
     DataResult<Cv> getByCvId(int cvId);
+
     DataResult<CvDetailForJobSeekerDto> getCvDetailForJobSeekerById(int cvId);
 
     Result add(Cv cv);
-    Result update(Cv cv);
-    Result delete(int id);
 
+    Result update(Cv cv);
+
+    Result delete(int id);
 }

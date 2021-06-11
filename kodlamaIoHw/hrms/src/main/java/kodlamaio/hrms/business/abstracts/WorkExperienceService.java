@@ -11,10 +11,14 @@ public interface WorkExperienceService {
     DataResult<List<WorkExperienceForCv>> getAll();
 
     Result add(WorkExperienceForCv experience);
+
     Result update(WorkExperienceForCv experience);
+
     Result delete(WorkExperienceForCv experience);
 
     DataResult<List<WorkExperienceForCv>> findByExperienceId(int id);
+
     DataResult<List<WorkExperienceForCv>> findByExperienceIdOrderByBusinessLeavingDate(int idWithoutDesc);
+
     DataResult<List<WorkExperienceForCv>> findByExperienceIdOrderByBusinessLeavingDateDesc(int idWithDesc, Sort.Direction direction);
 }

@@ -6,5 +6,5 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Map;
 
 public interface CloudinaryPhotoService {
-	DataResult<Map> uploadPhoto(MultipartFile multipartFile);
+    DataResult<Map> uploadPhoto(MultipartFile multipartFile);
 }

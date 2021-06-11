@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/programming-skills")
 public class ProgrammingSkillsController {
-    private ProgrammingSkillService programmingSkillService;
+    private final ProgrammingSkillService programmingSkillService;
 
     @Autowired
     public ProgrammingSkillsController(ProgrammingSkillService programmingSkillService) {
@@ -22,27 +22,28 @@ public class ProgrammingSkillsController {
     }
 
     @GetMapping("/getall")
-    public ResponseEntity<DataResult<List<ProgrammingSkillForCv>>> getAll(){
+    public ResponseEntity<DataResult<List<ProgrammingSkillForCv>>> getAll() {
         DataResult<List<ProgrammingSkillForCv>> result = programmingSkillService.getAll();
         return ResponseEntity.ok(result);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Result> add(@RequestBody @Valid ProgrammingSkillForCv cv){
+    public ResponseEntity<Result> add(@RequestBody @Valid ProgrammingSkillForCv cv) {
         return ResponseEntity.ok(this.programmingSkillService.add(cv));
     }
 
     @PostMapping("/delete")
-    public ResponseEntity<Result> delete(@RequestBody @Valid ProgrammingSkillForCv cv){
+    public ResponseEntity<Result> delete(@RequestBody @Valid ProgrammingSkillForCv cv) {
         return ResponseEntity.ok(this.programmingSkillService.delete(cv));
     }
+
     @PostMapping("/update")
-    public ResponseEntity<Result> update(@RequestBody @Valid ProgrammingSkillForCv cv){
+    public ResponseEntity<Result> update(@RequestBody @Valid ProgrammingSkillForCv cv) {
         return ResponseEntity.ok(this.programmingSkillService.update(cv));
     }
 
     @GetMapping("/findAllByCvId")
-    public ResponseEntity<DataResult<List<ProgrammingSkillForCv>>> findAllByCvId(@RequestParam int id){
+    public ResponseEntity<DataResult<List<ProgrammingSkillForCv>>> findAllByCvId(@RequestParam int id) {
         DataResult<List<ProgrammingSkillForCv>> result = programmingSkillService.findAllByCvId(id);
         return ResponseEntity.ok(result);
     }

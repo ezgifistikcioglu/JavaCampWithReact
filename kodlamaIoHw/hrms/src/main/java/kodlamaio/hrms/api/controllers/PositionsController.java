@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/positions")
 public class PositionsController {
-    private PositionService positionService;
+    private final PositionService positionService;
 
     @Autowired
     public PositionsController(PositionService positionService) {
@@ -22,17 +22,17 @@ public class PositionsController {
     }
 
     @GetMapping("/getall")
-    public ResponseEntity<DataResult<List<Position>>> getAll(){
+    public ResponseEntity<DataResult<List<Position>>> getAll() {
         return ResponseEntity.ok(this.positionService.getAll());
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Result> add(@RequestBody Position position){
+    public ResponseEntity<Result> add(@RequestBody Position position) {
         return ResponseEntity.ok(this.positionService.add(position));
     }
 
     @GetMapping("/getByJobName")
-    public ResponseEntity<DataResult<Position>> getByJobName(@RequestParam String jobName){
+    public ResponseEntity<DataResult<Position>> getByJobName(@RequestParam String jobName) {
         return ResponseEntity.ok(this.positionService.getByJobName(jobName));
     }
 }

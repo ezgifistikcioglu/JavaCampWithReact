@@ -12,25 +12,25 @@ import java.util.Map;
 
 @Service
 public class CloudinaryPhotoUploadAdapter implements CloudinaryPhotoService {
-	private Cloudinary cloudinary;
+    private final Cloudinary cloudinary;
 
-	public CloudinaryPhotoUploadAdapter(){
+    public CloudinaryPhotoUploadAdapter() {
 
-		this.cloudinary = new Cloudinary(ObjectUtils.asMap(
-				"cloud_name", "dpgxkyltm",
-				"api_key", "817974236589886",
-				"api_secret", "-4XbdAImPw73PCOCvqprhpcjof0"));
-	}
+        this.cloudinary = new Cloudinary(ObjectUtils.asMap(
+                "cloud_name", "dpgxkyltm",
+                "api_key", "817974236589886",
+                "api_secret", "-4XbdAImPw73PCOCvqprhpcjof0"));
+    }
 
-	@Override
-	public DataResult<Map> uploadPhoto(MultipartFile multipartFile) {
+    @Override
+    public DataResult<Map> uploadPhoto(MultipartFile multipartFile) {
 
-		try {
-			@SuppressWarnings("unchecked")
-			Map<String, String> resultMap =(Map<String, String>) cloudinary.uploader().upload(multipartFile.getBytes(), ObjectUtils.emptyMap());
-			return new SuccessDataResult<Map>(resultMap);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
+        try {
+            @SuppressWarnings("unchecked")
+            Map<String, String> resultMap = (Map<String, String>) cloudinary.uploader().upload(multipartFile.getBytes(), ObjectUtils.emptyMap());
+            return new SuccessDataResult<Map>(resultMap);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

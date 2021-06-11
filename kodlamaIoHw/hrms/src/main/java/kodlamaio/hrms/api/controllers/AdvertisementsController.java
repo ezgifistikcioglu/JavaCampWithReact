@@ -5,6 +5,8 @@ import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.entities.concretes.Advertisement;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/advertisements")
 public class AdvertisementsController {
-    private AdvertisementService advertisementService;
+    private final AdvertisementService advertisementService;
 
     @Autowired
     public AdvertisementsController(AdvertisementService advertisementService) {
@@ -20,21 +22,27 @@ public class AdvertisementsController {
     }
 
     @PostMapping("/addAdvertisement")
-    public Result addAdvertisement(@RequestBody Advertisement advertisement){
-        return this.advertisementService.addAdvertisement(advertisement);
+    public ResponseEntity<Result> addAdvertisement(@RequestBody Advertisement advertisement) {
+        return ResponseEntity.ok(this.advertisementService.addAdvertisement(advertisement));
     }
 
     @PostMapping("/updateAdvertisement")
-    public Result updateAdvertisement(@RequestBody Advertisement advertisement){
-        return this.advertisementService.updateAdvertisement(advertisement);
+    public ResponseEntity<Result> updateAdvertisement(@RequestBody Advertisement advertisement) {
+        Result result = advertisementService.addAdvertisement(advertisement);
+        if (!result.isSuccess()) {
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        } else {
+            return ResponseEntity.ok(result);
+        }
     }
+
     @PostMapping("/deleteAdvertisement")
-    public Result deleteAdvertisement(@RequestBody int id){
+    public Result deleteAdvertisement(@RequestBody int id) {
         return this.advertisementService.deleteAdvertisement(id);
     }
 
     @GetMapping("/getAllAdvertisementList")
-    public DataResult<List<Advertisement>> getAllAdvertisementList(){
+    public DataResult<List<Advertisement>> getAllAdvertisementList() {
         return this.advertisementService.getAllAdvertisementList();
     }
 
@@ -42,23 +50,25 @@ public class AdvertisementsController {
     public DataResult<Advertisement> findBySalaryMax(double maxSalary) throws NoSuchMethodException {
         return this.advertisementService.findBySalaryMax(maxSalary);
     }
+
     @GetMapping("/findBySalaryMin")
     public DataResult<Advertisement> findBySalaryMin(int minSalary) throws NoSuchMethodException {
         return this.advertisementService.findBySalaryMin(minSalary);
     }
+
     @GetMapping("/findByEmployerId")
-    public DataResult<Advertisement> findByEmployerId(int id){
+    public DataResult<Advertisement> findByEmployerId(int id) {
         return this.advertisementService.findByEmployerId(id);
     }
 
 
     @PostMapping("/changeOpenToClose")
-    public Result changeOpenToClose(int id){
+    public Result changeOpenToClose(int id) {
         return this.advertisementService.changeOpenToClose(id);
     }
 
     @GetMapping("/getAllOpenAdvertisementList")
-    public DataResult<List<Advertisement>> getAllOpenAdvertisementList(){
+    public DataResult<List<Advertisement>> getAllOpenAdvertisementList() {
         return this.advertisementService.getAllOpenAdvertisementList();
     }
 

@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/educations")
 public class EducationsController {
-    private EducationInformationService educationInformationService;
+    private final EducationInformationService educationInformationService;
 
     @Autowired
     public EducationsController(EducationInformationService educationInformationService) {
@@ -24,27 +24,28 @@ public class EducationsController {
     }
 
     @GetMapping("/getall")
-    public ResponseEntity<DataResult<List<EducationInformationForCv>>> getAll(){
+    public ResponseEntity<DataResult<List<EducationInformationForCv>>> getAll() {
         DataResult<List<EducationInformationForCv>> result = educationInformationService.getAll();
         return ResponseEntity.ok(result);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Result> add(@RequestBody @Valid EducationInformationForCv cv){
-        return ResponseEntity.ok(this.educationInformationService.add(cv));
+    public ResponseEntity<Result> add(@RequestBody @Valid EducationInformationForCv information) {
+        return ResponseEntity.ok(this.educationInformationService.add(information));
     }
 
     @PostMapping("/delete")
-    public ResponseEntity<Result> delete(@RequestBody @Valid EducationInformationForCv cv){
-        return ResponseEntity.ok(this.educationInformationService.delete(cv));
+    public ResponseEntity<Result> delete(@RequestBody @Valid EducationInformationForCv information) {
+        return ResponseEntity.ok(this.educationInformationService.delete(information));
     }
+
     @PostMapping("/update")
-    public ResponseEntity<Result> update(@RequestBody @Valid EducationInformationForCv cv){
-        return ResponseEntity.ok(this.educationInformationService.update(cv));
+    public ResponseEntity<Result> update(@RequestBody @Valid EducationInformationForCv information) {
+        return ResponseEntity.ok(this.educationInformationService.update(information));
     }
 
     @GetMapping("/findByEducationIdOrderBySchoolGraduationDate")
-    public ResponseEntity<DataResult<List<EducationInformationForCv>>> findByEducationIdOrderBySchoolGraduationDate(@RequestParam int id, @RequestParam Sort.Direction d){
+    public ResponseEntity<DataResult<List<EducationInformationForCv>>> findByEducationIdOrderBySchoolGraduationDate(@RequestParam int id, @RequestParam Sort.Direction d) {
         DataResult<List<EducationInformationForCv>> result = educationInformationService.findByEducationIdOrderBySchoolGraduationDateDesc(id, d);
         return ResponseEntity.ok(result);
     }

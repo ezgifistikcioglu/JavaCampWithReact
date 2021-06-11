@@ -22,18 +22,18 @@ public class SocialMediaManager implements SocialMediaService {
 
     @Override
     public DataResult<List<SocialMediaForCv>> findAllByCvId(int id) {
-        List<SocialMediaForCv> cv = socialMediaForCvRepository.findAllByCvId(id);
+        List<SocialMediaForCv> socialMediaForCvs = socialMediaForCvRepository.findAllByCvId(id);
 
-        if (cv.isEmpty()) {
-            return new ErrorDataResult<List<SocialMediaForCv>>("This social media address Not Found");
+        if (socialMediaForCvs.isEmpty()) {
+            return new ErrorDataResult<>("This social media address not found");
         } else {
-            return new SuccessDataResult<List<SocialMediaForCv>>(cv);
+            return new SuccessDataResult<>(socialMediaForCvs, "Social media information has been successfully added");
         }
     }
 
     @Override
     public DataResult<List<SocialMediaForCv>> getAll() {
-        return new SuccessDataResult<List<SocialMediaForCv>>(this.socialMediaForCvRepository.findAll(), "Listed data");
+        return new SuccessDataResult<>(this.socialMediaForCvRepository.findAll(), "Listed data");
     }
 
     @Override

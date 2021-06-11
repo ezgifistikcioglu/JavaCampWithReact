@@ -53,7 +53,7 @@ public class UserManager implements UserService {
                 return new ErrorsResult("Error : User email : " + user.getEmail() + " already exists!");
             } else {
                 if (!checkPasswordMatch(user.getPassword(), user.getConfirmPassword())) {
-                    return new ErrorsResult("Error : Check User password matching : " + user.getPassword() +"-"+user.getConfirmPassword());
+                    return new ErrorsResult("Error : Check User password matching : " + user.getPassword() + "-" + user.getConfirmPassword());
                 } else {
                     // TODO : check user verification if it need that.
                     this.userRepository.save(user);

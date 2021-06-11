@@ -7,10 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.util.List;
-
-
 
 @Entity
 @Data
@@ -18,7 +15,7 @@ import java.util.List;
 @PrimaryKeyJoinColumn(name = "employer_id")
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIgnoreProperties({"hibernateLazyInitializer","handler","advertisementList"})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "advertisementList"})
 public class Employer extends User {
     @NotNull
     @Column(name = "company_name")

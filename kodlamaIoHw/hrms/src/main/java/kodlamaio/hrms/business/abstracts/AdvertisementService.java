@@ -9,15 +9,21 @@ import java.util.List;
 public interface AdvertisementService {
 
     DataResult<Advertisement> findBySalaryMax(double maxSalary) throws NoSuchMethodException;
+
     DataResult<Advertisement> findBySalaryMin(double minSalary) throws NoSuchMethodException;
+
     DataResult<Advertisement> findByEmployerId(int id);
 
     Result addAdvertisement(Advertisement advertisement);
+
     Result updateAdvertisement(Advertisement advertisement);
+
     Result deleteAdvertisement(int id);
+
     Result changeOpenToClose(int id);
 
     DataResult<List<Advertisement>> getAllAdvertisementList();
+
     DataResult<List<Advertisement>> getAllOpenAdvertisementList();
-   // DataResult<List<Advertisement>> findAllByOrderByDateOfPublish();
+    // DataResult<List<Advertisement>> findAllByOrderByDateOfPublish();
 }

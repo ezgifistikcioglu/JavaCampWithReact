@@ -21,6 +21,4 @@ public interface CityService {
     DataResult<City> findByCityName(String cityName);
 
     DataResult<List<City>> findByCityNameContains(String name);
-
-
 }

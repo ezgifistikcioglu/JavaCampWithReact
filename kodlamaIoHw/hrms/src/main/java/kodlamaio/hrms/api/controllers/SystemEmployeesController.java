@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/system_employees")
 public class SystemEmployeesController {
-    private SystemEmployeeService systemEmployeeService;
+    private final SystemEmployeeService systemEmployeeService;
 
     @Autowired
     public SystemEmployeesController(SystemEmployeeService systemEmployeeService) {
@@ -23,17 +23,17 @@ public class SystemEmployeesController {
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<DataResult<List<SystemEmployee>>> getAll(){
+    public ResponseEntity<DataResult<List<SystemEmployee>>> getAll() {
         final DataResult<List<SystemEmployee>> result = this.systemEmployeeService.getAllSystemEmployee();
-       return ResponseEntity.ok(result);
+        return ResponseEntity.ok(result);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Result> add(@RequestParam  int id) {
+    public ResponseEntity<Result> add(@RequestParam int id) {
         final Result result = systemEmployeeService.add(id);
 
         if (!result.isSuccess())
-            return new ResponseEntity<Result>(result, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 
         return ResponseEntity.ok(result);
     }

@@ -1,12 +1,11 @@
 package kodlamaio.hrms.entities.concretes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -15,18 +14,15 @@ import java.time.LocalDateTime;
 @Table(name = "experiences")
 @AllArgsConstructor
 @NoArgsConstructor
-@PrimaryKeyJoinColumn(name="cv_id",referencedColumnName = "cv_id")
 public class WorkExperienceForCv {
     @Id
     @Column(name = "experience_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int experienceId;
 
-    @NotBlank
     @Column(name = "business_name")
     private String businessName;
 
-    @NotNull
     @Column(name = "business_start_date")
     private LocalDate businessStartDate;
 
@@ -36,19 +32,22 @@ public class WorkExperienceForCv {
     @Column(name = "is_still_working", columnDefinition = "Default value false")
     private boolean isStillWorking;
 
-    @NotNull
     @Column(name = "created_at", columnDefinition = "Date default CURRENT_DATE")
-    private final LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @JoinColumn(name = "cv_id", insertable = false, updatable = false)
+    @JsonIgnore
     @ManyToOne()
     private Cv cv;
 
-    @NotNull
-    @JoinColumn(name = "position_id")
+    @JoinColumn(name = "position_id", insertable = false, updatable = false)
+    @JsonIgnore
     @ManyToOne
-    private Position positionId;
+    private Position position;
 
     @Column(name = "cv_id")
     private int cvId;
+
+    @Column(name = "position_id")
+    private int positionId;
 }

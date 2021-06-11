@@ -13,19 +13,19 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PhotoInfo {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name= "id")
-	private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int id;
 
-	@Column(name= "job_seeker_id", insertable = false, updatable = false)
-	private int jobSeekerId;
+    @Column(name = "job_seeker_id", insertable = false, updatable = false)
+    private int jobSeekerId;
 
-	@Column(name = "photo_url")
-	private String photoUrl;
-	
-	@OneToOne()
-	@JsonIgnore
+    @Column(name = "photo_url")
+    private String photoUrl;
+
+    @OneToOne()
+    @JsonIgnore
     @JoinColumn(name = "job_seeker_id", referencedColumnName = "job_seeker_id")
     private JobSeeker jobSeeker;
 

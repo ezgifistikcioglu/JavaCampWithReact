@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/cvs")
 public class CVsController {
-    private CVService cvService;
+    private final CVService cvService;
 
     @Autowired
     public CVsController(CVService cvService) {
@@ -24,33 +24,34 @@ public class CVsController {
     }
 
     @GetMapping("/getall")
-    public ResponseEntity<DataResult<List<Cv>>> getAll(){
+    public ResponseEntity<DataResult<List<Cv>>> getAll() {
         DataResult<List<Cv>> result = cvService.getAll();
         return ResponseEntity.ok(result);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Result> add(@RequestBody @Valid Cv cv){
+    public ResponseEntity<Result> add(@RequestBody @Valid Cv cv) {
         return ResponseEntity.ok(this.cvService.add(cv));
     }
 
     @PostMapping("/delete")
-    public ResponseEntity<Result> delete(@RequestBody @Valid int id){
+    public ResponseEntity<Result> delete(@RequestBody @Valid int id) {
         return ResponseEntity.ok(this.cvService.delete(id));
     }
+
     @PostMapping("/update")
-    public ResponseEntity<Result> update(@RequestBody @Valid Cv cv){
+    public ResponseEntity<Result> update(@RequestBody @Valid Cv cv) {
         return ResponseEntity.ok(this.cvService.update(cv));
     }
 
     @GetMapping("/getByCvId")
-    public ResponseEntity<DataResult<Cv>> getByCvId(@RequestParam int id){
+    public ResponseEntity<DataResult<Cv>> getByCvId(@RequestParam int id) {
         DataResult<Cv> result = cvService.getByCvId(id);
         return ResponseEntity.ok(result);
     }
 
     @GetMapping("/getCvDetailForJobSeekerById")
-    public DataResult<CvDetailForJobSeekerDto> getCvDetailForJobSeekerById(int id){
+    public DataResult<CvDetailForJobSeekerDto> getCvDetailForJobSeekerById(int id) {
         return this.cvService.getCvDetailForJobSeekerById(id);
     }
 }

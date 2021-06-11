@@ -1,15 +1,18 @@
 package kodlamaio.hrms.business.concretes;
 
 import kodlamaio.hrms.business.abstracts.AdvertisementService;
-import kodlamaio.hrms.core.utilities.results.DataResult;
-import kodlamaio.hrms.core.utilities.results.Result;
-import kodlamaio.hrms.core.utilities.results.SuccessDataResult;
-import kodlamaio.hrms.core.utilities.results.SuccessResult;
+import kodlamaio.hrms.business.abstracts.CityService;
+import kodlamaio.hrms.business.abstracts.EmployerService;
+import kodlamaio.hrms.business.abstracts.PositionService;
+import kodlamaio.hrms.core.utilities.results.*;
 import kodlamaio.hrms.dataAccess.abstracts.AdvertisementRepository;
 import kodlamaio.hrms.entities.concretes.Advertisement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.chrono.ChronoLocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -18,11 +21,41 @@ import java.util.stream.Collectors;
 @Service
 public class AdvertisementManager implements AdvertisementService {
     private final AdvertisementRepository advertisementRepository;
+    private final EmployerService employerService;
+    private final CityService cityService;
+    private final PositionService positionService;
 
     @Autowired
-    public AdvertisementManager(AdvertisementRepository advertisementRepository) {
+    public AdvertisementManager(AdvertisementRepository advertisementRepository, EmployerService employerService, CityService cityService, PositionService positionService) {
         super();
         this.advertisementRepository = advertisementRepository;
+        this.employerService = employerService;
+        this.cityService = cityService;
+        this.positionService = positionService;
+    }
+
+    private boolean checkMinMaxSalary(double maxSalary, double minSalary) {
+        if (minSalary >= maxSalary) {
+            System.out.println("Min salary must not be less than max salary, minSalary :  " + minSalary + " Max Salary :" + maxSalary);
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isEmployerExists(int id) {
+        if (id <= 0 || employerService.getById(id).getData() == null) {
+            System.out.println("No such employer found! Employer Id :  " + id);
+            return false;
+        }
+        return true;
+    }
+
+    private boolean checkApplicationCreationAndDeadline(LocalDateTime createdDate, LocalDate applicationDeadline) {
+        if (!createdDate.isBefore(ChronoLocalDateTime.from(applicationDeadline))) {
+            System.out.println("Creation date cannot be later than Application Deadline! ");
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -44,13 +77,38 @@ public class AdvertisementManager implements AdvertisementService {
 
     @Override
     public DataResult<Advertisement> findByEmployerId(int id) {
-        return new SuccessDataResult<Advertisement>(this.advertisementRepository.findByEmployerId(id));
+        return new SuccessDataResult<>(this.advertisementRepository.findByEmployerId(id));
     }
 
     @Override
     public Result addAdvertisement(Advertisement advertisement) {
-        this.advertisementRepository.save(advertisement);
-        return new SuccessResult("Added advertisement");
+        if (findByEmployerId(advertisement.getId()).getData() != null) {
+            return new ErrorsResult(advertisement.getId() + "Same advertisement cannot repeat");
+        } else {
+            if (!isEmployerExists(advertisement.getEmployer().getId())) {
+                return new ErrorsResult("No such employer found!");
+            }
+            if (!checkApplicationCreationAndDeadline(advertisement.getCreatedDate(), advertisement.getApplicationDeadline())) {
+                return new ErrorsResult("Creation date cannot be later than Application Deadline");
+            }
+            if (!checkMinMaxSalary(advertisement.getMaxSalary(), advertisement.getMaxSalary())) {
+                return new ErrorsResult("Min salary must not be less than max salary");
+            }
+            Advertisement addAdvertisement = new Advertisement();
+            addAdvertisement.getJobDescription();
+            advertisement.getMinSalary();
+            addAdvertisement.getMaxSalary();
+            addAdvertisement.getApplicationDeadline();
+            addAdvertisement.getNumberOfOpenPosition();
+            addAdvertisement.getCreatedDate();
+
+            cityService.getCity(advertisement.getCity().getId());
+            positionService.findById(advertisement.getPosition().getId());
+            employerService.getById(advertisement.getEmployer().getId());
+
+            this.advertisementRepository.save(advertisement);
+            return new SuccessResult("Added advertisement");
+        }
     }
 
     @Override

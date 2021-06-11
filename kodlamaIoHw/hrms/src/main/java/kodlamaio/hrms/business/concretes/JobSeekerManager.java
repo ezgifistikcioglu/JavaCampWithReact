@@ -72,12 +72,12 @@ public class JobSeekerManager implements JobSeekerService {
 
     @Override
     public DataResult<List<JobSeeker>> findJobSeekersById(int id) {
-     List<JobSeeker> jobSeekers = jobSeekerRepository.findJobSeekersById(id);
-     if (!jobSeekers.isEmpty()){
-         return new ErrorDataResult<>("This JobSeeker Not Found");
-     }else {
-         return new SuccessDataResult<>(jobSeekers);
-     }
+        List<JobSeeker> jobSeekers = jobSeekerRepository.findJobSeekersById(id);
+        if (!jobSeekers.isEmpty()) {
+            return new ErrorDataResult<>("This JobSeeker Not Found");
+        } else {
+            return new SuccessDataResult<>(jobSeekers);
+        }
     }
 
     @Override
@@ -91,7 +91,7 @@ public class JobSeekerManager implements JobSeekerService {
         Optional<JobSeeker> jobSeekerOptional = this.jobSeekerRepository.findById(jobSeeker.getId());
 
         if (!jobSeekerOptional.isPresent()) {
-            return new ErrorsResult("This job seeker ( id " + jobSeeker.getId() + "-" + jobSeeker.getEmail() + "-" + jobSeeker +" ) doesnt available!");
+            return new ErrorsResult("This job seeker ( id " + jobSeeker.getId() + "-" + jobSeeker.getEmail() + "-" + jobSeeker + " ) doesnt available!");
         } else {
 
             jobSeekerOptional.get().setEmail(jobSeeker.getEmail());

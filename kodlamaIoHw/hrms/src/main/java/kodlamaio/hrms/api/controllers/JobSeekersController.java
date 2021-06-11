@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -17,7 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/job-seekers")
 public class JobSeekersController {
-    private JobSeekerService jobSeekerService;
+    private final JobSeekerService jobSeekerService;
 
     @Autowired
     public JobSeekersController(JobSeekerService jobSeekerService) {
@@ -26,12 +25,12 @@ public class JobSeekersController {
     }
 
     @GetMapping("/getall")
-    public DataResult<List<JobSeeker>> getAll(){
+    public DataResult<List<JobSeeker>> getAll() {
         return this.jobSeekerService.getAll();
     }
 
     @PostMapping("/addJobSeeker")
-    public ResponseEntity<Result> addJobSeeker(@RequestBody JobSeeker jobSeeker){
+    public ResponseEntity<Result> addJobSeeker(@RequestBody JobSeeker jobSeeker) {
         return ResponseEntity.ok(this.jobSeekerService.addJobSeeker(jobSeeker));
     }
 
@@ -41,12 +40,12 @@ public class JobSeekersController {
     }
 
     @PostMapping("/updateJobSeeker")
-    public ResponseEntity<Result> updateJobSeeker(@RequestBody JobSeeker jobSeeker){
+    public ResponseEntity<Result> updateJobSeeker(@RequestBody JobSeeker jobSeeker) {
         return ResponseEntity.ok(this.jobSeekerService.updateJobSeeker(jobSeeker));
     }
 
     @PostMapping("/deleteJobSeeker")
-    public ResponseEntity<Result> deleteJobSeeker(@RequestBody int id){
+    public ResponseEntity<Result> deleteJobSeeker(@RequestBody int id) {
         return ResponseEntity.ok(this.jobSeekerService.deleteJobSeeker(id));
     }
 
@@ -55,7 +54,7 @@ public class JobSeekersController {
         final Result result = jobSeekerService.register(jobSeekerForRegisterDto);
 
         if (!result.isSuccess())
-            return new ResponseEntity<Result>(result, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 
         return ResponseEntity.ok(result);
     }

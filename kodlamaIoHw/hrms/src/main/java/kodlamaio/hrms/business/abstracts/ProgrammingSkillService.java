@@ -8,8 +8,12 @@ import java.util.List;
 
 public interface ProgrammingSkillService {
     DataResult<List<ProgrammingSkillForCv>> getAll();
+
     DataResult<List<ProgrammingSkillForCv>> findAllByCvId(int id);
+
     Result add(ProgrammingSkillForCv cv);
+
     Result update(ProgrammingSkillForCv cv);
+
     Result delete(ProgrammingSkillForCv cv);
 }

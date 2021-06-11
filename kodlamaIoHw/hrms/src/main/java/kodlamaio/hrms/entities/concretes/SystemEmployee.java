@@ -25,18 +25,12 @@ public class SystemEmployee {
     @OneToOne()
     private User user;
 
-    @NotBlank
-    @NotNull
     @Column(name = "firstname")
     private String firstName;
 
-    @NotBlank
-    @NotNull
     @Column(name = "lastname")
     private String lastName;
 
-    @NotBlank
-    @NotNull
     @Column(name = "is_approved", columnDefinition = "boolean default false")
     private boolean isApproved = false;
 

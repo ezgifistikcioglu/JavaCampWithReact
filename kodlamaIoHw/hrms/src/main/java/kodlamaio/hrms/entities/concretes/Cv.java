@@ -13,15 +13,14 @@ import java.util.List;
 @Table(name = "cvs")
 @AllArgsConstructor
 @NoArgsConstructor
-@PrimaryKeyJoinColumn(name="job_seeker_id",referencedColumnName = "job_seeker_id")
-
+@PrimaryKeyJoinColumn(name = "job_seeker_id", referencedColumnName = "job_seeker_id")
 public class Cv {
     @Column(name = "cv_id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int cvId;
 
-    @Column(name="photo")
+    @Column(name = "photo")
     private String photo;
 
     @Column(name = "cover_letter")
@@ -32,22 +31,21 @@ public class Cv {
 
     @JsonIgnore
     @JoinColumn(name = "job_seeker_id", insertable = false, updatable = false)
-    @ManyToOne(targetEntity = JobSeeker.class, fetch = FetchType.EAGER)
+    @ManyToOne()
     private JobSeeker jobSeeker;
 
-    @OneToMany(targetEntity=LanguagesForCv.class, mappedBy="cv", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "cv")
     private List<LanguagesForCv> languagesForCvs;
 
-    @OneToMany(targetEntity=EducationInformationForCv.class, mappedBy="cv", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "cv")
     private List<EducationInformationForCv> educationInformationForCvs;
 
-    @OneToMany(targetEntity=WorkExperienceForCv.class, mappedBy="cv", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "cv")
     private List<WorkExperienceForCv> workExperienceForCvs;
 
-    @OneToMany(targetEntity=ProgrammingSkillForCv.class, mappedBy="cv", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "cv")
     private List<ProgrammingSkillForCv> programmingSkillForCvs;
 
-    @OneToMany(targetEntity=SocialMediaForCv.class, mappedBy="cv", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "cv")
     private List<SocialMediaForCv> socialMediaForCvs;
-
 }

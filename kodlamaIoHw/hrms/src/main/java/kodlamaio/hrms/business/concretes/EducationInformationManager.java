@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class EducationInformationManager implements EducationInformationService {
 
-    private EducationInformationForCVRepository educationInformationForCVRepository;
+    private final EducationInformationForCVRepository educationInformationForCVRepository;
 
     @Autowired
     public EducationInformationManager(EducationInformationForCVRepository educationInformationForCVRepository) {
@@ -28,8 +28,8 @@ public class EducationInformationManager implements EducationInformationService 
 
     @Override
     public Result add(EducationInformationForCv education) {
-        if (findByEducationId(education.getCvId()).getData() != null) {
-            return new ErrorsResult(education.getCvId() + "Same education cannot repeat");
+        if (findByEducationId(education.getEducationId()).getData() == null) {
+            return new ErrorsResult(education.getEducationId() + "There is no such education");
         } else {
             this.educationInformationForCVRepository.save(education);
             return new SuccessResult("Added new education");
@@ -50,13 +50,13 @@ public class EducationInformationManager implements EducationInformationService 
 
     @Override
     public DataResult<List<EducationInformationForCv>> findByEducationId(int id) {
-        List<EducationInformationForCv> cv = educationInformationForCVRepository.findByEducationId(id);
+        List<EducationInformationForCv> educationInformationForCvs = educationInformationForCVRepository.findByEducationId(id);
 
-        if (!cv.isEmpty()){
-            return new ErrorDataResult<>("This educationInformation Not Found");
+        if (educationInformationForCvs.isEmpty()) {
+            return new ErrorDataResult<>("This education information not found");
 
-        }else {
-            return new SuccessDataResult<>(cv);
+        } else {
+            return new SuccessDataResult<>(educationInformationForCvs, "This education information has been successfully added");
         }
     }
 

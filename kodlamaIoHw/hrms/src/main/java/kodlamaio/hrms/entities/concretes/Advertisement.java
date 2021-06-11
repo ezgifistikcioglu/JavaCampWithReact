@@ -1,15 +1,13 @@
 package kodlamaio.hrms.entities.concretes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Data
 @Entity
@@ -31,14 +29,14 @@ public class Advertisement {
     @Column(name = "max_salary")
     private double maxSalary;
 
-    @Column(name = "is_advertisement_open")
-    private boolean isAdvertisementOpen;
+    @Column(name = "is_advertisement_open", columnDefinition = "boolean default true")
+    private boolean isAdvertisementOpen = true;
 
-    @Column(name = "is_advertisement_active")
-    private boolean isAdvertisementActive;
+    @Column(name = "is_advertisement_active", columnDefinition = "boolean default true")
+    private boolean isAdvertisementActive = true;
 
-    @Column(name = "is_advertisement_deleted")
-    private boolean isAdvertisementDeleted;
+    @Column(name = "is_advertisement_deleted", columnDefinition = "boolean default false")
+    private boolean isAdvertisementDeleted = false;
 
     @Column(name = "application_deadline")
     private LocalDate applicationDeadline;
@@ -46,18 +44,30 @@ public class Advertisement {
     @Column(name = "number_of_open_position")
     private int numberOfOpenPosition;
 
-    @Column(name = "created_date",columnDefinition = "Date default CURRENT_DATE")
+    @Column(name = "creation_date", columnDefinition = "Date default CURRENT_DATE")
     private LocalDateTime createdDate = LocalDateTime.now();
-    
-    @ManyToOne
-    @JoinColumn(name = "city_id")
+
+    @ManyToOne()
+    @JoinColumn(name = "city_id", insertable = false, updatable = false)
+    @JsonIgnore
     private City city;
 
-    @ManyToOne
-    @JoinColumn(name = "job_position_id")
+    @Column(name = "city_id")
+    private int cityId;
+
+    @ManyToOne()
+    @JoinColumn(name = "job_position_id", insertable = false, updatable = false)
+    @JsonIgnore
     private Position position;
 
-    @ManyToOne
-    @JoinColumn(name = "employer_id")
+    @Column(name = "job_position_id")
+    private int jobPositionId;
+
+    @ManyToOne()
+    @JoinColumn(name = "employer_id", insertable = false, updatable = false)
+    @JsonIgnore
     private Employer employer;
+
+    @Column(name = "employer_id")
+    private int employerId;
 }

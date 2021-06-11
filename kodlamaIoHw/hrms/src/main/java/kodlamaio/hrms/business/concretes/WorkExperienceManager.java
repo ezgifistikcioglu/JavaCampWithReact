@@ -32,7 +32,7 @@ public class WorkExperienceManager implements WorkExperienceService {
             return new ErrorsResult(experience.getCvId() + "Same experience cannot repeat");
         }
         this.workExperienceForCvRepository.save(experience);
-        return new SuccessResult("Added new education");
+        return new SuccessResult("Added new experience");
     }
 
     @Override

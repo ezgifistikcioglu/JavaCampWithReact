@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 public class ProgrammingSkillManager implements ProgrammingSkillService {
 
-    private ProgrammingSkillForCvRepository skillForCvRepository;
+    private final ProgrammingSkillForCvRepository skillForCvRepository;
 
     @Autowired
     public ProgrammingSkillManager(ProgrammingSkillForCvRepository skillForCvRepository) {
@@ -22,18 +22,25 @@ public class ProgrammingSkillManager implements ProgrammingSkillService {
 
     @Override
     public DataResult<List<ProgrammingSkillForCv>> getAll() {
-        return new SuccessDataResult<List<ProgrammingSkillForCv>>(this.skillForCvRepository.findAll(), "Listed data");
+        return new SuccessDataResult<>(this.skillForCvRepository.findAll(), "Listed data");
     }
 
     @Override
     public DataResult<List<ProgrammingSkillForCv>> findAllByCvId(int id) {
-        return new SuccessDataResult<List<ProgrammingSkillForCv>>(this.skillForCvRepository.findAllByCvId(id), "Added skill");
+        List<ProgrammingSkillForCv> skillForCvs = this.skillForCvRepository.findAllByCvId(id);
+
+        if (skillForCvs.isEmpty()) {
+            return new ErrorDataResult<>("These skills were not found on cv.");
+
+        } else {
+            return new SuccessDataResult<>(skillForCvs, "Skills have been successfully added");
+        }
     }
 
     @Override
     public Result add(ProgrammingSkillForCv cv) {
-        if (findAllByCvId(cv.getCvId()).getData() != null) {
-            return new ErrorsResult(cv.getCvId() + "Same skill cannot repeat");
+        if (findAllByCvId(cv.getId()).getData() != null) {
+            return new ErrorsResult(cv.getId() + "Same skill cannot repeat");
         } else {
             this.skillForCvRepository.save(cv);
             return new SuccessResult("Added new skill");

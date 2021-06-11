@@ -8,11 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LanguageManager implements LanguageService {
 
-    private LanguagesRepository languagesRepository;
+    private final LanguagesRepository languagesRepository;
 
     @Autowired
     public LanguageManager(LanguagesRepository languagesRepository) {
@@ -22,7 +23,25 @@ public class LanguageManager implements LanguageService {
 
     @Override
     public DataResult<List<LanguagesForCv>> findAllByLanguageId(int id) {
-        return new SuccessDataResult<List<LanguagesForCv>>(this.languagesRepository.findAllByLanguageId(id), "Added Language");
+        List<LanguagesForCv> languagesForCvs = languagesRepository.findAllByLanguageId(id);
+
+        if (languagesForCvs.isEmpty()) {
+            return new ErrorDataResult<>("Information for these languages could not be found.");
+
+        } else {
+            return new SuccessDataResult<>(languagesForCvs, "Languages have been successfully added");
+        }
+    }
+
+    @Override
+    public DataResult<LanguagesForCv> getByLanguageId(int id) {
+        Optional<LanguagesForCv> languagesForCv = this.languagesRepository.findById(id);
+
+        if (!languagesForCv.isPresent()) {
+            return new ErrorDataResult<>("Language not found");
+        } else {
+            return new SuccessDataResult<>(languagesForCv.get());
+        }
     }
 
     @Override
@@ -32,7 +51,7 @@ public class LanguageManager implements LanguageService {
 
     @Override
     public Result add(LanguagesForCv language) {
-        if (findAllByLanguageId(language.getLanguageId()).getData() != null) {
+        if (getByLanguageId(language.getLanguageId()).getData() != null) {
             return new ErrorsResult("id: " + language.getLanguageId() + "Language Name: " + language.getLanguageName() + "Same language cannot repeat");
         } else {
             this.languagesRepository.save(language);

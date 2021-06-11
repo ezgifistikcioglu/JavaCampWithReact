@@ -14,7 +14,7 @@ import java.util.Optional;
 @Service
 public class CityManager implements CityService {
 
-    private CityRepository cityRepository;
+    private final CityRepository cityRepository;
 
     @Autowired
     public CityManager(CityRepository cityRepository) {
@@ -28,10 +28,10 @@ public class CityManager implements CityService {
 
         if (!city.isPresent()) {
             System.out.println("cityResult City not found");
-            return new ErrorDataResult<City>("City not found");
+            return new ErrorDataResult<>("City not found");
         } else {
-            System.out.println("cityResult : " + city.get().toString());
-            return new SuccessDataResult<City>(city.get());
+            System.out.println("cityResult : " + city.get());
+            return new SuccessDataResult<>(city.get());
         }
     }
 
@@ -74,6 +74,6 @@ public class CityManager implements CityService {
                 .filter(cityName -> "James".equals(cityName.getCityName()))
                 .findAny()
                 .orElse(null);
-        return new SuccessDataResult<List<City>>(Objects.requireNonNull(city).getCityName());
+        return new SuccessDataResult<>(Objects.requireNonNull(city).getCityName());
     }
 }

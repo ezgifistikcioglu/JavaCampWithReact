@@ -47,12 +47,12 @@ public class EmailVerificationManager implements EmailVerificationService {
         if (!emailVerificationOptional.isPresent()) {
             return new ErrorsResult("This email ( id " + emailVerification.getId() + "-" + emailVerification.getEmail() + " ) doesnt available!");
         } else {
-                emailVerificationOptional.get().setEmail(emailVerification.getEmail());
-                emailVerificationOptional.get().setAuthentication(emailVerification.getAuthentication());
-                emailVerificationOptional.get().setUser(emailVerification.getUser());
+            emailVerificationOptional.get().setEmail(emailVerification.getEmail());
+            emailVerificationOptional.get().setAuthentication(emailVerification.getAuthentication());
+            emailVerificationOptional.get().setUser(emailVerification.getUser());
 
-                this.emailVerificationRepository.save(emailVerificationOptional.get());
-                return new SuccessResult("EmailVerification (" + emailVerification.getId() + ") updated successfully.");
+            this.emailVerificationRepository.save(emailVerificationOptional.get());
+            return new SuccessResult("EmailVerification (" + emailVerification.getId() + ") updated successfully.");
         }
     }
 
@@ -95,7 +95,7 @@ public class EmailVerificationManager implements EmailVerificationService {
 
     @Override
     public Result verify(LoginForEmailVerificationDto emailVerificationDto) {
-         Optional<EmailVerification> emailVerification = this.emailVerificationRepository.findByEmailAndAuthentication(emailVerificationDto.getEmail(), emailVerificationDto.getActivationCode());
+        Optional<EmailVerification> emailVerification = this.emailVerificationRepository.findByEmailAndAuthentication(emailVerificationDto.getEmail(), emailVerificationDto.getActivationCode());
 
         if (!emailVerification.isPresent()) {
             return new ErrorsResult("Failed to verify email.");

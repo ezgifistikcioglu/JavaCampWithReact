@@ -9,10 +9,15 @@ import java.util.List;
 
 public interface PhotoService {
 
-	Result add(PhotoInfo photoInfo, MultipartFile imageFile);
-	Result update(PhotoInfo resumeImage);
-	Result delete(int id);
-	DataResult<PhotoInfo> getById(int id);
-	DataResult<List<PhotoInfo>> getAll();
-	DataResult<PhotoInfo> getByJobSeekerId(int id);
+    Result add(PhotoInfo photoInfo, MultipartFile imageFile);
+
+    Result update(PhotoInfo resumeImage);
+
+    Result delete(int id);
+
+    DataResult<PhotoInfo> getById(int id);
+
+    DataResult<List<PhotoInfo>> getAll();
+
+    DataResult<PhotoInfo> getByJobSeekerId(int id);
 }

@@ -5,7 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PhotoRepository extends JpaRepository<PhotoInfo, Integer> {
 
-	PhotoInfo getByJobSeekerId(int id);
-	PhotoInfo getById(int id);
-	
+    PhotoInfo getByJobSeekerId(int id);
+
+    PhotoInfo getById(int id);
+
 }

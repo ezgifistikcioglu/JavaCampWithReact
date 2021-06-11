@@ -1,5 +1,6 @@
 package kodlamaio.hrms.entities.concretes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,7 +15,7 @@ import java.util.List;
 @Table(name = "job_positions")
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIgnoreProperties({"hibernateLazyInitializer","handler","advertisementList"})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "advertisementList"})
 public class Position {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,15 +25,19 @@ public class Position {
     @Column(name = "job_name")
     private String jobName;
 
-    @Column(name= "is_active_position", columnDefinition = "Default value - true")
+    @Column(name = "is_active_position", columnDefinition = "Default value - true")
     private boolean isActivePosition = true;
 
-    @Column(name= "is_deleted_position", columnDefinition = "Default value - false")
+    @Column(name = "is_deleted_position", columnDefinition = "Default value - false")
     private boolean isDeletedPosition = false;
 
-    @Column(name = "created_date",columnDefinition = "Default Date value - CURRENT_DATE")
+    @Column(name = "created_date", columnDefinition = "Default Date value  CURRENT_DATE")
     private LocalDate createdDate = LocalDate.now();
 
     @OneToMany(mappedBy = "position")
+    @JsonIgnore
     private List<Advertisement> advertisementList;
+
+    @OneToMany(mappedBy = "position")
+    private List<WorkExperienceForCv> workExperienceForCvs;
 }
