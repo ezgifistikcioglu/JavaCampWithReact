@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/social-medias")
+@CrossOrigin
 public class SocialMediasController {
     private final SocialMediaService socialMediaService;
 

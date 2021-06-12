@@ -30,6 +30,7 @@ public class Employer extends User {
     private String webAddress;
 
     @OneToMany(mappedBy = "employer")
+    @Transient
     private List<Advertisement> advertisementList;
 
 }

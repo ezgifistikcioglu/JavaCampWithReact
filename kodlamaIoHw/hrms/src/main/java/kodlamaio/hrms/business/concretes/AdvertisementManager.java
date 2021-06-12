@@ -51,7 +51,11 @@ public class AdvertisementManager implements AdvertisementService {
     }
 
     private boolean checkApplicationCreationAndDeadline(LocalDateTime createdDate, LocalDate applicationDeadline) {
-        if (!createdDate.isBefore(ChronoLocalDateTime.from(applicationDeadline))) {
+
+        System.out.println("createdDate: " + createdDate);
+        System.out.println("applicationDeadline: " + applicationDeadline);
+
+        if (!createdDate.isBefore(ChronoLocalDateTime.from(applicationDeadline.atStartOfDay()))) {
             System.out.println("Creation date cannot be later than Application Deadline! ");
             return false;
         }
@@ -85,29 +89,26 @@ public class AdvertisementManager implements AdvertisementService {
         if (findByEmployerId(advertisement.getId()).getData() != null) {
             return new ErrorsResult(advertisement.getId() + "Same advertisement cannot repeat");
         } else {
-            if (!isEmployerExists(advertisement.getEmployer().getId())) {
+            System.out.println("addAdvertisement 1: " + advertisement);
+            if (!isEmployerExists(advertisement.getEmployerId())) {
                 return new ErrorsResult("No such employer found!");
             }
             if (!checkApplicationCreationAndDeadline(advertisement.getCreatedDate(), advertisement.getApplicationDeadline())) {
                 return new ErrorsResult("Creation date cannot be later than Application Deadline");
             }
-            if (!checkMinMaxSalary(advertisement.getMaxSalary(), advertisement.getMaxSalary())) {
+            if (!checkMinMaxSalary(advertisement.getMaxSalary(), advertisement.getMinSalary())) {
                 return new ErrorsResult("Min salary must not be less than max salary");
             }
-            Advertisement addAdvertisement = new Advertisement();
-            addAdvertisement.getJobDescription();
-            advertisement.getMinSalary();
-            addAdvertisement.getMaxSalary();
-            addAdvertisement.getApplicationDeadline();
-            addAdvertisement.getNumberOfOpenPosition();
-            addAdvertisement.getCreatedDate();
 
-            cityService.getCity(advertisement.getCity().getId());
-            positionService.findById(advertisement.getPosition().getId());
-            employerService.getById(advertisement.getEmployer().getId());
+            // TODO check null states !!!
+            advertisement.setCity( cityService.getCity(advertisement.getCityId()).getData() );
+
+            advertisement.setPosition( positionService.findById(advertisement.getJobPositionId()).getData());
+
+            advertisement.setEmployer( employerService.getById(advertisement.getEmployerId()).getData());
 
             this.advertisementRepository.save(advertisement);
-            return new SuccessResult("Added advertisement");
+            return new SuccessResult("Added advertisement : " + advertisement);
         }
     }
 

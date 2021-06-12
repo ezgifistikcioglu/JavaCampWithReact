@@ -35,17 +35,22 @@ public class Cv {
     private JobSeeker jobSeeker;
 
     @OneToMany(mappedBy = "cv")
+    @Transient
     private List<LanguagesForCv> languagesForCvs;
 
     @OneToMany(mappedBy = "cv")
+    @Transient
     private List<EducationInformationForCv> educationInformationForCvs;
 
     @OneToMany(mappedBy = "cv")
+    @Transient
     private List<WorkExperienceForCv> workExperienceForCvs;
 
     @OneToMany(mappedBy = "cv")
+    @Transient
     private List<ProgrammingSkillForCv> programmingSkillForCvs;
 
     @OneToMany(mappedBy = "cv")
+    @Transient
     private List<SocialMediaForCv> socialMediaForCvs;
 }

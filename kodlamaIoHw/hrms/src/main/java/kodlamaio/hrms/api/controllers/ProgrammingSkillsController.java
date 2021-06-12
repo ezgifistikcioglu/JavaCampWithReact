@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/programming-skills")
+@CrossOrigin
 public class ProgrammingSkillsController {
     private final ProgrammingSkillService programmingSkillService;
 

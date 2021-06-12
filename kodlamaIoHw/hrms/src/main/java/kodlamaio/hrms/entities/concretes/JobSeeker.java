@@ -37,6 +37,7 @@ public class JobSeeker extends User {
 
     @JsonIgnore
     @OneToMany(mappedBy = "jobSeeker")
+    @Transient
     private List<Cv> cvs;
 
     @JsonIgnore

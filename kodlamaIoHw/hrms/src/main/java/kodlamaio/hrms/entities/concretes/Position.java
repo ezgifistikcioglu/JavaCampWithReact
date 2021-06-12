@@ -35,9 +35,11 @@ public class Position {
     private LocalDate createdDate = LocalDate.now();
 
     @OneToMany(mappedBy = "position")
+    @Transient
     @JsonIgnore
     private List<Advertisement> advertisementList;
 
     @OneToMany(mappedBy = "position")
+    @Transient
     private List<WorkExperienceForCv> workExperienceForCvs;
 }

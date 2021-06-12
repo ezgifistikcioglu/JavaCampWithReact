@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/positions")
+@CrossOrigin
 public class PositionsController {
     private final PositionService positionService;
 

@@ -32,9 +32,10 @@ public class PositionManager implements PositionService {
         Optional<Position> position = this.positionRepository.findById(id);
 
         if (position.isPresent()) {
-            return new ErrorDataResult<>("Position not found");
-        } else {
             return new SuccessDataResult<>(position.get());
+        } else {
+            return new ErrorDataResult<>("Position not found");
+
         }
     }
 
