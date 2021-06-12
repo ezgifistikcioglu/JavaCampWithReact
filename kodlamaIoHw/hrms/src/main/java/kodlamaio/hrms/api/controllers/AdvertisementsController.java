@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/advertisements")
+@CrossOrigin
 public class AdvertisementsController {
     private final AdvertisementService advertisementService;
 
@@ -42,8 +43,8 @@ public class AdvertisementsController {
     }
 
     @GetMapping("/getAllAdvertisementList")
-    public DataResult<List<Advertisement>> getAllAdvertisementList() {
-        return this.advertisementService.getAllAdvertisementList();
+    public ResponseEntity<DataResult<List<Advertisement>>> getAllAdvertisementList() {
+        return ResponseEntity.ok(this.advertisementService.getAllAdvertisementList());
     }
 
     @GetMapping("/findBySalaryMax")
