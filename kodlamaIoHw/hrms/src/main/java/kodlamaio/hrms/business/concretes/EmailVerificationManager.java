@@ -37,22 +37,21 @@ public class EmailVerificationManager implements EmailVerificationService {
             this.emailVerificationRepository.save(emailVerification);
             return new SuccessDataResult<>(emailVerification, "Activation code sent successfully");
         }
-
     }
 
     @Override
     public Result updateEmailVerification(EmailVerification emailVerification) {
-        Optional<EmailVerification> emailVerificationOptional = this.emailVerificationRepository.findById(emailVerification.getId());
+        Optional<EmailVerification> emailVerificationOptional = this.emailVerificationRepository.findById(emailVerification.getEmailId());
 
         if (!emailVerificationOptional.isPresent()) {
-            return new ErrorsResult("This email ( id " + emailVerification.getId() + "-" + emailVerification.getEmail() + " ) doesnt available!");
+            return new ErrorsResult("This email ( id " + emailVerification.getEmailId() + "-" + emailVerification.getEmail() + " ) doesnt available!");
         } else {
             emailVerificationOptional.get().setEmail(emailVerification.getEmail());
             emailVerificationOptional.get().setAuthentication(emailVerification.getAuthentication());
             emailVerificationOptional.get().setUser(emailVerification.getUser());
 
             this.emailVerificationRepository.save(emailVerificationOptional.get());
-            return new SuccessResult("EmailVerification (" + emailVerification.getId() + ") updated successfully.");
+            return new SuccessResult("EmailVerification (" + emailVerification.getEmailId() + ") updated successfully.");
         }
     }
 

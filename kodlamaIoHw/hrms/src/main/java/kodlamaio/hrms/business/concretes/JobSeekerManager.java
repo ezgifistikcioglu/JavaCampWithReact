@@ -61,7 +61,7 @@ public class JobSeekerManager implements JobSeekerService {
 
     @Override
     public DataResult<JobSeeker> getById(int id) {
-        return new SuccessDataResult<>(this.jobSeekerRepository.getById(id));
+        return new SuccessDataResult<>(this.jobSeekerRepository.getByUserId(id));
     }
 
     @Override
@@ -72,7 +72,7 @@ public class JobSeekerManager implements JobSeekerService {
 
     @Override
     public DataResult<List<JobSeeker>> findJobSeekersById(int id) {
-        List<JobSeeker> jobSeekers = jobSeekerRepository.findJobSeekersById(id);
+        List<JobSeeker> jobSeekers = jobSeekerRepository.findJobSeekersByUserId(id);
         if (!jobSeekers.isEmpty()) {
             return new ErrorDataResult<>("This JobSeeker Not Found");
         } else {
@@ -82,16 +82,22 @@ public class JobSeekerManager implements JobSeekerService {
 
     @Override
     public Result addJobSeeker(JobSeeker jobSeeker) {
-        this.jobSeekerRepository.save(jobSeeker);
-        return new SuccessResult("Added new job seeker");
+        LoginForJobSeekerDto jobSeekerDto = new LoginForJobSeekerDto();
+        Result checkRegister = register(jobSeekerDto);
+        if (getById(jobSeeker.getUserId()).getData() != null || !checkRegister.isSuccess()) {
+            return new ErrorsResult(jobSeeker.getUserId() + "Same job seeker cannot repeat" + checkRegister.getMessage());
+        } else {
+            this.jobSeekerRepository.save(jobSeeker);
+            return new SuccessResult("Added new job seeker");
+        }
     }
 
     @Override
     public Result updateJobSeeker(JobSeeker jobSeeker) {
-        Optional<JobSeeker> jobSeekerOptional = this.jobSeekerRepository.findById(jobSeeker.getId());
+        Optional<JobSeeker> jobSeekerOptional = this.jobSeekerRepository.findById(jobSeeker.getUserId());
 
         if (!jobSeekerOptional.isPresent()) {
-            return new ErrorsResult("This job seeker ( id " + jobSeeker.getId() + "-" + jobSeeker.getEmail() + "-" + jobSeeker + " ) doesnt available!");
+            return new ErrorsResult("This job seeker ( id " + jobSeeker.getUserId() + "-" + jobSeeker.getEmail() + "-" + jobSeeker + " ) doesnt available!");
         } else {
 
             jobSeekerOptional.get().setEmail(jobSeeker.getEmail());
@@ -104,7 +110,7 @@ public class JobSeekerManager implements JobSeekerService {
             jobSeekerOptional.get().setTcNo(jobSeeker.getTcNo());
 
             this.jobSeekerRepository.save(jobSeekerOptional.get());
-            return new SuccessResult("Job Seeker (" + jobSeeker.getId() + ") updated successfully.");
+            return new SuccessResult("Job Seeker (" + jobSeeker.getUserId() + ") updated successfully.");
         }
     }
 

@@ -10,7 +10,19 @@ export default function Categories() {
                     name='Home'
                 />
                 <Menu.Item
+                    name='Advertisement'
+                />
+                <Menu.Item
+                    name='Job Position'
+                />
+                <Menu.Item
                     name='CV'
+                />
+                <Menu.Item
+                    name='Employer'
+                />
+                <Menu.Item
+                    name='Job Seeker'
                 />
                 <Menu.Item
                     name='Settings'

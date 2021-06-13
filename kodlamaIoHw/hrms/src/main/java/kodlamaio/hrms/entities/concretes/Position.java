@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -25,14 +26,14 @@ public class Position {
     @Column(name = "job_name")
     private String jobName;
 
-    @Column(name = "is_active_position", columnDefinition = "Default value - true")
+    @Column(name = "is_active_position", columnDefinition = "Default value true")
     private boolean isActivePosition = true;
 
-    @Column(name = "is_deleted_position", columnDefinition = "Default value - false")
+    @Column(name = "is_deleted_position", columnDefinition = "Default value false")
     private boolean isDeletedPosition = false;
 
-    @Column(name = "created_date", columnDefinition = "Default Date value  CURRENT_DATE")
-    private LocalDate createdDate = LocalDate.now();
+    @Column(name = "created_date", columnDefinition = "Date default CURRENT_DATE")
+    private LocalDateTime createdDate = LocalDateTime.now();
 
     @OneToMany(mappedBy = "position")
     @Transient
@@ -41,5 +42,6 @@ public class Position {
 
     @OneToMany(mappedBy = "position")
     @Transient
+    @JsonIgnore
     private List<WorkExperienceForCv> workExperienceForCvs;
 }

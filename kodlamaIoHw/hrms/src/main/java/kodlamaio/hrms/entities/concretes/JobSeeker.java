@@ -40,7 +40,6 @@ public class JobSeeker extends User {
     @Transient
     private List<Cv> cvs;
 
-    @JsonIgnore
     @OneToOne(mappedBy = "jobSeeker")
     private PhotoInfo photoInfo;
 }

@@ -54,10 +54,10 @@ public class EmployerManager implements EmployerService {
     @Override
     public Result updateEmployer(Employer employer) {
 
-        Optional<Employer> employerOptional = this.employerRepository.findById(employer.getId());
+        Optional<Employer> employerOptional = this.employerRepository.findById(employer.getUserId());
 
         if (!employerOptional.isPresent()) {
-            return new ErrorsResult("This employer ( id " + employer.getId() + "-" + employer.getEmail() + " ) doesnt available!");
+            return new ErrorsResult("This employer ( id " + employer.getUserId() + "-" + employer.getEmail() + " ) doesnt available!");
         } else {
 
             employerOptional.get().setEmail(employer.getEmail());
@@ -70,7 +70,7 @@ public class EmployerManager implements EmployerService {
             employerOptional.get().setTelephoneNumber(employer.getTelephoneNumber());
 
             this.employerRepository.save(employerOptional.get());
-            return new SuccessResult("Employer (" + employer.getId() + ") updated successfully.");
+            return new SuccessResult("Employer (" + employer.getUserId() + ") updated successfully.");
         }
     }
 

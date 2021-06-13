@@ -65,10 +65,10 @@ public class UserManager implements UserService {
 
     @Override
     public Result updateUserAccount(User user) {
-        Optional<User> userOpt = this.userRepository.findById(user.getId());
+        Optional<User> userOpt = this.userRepository.findById(user.getUserId());
 
         if (!userOpt.isPresent()) {
-            return new ErrorsResult("This user ( id " + user.getId() + "-" + user.getEmail() + " ) doesnt available!");
+            return new ErrorsResult("This user ( id " + user.getUserId() + "-" + user.getEmail() + " ) doesnt available!");
         } else {
             if (!user.getPassword().equals(user.getConfirmPassword())) {
                 return new ErrorsResult("User password and confirmPassword values must be same!");
@@ -80,7 +80,7 @@ public class UserManager implements UserService {
                 userOpt.get().setDeletedUser(user.isDeletedUser());
 
                 this.userRepository.save(userOpt.get());
-                return new SuccessResult("User (" + user.getId() + ") updated successfully.");
+                return new SuccessResult("User (" + user.getUserId() + ") updated successfully.");
             }
         }
     }

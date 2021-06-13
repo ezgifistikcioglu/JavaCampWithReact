@@ -1,35 +1,36 @@
 import React, { useState, useEffect } from 'react'
 import { Table, Menu, Icon } from 'semantic-ui-react'
-import AdvertisementService from '../services/advertisementService';
+import JobSeekerService from '../services/jobSeekerService';
 
-export default function JobAdvertisementList() {
-    const [advertisements, setAdvertisements] = useState([]);
+export default function JobSeekerList(){
+    const [jobSeekers, setJobSeekers] = useState([]);
 
-    useEffect(()=>{
-        let advertisementService = new AdvertisementService()
-        advertisementService.getAdvertisements().then(result=>setAdvertisements(result.data.data))
-    },[])
-
+    useEffect(() => {
+      let  jobSeekerService = new JobSeekerService
+      jobSeekerService.getJobSeekers().then(result=>setJobSeekers(result.data.data))
+    }, [])
     return (
         <div>
             <Table basic='very' celled collapsing>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell>Job Description</Table.HeaderCell>
-                        <Table.HeaderCell>Min Salary</Table.HeaderCell>
-                        <Table.HeaderCell>Max Salary</Table.HeaderCell>
-                        <Table.HeaderCell>Open Position</Table.HeaderCell>
+                        <Table.HeaderCell>Email</Table.HeaderCell>
+                        <Table.HeaderCell>First Name</Table.HeaderCell>
+                        <Table.HeaderCell>Last Name</Table.HeaderCell>
+                        <Table.HeaderCell>TC Number</Table.HeaderCell>
+                        <Table.HeaderCell>Birth Year</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
 
                 <Table.Body>
                     {
-                        advertisements.map(advertisement => (
-                            <Table.Row key={advertisement.id}>
-                                <Table.Cell>{advertisement.jobDescription}</Table.Cell>
-                                <Table.Cell>{advertisement.maxSalary}</Table.Cell>
-                                <Table.Cell>{advertisement.minSalary}</Table.Cell>
-                                <Table.Cell>{advertisement.numberOfOpenPosition}</Table.Cell>
+                        jobSeekers.map(jobSeeker => (
+                            <Table.Row key={jobSeeker.id}>
+                                <Table.Cell>{jobSeeker.email}</Table.Cell>
+                                <Table.Cell>{jobSeeker.firstname}</Table.Cell>
+                                <Table.Cell>{jobSeeker.lastname}</Table.Cell>
+                                <Table.Cell>{jobSeeker.tcNo}</Table.Cell>
+                                <Table.Cell>{jobSeeker.birthYear}</Table.Cell>
                             </Table.Row>
                         ))
                     }

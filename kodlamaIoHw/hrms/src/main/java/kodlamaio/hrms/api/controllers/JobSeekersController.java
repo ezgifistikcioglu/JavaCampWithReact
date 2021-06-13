@@ -51,7 +51,7 @@ public class JobSeekersController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Result> register(@Valid @RequestBody LoginForJobSeekerDto jobSeekerForRegisterDto) {
+    public ResponseEntity<Result> register(@RequestBody LoginForJobSeekerDto jobSeekerForRegisterDto) {
         final Result result = jobSeekerService.register(jobSeekerForRegisterDto);
 
         if (!result.isSuccess())

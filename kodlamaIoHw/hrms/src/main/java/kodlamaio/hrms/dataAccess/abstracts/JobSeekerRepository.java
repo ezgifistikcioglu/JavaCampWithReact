@@ -9,9 +9,9 @@ import java.util.List;
 public interface JobSeekerRepository extends JpaRepository<JobSeeker, Integer> {
     JobSeeker findJobSeekerByTcNo(String tcNo);
 
-    List<JobSeeker> findJobSeekersById(int id);
+    List<JobSeeker> findJobSeekersByUserId(int id);
 
-    JobSeeker getById(int id);
+    JobSeeker getByUserId(int id);
 
     JobSeeker findJobSeekerByFirstname(String firstName);
 
