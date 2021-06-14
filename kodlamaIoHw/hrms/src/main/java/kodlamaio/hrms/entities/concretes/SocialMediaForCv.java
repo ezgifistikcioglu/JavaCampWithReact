@@ -28,11 +28,9 @@ public class SocialMediaForCv {
     @Column(name = "created_at", columnDefinition = "Date default CURRENT_DATE")
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    @JoinColumn(name = "cv_id", insertable = false, updatable = false)
-    @JsonIgnore
+    @JoinColumn(name = "user_id")
     @ManyToOne()
-    private Cv cv;
+    @JsonIgnore
+    private JobSeeker jobSeeker;
 
-    @Column(name = "cv_id")
-    private int cvId;
 }

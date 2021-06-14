@@ -15,5 +15,5 @@ public interface SocialMediaService {
 
     Result update(SocialMediaForCv socialMedia);
 
-    Result delete(SocialMediaForCv socialMedia);
+    Result delete(int id);
 }

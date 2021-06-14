@@ -84,7 +84,10 @@ public class JobSeekerManager implements JobSeekerService {
     public Result addJobSeeker(JobSeeker jobSeeker) {
         LoginForJobSeekerDto jobSeekerDto = new LoginForJobSeekerDto();
         Result checkRegister = register(jobSeekerDto);
-        if (getById(jobSeeker.getUserId()).getData() != null || !checkRegister.isSuccess()) {
+        if (getById(jobSeeker.getUserId()).getData() != null) {
+            if(!checkRegister.isSuccess()){
+                return new ErrorsResult(checkRegister.getMessage() + "Please check register" );
+            }
             return new ErrorsResult(jobSeeker.getUserId() + "Same job seeker cannot repeat" + checkRegister.getMessage());
         } else {
             this.jobSeekerRepository.save(jobSeeker);

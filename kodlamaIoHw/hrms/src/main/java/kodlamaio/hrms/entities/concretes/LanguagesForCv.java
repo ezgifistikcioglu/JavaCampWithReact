@@ -32,11 +32,8 @@ public class LanguagesForCv {
     @Column(name = "created_at", columnDefinition = "Date default CURRENT_DATE")
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    @JoinColumn(name = "cv_id", insertable = false, updatable = false)
+    @JoinColumn(name = "user_id")
     @ManyToOne()
     @JsonIgnore
-    private Cv cv;
-
-    @Column(name = "cv_id")
-    private int cvId;
+    private JobSeeker jobSeeker;
 }

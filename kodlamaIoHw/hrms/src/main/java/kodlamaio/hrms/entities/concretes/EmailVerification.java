@@ -1,5 +1,6 @@
 package kodlamaio.hrms.entities.concretes;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,12 +31,10 @@ public class EmailVerification {
     @Column(name = "is_approved")
     private boolean isApproved;
 
-    @JoinColumn(name = "user_id", insertable = false, updatable = false)
-    @ManyToOne()
+    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonBackReference
     private User user;
-
-    @Column(name = "user_id")
-    private int userId;
 
     @Column(name = "created_at", columnDefinition = "Date default CURRENT_DATE")
     private final LocalDateTime createdAt = LocalDateTime.now();

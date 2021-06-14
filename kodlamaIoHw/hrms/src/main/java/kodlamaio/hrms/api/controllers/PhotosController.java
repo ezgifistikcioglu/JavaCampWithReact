@@ -6,11 +6,14 @@ import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.entities.concretes.JobSeeker;
 import kodlamaio.hrms.entities.concretes.PhotoInfo;
+import kodlamaio.hrms.entities.concretes.User;
+import kodlamaio.hrms.services.ImageService.CloudinaryPhotoUploadAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/images")
@@ -53,10 +56,6 @@ public class PhotosController {
         return this.photoService.getAll();
     }
 
-    @GetMapping("/getAllByCandidateId")
-    public DataResult<PhotoInfo> getByCandidateId(@RequestParam int id) {
-        return this.photoService.getByJobSeekerId(id);
-    }
 
     @GetMapping("/getById")
     public DataResult<PhotoInfo> getById(@RequestParam int id) {

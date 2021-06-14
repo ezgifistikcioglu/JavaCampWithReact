@@ -27,7 +27,7 @@ public class ProgrammingSkillManager implements ProgrammingSkillService {
 
     @Override
     public DataResult<List<ProgrammingSkillForCv>> findAllByCvId(int id) {
-        List<ProgrammingSkillForCv> skillForCvs = this.skillForCvRepository.findAllByCvId(id);
+        List<ProgrammingSkillForCv> skillForCvs = this.skillForCvRepository.findAllById(id);
 
         if (skillForCvs.isEmpty()) {
             return new ErrorDataResult<>("These skills were not found on cv.");
@@ -54,8 +54,14 @@ public class ProgrammingSkillManager implements ProgrammingSkillService {
     }
 
     @Override
-    public Result delete(ProgrammingSkillForCv cv) {
-        this.skillForCvRepository.delete(cv);
-        return new SuccessResult("Deleted skill");
+    public Result delete(int id) {
+        List<ProgrammingSkillForCv> skillForCvs = this.skillForCvRepository.findAllById(id);
+
+        if (skillForCvs.isEmpty()) {
+            return new ErrorDataResult<>("This programming skill not found");
+        } else {
+            this.skillForCvRepository.deleteById(id);
+            return new SuccessResult("Deleted skill");
+        }
     }
 }

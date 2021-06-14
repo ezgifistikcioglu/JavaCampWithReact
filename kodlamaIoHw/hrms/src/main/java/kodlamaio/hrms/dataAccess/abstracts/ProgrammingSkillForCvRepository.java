@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ProgrammingSkillForCvRepository extends JpaRepository<ProgrammingSkillForCv, Integer> {
-    List<ProgrammingSkillForCv> findAllByCvId(int id);
+    List<ProgrammingSkillForCv> findAllById(int id);
 }

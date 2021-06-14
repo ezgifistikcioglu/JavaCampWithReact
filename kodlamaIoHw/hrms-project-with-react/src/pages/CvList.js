@@ -17,11 +17,6 @@ export default function CvList() {
                     <Table.Row>
                         <Table.HeaderCell>Photo</Table.HeaderCell>
                         <Table.HeaderCell>Cover Letter</Table.HeaderCell>
-                        <Table.HeaderCell>Language</Table.HeaderCell>
-                        <Table.HeaderCell>Education</Table.HeaderCell>
-                        <Table.HeaderCell>Work Experience</Table.HeaderCell>
-                        <Table.HeaderCell>Programming Skill</Table.HeaderCell>
-                        <Table.HeaderCell>Social Media</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
 
@@ -31,11 +26,6 @@ export default function CvList() {
                             <Table.Row key={cv.cvId}>
                                 <Table.Cell>{cv.photo}</Table.Cell>
                                 <Table.Cell>{cv.coverLetter}</Table.Cell>
-                                <Table.Cell>{cv.languagesForCvs}</Table.Cell>
-                                <Table.Cell>{cv.educationInformationForCvs}</Table.Cell>
-                                <Table.Cell>{cv.workExperienceForCvs}</Table.Cell>
-                                <Table.Cell>{cv.programmingSkillForCvs}</Table.Cell>
-                                <Table.Cell>{cv.socialMediaForCvs}</Table.Cell>
                             </Table.Row>
                         ))
                     }

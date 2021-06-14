@@ -26,10 +26,10 @@ public class Position {
     @Column(name = "job_name")
     private String jobName;
 
-    @Column(name = "is_active_position", columnDefinition = "Default value true")
+    @Column(name = "is_active_position", columnDefinition = "boolean default true")
     private boolean isActivePosition = true;
 
-    @Column(name = "is_deleted_position", columnDefinition = "Default value false")
+    @Column(name = "is_deleted_position", columnDefinition = "boolean default false")
     private boolean isDeletedPosition = false;
 
     @Column(name = "created_date", columnDefinition = "Date default CURRENT_DATE")
@@ -40,8 +40,4 @@ public class Position {
     @JsonIgnore
     private List<Advertisement> advertisementList;
 
-    @OneToMany(mappedBy = "position")
-    @Transient
-    @JsonIgnore
-    private List<WorkExperienceForCv> workExperienceForCvs;
 }

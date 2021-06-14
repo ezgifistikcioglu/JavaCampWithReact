@@ -2,6 +2,7 @@ package kodlamaio.hrms.entities.concretes;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,33 +14,43 @@ import java.util.List;
 @Entity
 @Data
 @Table(name = "job_seekers")
-@PrimaryKeyJoinColumn(name = "job_seeker_id")
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "cvs", "photoInfo"})
+@PrimaryKeyJoinColumn(name = "user_id")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "cvs", "photoInfo","languagesForCvs","educationInformationForCvs","workExperienceForCvs","programmingSkillForCvs","socialMediaForCvs"})
 public class JobSeeker extends User {
 
     @Column(name = "firstname")
-    @NotNull
     private String firstname;
 
     @Column(name = "lastname")
-    @NotNull
     private String lastname;
 
     @Column(name = "tc_no")
-    @NotNull
     private String tcNo;
 
     @Column(name = "birth_year")
-    @NotNull
     private int birthYear;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "jobSeeker")
-    @Transient
+    @OneToMany(mappedBy = "jobSeeker", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Cv> cvs;
 
     @OneToOne(mappedBy = "jobSeeker")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private PhotoInfo photoInfo;
+
+    @OneToMany(mappedBy = "jobSeeker")
+    private List<LanguagesForCv> languagesForCvs;
+
+    @OneToMany(mappedBy = "jobSeeker")
+    private List<EducationInformationForCv> educationInformationForCvs;
+
+    @OneToMany(mappedBy = "jobSeeker")
+    private List<WorkExperienceForCv> workExperienceForCvs;
+
+    @OneToMany(mappedBy = "jobSeeker")
+    private List<ProgrammingSkillForCv> programmingSkillForCvs;
+
+    @OneToMany(mappedBy = "jobSeeker")
+    private List<SocialMediaForCv> socialMediaForCvs;
 }

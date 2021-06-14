@@ -31,17 +31,17 @@ public class EducationsController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Result> add(@RequestBody @Valid EducationInformationForCv information) {
+    public ResponseEntity<Result> add(@RequestBody EducationInformationForCv information) {
         return ResponseEntity.ok(this.educationInformationService.add(information));
     }
 
-    @PostMapping("/delete")
-    public ResponseEntity<Result> delete(@RequestBody @Valid EducationInformationForCv information) {
-        return ResponseEntity.ok(this.educationInformationService.delete(information));
+    @DeleteMapping("/delete")
+    public ResponseEntity<Result> delete(@RequestBody int id) {
+        return ResponseEntity.ok(this.educationInformationService.delete(id));
     }
 
     @PostMapping("/update")
-    public ResponseEntity<Result> update(@RequestBody @Valid EducationInformationForCv information) {
+    public ResponseEntity<Result> update(@RequestBody EducationInformationForCv information) {
         return ResponseEntity.ok(this.educationInformationService.update(information));
     }
 

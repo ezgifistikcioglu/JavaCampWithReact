@@ -1,5 +1,6 @@
 package kodlamaio.hrms.entities.concretes;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,31 +24,23 @@ public class WorkExperienceForCv {
     @Column(name = "business_name")
     private String businessName;
 
+    @Column(name = "job_position_name")
+    private String jobName;
+
     @Column(name = "business_start_date")
     private LocalDate businessStartDate;
 
-    @Column(name = "business_leaving_date")
-    private LocalDate businessLeavingDate;
+    @Column(name = "business_leaving_date", columnDefinition = "Date default CURRENT_DATE")
+    private LocalDateTime businessLeavingDate = LocalDateTime.now();
 
-    @Column(name = "is_still_working", columnDefinition = "Default value false")
-    private boolean isStillWorking;
+    @Column(name = "is_still_working", columnDefinition = "boolean default false")
+    private boolean isStillWorking = false;
 
     @Column(name = "created_at", columnDefinition = "Date default CURRENT_DATE")
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    @JoinColumn(name = "cv_id", insertable = false, updatable = false)
-    @JsonIgnore
-    @ManyToOne()
-    private Cv cv;
+    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private JobSeeker jobSeeker;
 
-    @JoinColumn(name = "position_id", insertable = false, updatable = false)
-    @JsonIgnore
-    @ManyToOne
-    private Position position;
-
-    @Column(name = "cv_id")
-    private int cvId;
-
-    @Column(name = "position_id")
-    private int positionId;
 }

@@ -19,7 +19,6 @@ public class MernisVerification {
     @Column(name = "id")
     private int id;
 
-    @NotNull
     @JoinColumn(name = "user_id")
     @OneToOne()
     private User user;

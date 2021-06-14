@@ -14,7 +14,7 @@ public interface EducationInformationService {
 
     Result update(EducationInformationForCv education);
 
-    Result delete(EducationInformationForCv education);
+    Result delete(int id);
 
     DataResult<List<EducationInformationForCv>> findByEducationId(int id);
 

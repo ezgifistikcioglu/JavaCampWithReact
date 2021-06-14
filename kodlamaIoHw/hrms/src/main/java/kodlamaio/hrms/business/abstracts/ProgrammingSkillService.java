@@ -15,5 +15,5 @@ public interface ProgrammingSkillService {
 
     Result update(ProgrammingSkillForCv cv);
 
-    Result delete(ProgrammingSkillForCv cv);
+    Result delete(int id);
 }

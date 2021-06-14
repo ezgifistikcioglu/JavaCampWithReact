@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface AdvertisementRepository extends JpaRepository<Advertisement, Integer> {
 
-    Advertisement findByEmployerId(int id);
+    Advertisement findById(int id);
 
     Advertisement findByMaxSalary(double maxSalary);
 

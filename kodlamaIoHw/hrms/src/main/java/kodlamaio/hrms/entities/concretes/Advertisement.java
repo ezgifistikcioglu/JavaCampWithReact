@@ -1,5 +1,6 @@
 package kodlamaio.hrms.entities.concretes;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -64,10 +65,6 @@ public class Advertisement {
     private int jobPositionId;
 
     @ManyToOne()
-    @JoinColumn(name = "employer_id", insertable = false, updatable = false)
-    @JsonIgnore
+    @JoinColumn(name = "employer_id")
     private Employer employer;
-
-    @Column(name = "employer_id")
-    private int employerId;
 }

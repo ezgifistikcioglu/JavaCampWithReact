@@ -3,12 +3,14 @@ package kodlamaio.hrms.business.concretes;
 import kodlamaio.hrms.business.abstracts.WorkExperienceService;
 import kodlamaio.hrms.core.utilities.results.*;
 import kodlamaio.hrms.dataAccess.abstracts.WorkExperienceForCvRepository;
+import kodlamaio.hrms.entities.concretes.User;
 import kodlamaio.hrms.entities.concretes.WorkExperienceForCv;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class WorkExperienceManager implements WorkExperienceService {
@@ -28,8 +30,8 @@ public class WorkExperienceManager implements WorkExperienceService {
 
     @Override
     public Result add(WorkExperienceForCv experience) {
-        if (findByExperienceId(experience.getCvId()).getData() != null) {
-            return new ErrorsResult(experience.getCvId() + "Same experience cannot repeat");
+        if (findByExperienceId(experience.getExperienceId()).getData() != null) {
+            return new ErrorsResult(experience.getExperienceId() + "Same experience cannot repeat");
         }
         this.workExperienceForCvRepository.save(experience);
         return new SuccessResult("Added new experience");
@@ -42,10 +44,17 @@ public class WorkExperienceManager implements WorkExperienceService {
     }
 
     @Override
-    public Result delete(WorkExperienceForCv experience) {
-        this.workExperienceForCvRepository.delete(experience);
-        return new SuccessResult("Deleted experience");
+    public Result delete(int id) {
+        Optional<WorkExperienceForCv> experienceForCv = this.workExperienceForCvRepository.findById(id);
+
+        if (!experienceForCv.isPresent()) {
+            return new ErrorDataResult<>("Experience not found");
+        } else {
+            this.workExperienceForCvRepository.deleteById(id);
+            return new SuccessResult("Deleted experience");
+        }
     }
+
 
     @Override
     public DataResult<List<WorkExperienceForCv>> findByExperienceId(int id) {

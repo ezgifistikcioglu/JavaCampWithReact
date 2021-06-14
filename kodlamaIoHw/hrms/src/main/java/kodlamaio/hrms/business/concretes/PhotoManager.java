@@ -58,9 +58,4 @@ public class PhotoManager implements PhotoService {
     public DataResult<List<PhotoInfo>> getAll() {
         return new SuccessDataResult<>(this.photoRepository.findAll());
     }
-
-    @Override
-    public DataResult<PhotoInfo> getByJobSeekerId(int id) {
-        return new SuccessDataResult<>(this.photoRepository.getByJobSeekerId(id));
-    }
 }

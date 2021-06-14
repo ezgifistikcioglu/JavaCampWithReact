@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
@@ -28,11 +29,8 @@ public class ProgrammingSkillForCv {
     @Column(name = "created_at", columnDefinition = "Date default CURRENT_DATE")
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    @Column(name = "cv_id")
-    private int cvId;
-
-    @JoinColumn(name = "cv_id", insertable = false, updatable = false)
+    @JoinColumn(name = "user_id")
     @ManyToOne()
     @JsonIgnore
-    private Cv cv;
+    private JobSeeker jobSeeker;
 }

@@ -4,11 +4,13 @@ import kodlamaio.hrms.business.abstracts.EducationInformationService;
 import kodlamaio.hrms.core.utilities.results.*;
 import kodlamaio.hrms.dataAccess.abstracts.EducationInformationForCVRepository;
 import kodlamaio.hrms.entities.concretes.EducationInformationForCv;
+import kodlamaio.hrms.entities.concretes.WorkExperienceForCv;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EducationInformationManager implements EducationInformationService {
@@ -28,7 +30,7 @@ public class EducationInformationManager implements EducationInformationService 
 
     @Override
     public Result add(EducationInformationForCv education) {
-        if (findByEducationId(education.getEducationId()).getData() == null) {
+        if (findByEducationId(education.getEducationId()).getData() != null) {
             return new ErrorsResult(education.getEducationId() + "There is no such education");
         } else {
             this.educationInformationForCVRepository.save(education);
@@ -43,9 +45,15 @@ public class EducationInformationManager implements EducationInformationService 
     }
 
     @Override
-    public Result delete(EducationInformationForCv education) {
-        this.educationInformationForCVRepository.delete(education);
+    public Result delete(int id) {
+        Optional<EducationInformationForCv> educationInformationForCv = this.educationInformationForCVRepository.findById(id);
+
+        if (!educationInformationForCv.isPresent()) {
+            return new ErrorDataResult<>("Education not found");
+        } else {
+        this.educationInformationForCVRepository.deleteById(id);
         return new SuccessResult("Deleted education");
+        }
     }
 
     @Override

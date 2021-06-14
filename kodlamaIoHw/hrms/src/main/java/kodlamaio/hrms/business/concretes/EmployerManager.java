@@ -94,7 +94,7 @@ public class EmployerManager implements EmployerService {
     @Override
     public Result register(LoginForEmployerDto employerDto) {
         if (!isCorporateEmail(employerDto.getEmail(), employerDto.getWebAddress())) {
-            return new ErrorsResult("Error : Email not valid! " + employerDto.getEmail());
+            return new ErrorsResult("Error : Email or web address not valid! " + employerDto.getEmail());
         } else {
             if (this.employerRepository.findByEmail(employerDto.getEmail()).isPresent()) {
                 return new ErrorsResult("Error : This email : " + employerDto.getEmail() + " already exists!");

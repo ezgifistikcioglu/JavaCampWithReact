@@ -33,13 +33,13 @@ public class ProgrammingSkillsController {
         return ResponseEntity.ok(this.programmingSkillService.add(cv));
     }
 
-    @PostMapping("/delete")
-    public ResponseEntity<Result> delete(@RequestBody @Valid ProgrammingSkillForCv cv) {
-        return ResponseEntity.ok(this.programmingSkillService.delete(cv));
+    @DeleteMapping("/delete")
+    public ResponseEntity<Result> delete(@RequestBody int id) {
+        return ResponseEntity.ok(this.programmingSkillService.delete(id));
     }
 
     @PostMapping("/update")
-    public ResponseEntity<Result> update(@RequestBody @Valid ProgrammingSkillForCv cv) {
+    public ResponseEntity<Result> update(@RequestBody ProgrammingSkillForCv cv) {
         return ResponseEntity.ok(this.programmingSkillService.update(cv));
     }
 

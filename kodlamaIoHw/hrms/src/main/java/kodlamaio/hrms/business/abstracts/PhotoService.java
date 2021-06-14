@@ -18,6 +18,4 @@ public interface PhotoService {
     DataResult<PhotoInfo> getById(int id);
 
     DataResult<List<PhotoInfo>> getAll();
-
-    DataResult<PhotoInfo> getByJobSeekerId(int id);
 }

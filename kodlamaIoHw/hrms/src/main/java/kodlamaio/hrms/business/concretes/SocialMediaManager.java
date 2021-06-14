@@ -4,10 +4,12 @@ import kodlamaio.hrms.business.abstracts.SocialMediaService;
 import kodlamaio.hrms.core.utilities.results.*;
 import kodlamaio.hrms.dataAccess.abstracts.SocialMediaForCvRepository;
 import kodlamaio.hrms.entities.concretes.SocialMediaForCv;
+import kodlamaio.hrms.entities.concretes.WorkExperienceForCv;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SocialMediaManager implements SocialMediaService {
@@ -22,7 +24,7 @@ public class SocialMediaManager implements SocialMediaService {
 
     @Override
     public DataResult<List<SocialMediaForCv>> findAllByCvId(int id) {
-        List<SocialMediaForCv> socialMediaForCvs = socialMediaForCvRepository.findAllByCvId(id);
+        List<SocialMediaForCv> socialMediaForCvs = socialMediaForCvRepository.findAllById(id);
 
         if (socialMediaForCvs.isEmpty()) {
             return new ErrorDataResult<>("This social media address not found");
@@ -38,8 +40,8 @@ public class SocialMediaManager implements SocialMediaService {
 
     @Override
     public Result add(SocialMediaForCv socialMedia) {
-        if (findAllByCvId(socialMedia.getCvId()).getData() != null) {
-            return new ErrorsResult(socialMedia.getCvId() + "Same social Media knowledge's cannot repeat");
+        if (findAllByCvId(socialMedia.getId()).getData() != null) {
+            return new ErrorsResult(socialMedia.getId() + "Same social Media knowledge's cannot repeat");
         } else {
             this.socialMediaForCvRepository.save(socialMedia);
             return new SuccessResult("Added new socialMedia knowledge");
@@ -53,8 +55,14 @@ public class SocialMediaManager implements SocialMediaService {
     }
 
     @Override
-    public Result delete(SocialMediaForCv socialMedia) {
-        this.socialMediaForCvRepository.delete(socialMedia);
-        return new SuccessResult("Deleted socialMedia");
+    public Result delete(int id) {
+        Optional<SocialMediaForCv> socialMediaForCv = this.socialMediaForCvRepository.findById(id);
+
+        if (!socialMediaForCv.isPresent()) {
+            return new ErrorDataResult<>("Social media not found");
+        }else {
+            this.socialMediaForCvRepository.deleteById(id);
+            return new SuccessResult("Deleted socialMedia");
+        }
     }
 }

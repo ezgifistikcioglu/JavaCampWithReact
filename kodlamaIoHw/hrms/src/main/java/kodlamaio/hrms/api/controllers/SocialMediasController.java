@@ -34,9 +34,9 @@ public class SocialMediasController {
         return ResponseEntity.ok(this.socialMediaService.add(cv));
     }
 
-    @PostMapping("/delete")
-    public ResponseEntity<Result> delete(@RequestBody @Valid SocialMediaForCv cv) {
-        return ResponseEntity.ok(this.socialMediaService.delete(cv));
+    @DeleteMapping("/delete")
+    public ResponseEntity<Result> delete(@RequestBody int id) {
+        return ResponseEntity.ok(this.socialMediaService.delete(id));
     }
 
     @PostMapping("/update")

@@ -34,8 +34,8 @@ public class WorkExperiencesController {
         return ResponseEntity.ok(this.workExperienceService.add(cv));
     }
 
-    @PostMapping("/delete")
-    public ResponseEntity<Result> delete(@RequestBody WorkExperienceForCv cv) {
+    @DeleteMapping("/delete")
+    public ResponseEntity<Result> delete(@RequestBody int cv) {
         return ResponseEntity.ok(this.workExperienceService.delete(cv));
     }
 

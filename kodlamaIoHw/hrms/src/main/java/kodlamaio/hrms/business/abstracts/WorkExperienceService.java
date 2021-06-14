@@ -14,7 +14,7 @@ public interface WorkExperienceService {
 
     Result update(WorkExperienceForCv experience);
 
-    Result delete(WorkExperienceForCv experience);
+    Result delete(int id);
 
     DataResult<List<WorkExperienceForCv>> findByExperienceId(int id);
 

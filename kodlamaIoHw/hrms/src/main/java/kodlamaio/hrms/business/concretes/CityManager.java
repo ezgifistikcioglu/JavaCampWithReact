@@ -4,6 +4,7 @@ import kodlamaio.hrms.business.abstracts.CityService;
 import kodlamaio.hrms.core.utilities.results.*;
 import kodlamaio.hrms.dataAccess.abstracts.CityRepository;
 import kodlamaio.hrms.entities.concretes.City;
+import kodlamaio.hrms.entities.concretes.JobSeeker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -53,8 +54,14 @@ public class CityManager implements CityService {
 
     @Override
     public Result deleteCityById(int id) {
-        this.cityRepository.deleteById(id);
-        return new SuccessResult("Deleted city by id " + id);
+        Optional<City> optionalCity = this.cityRepository.findById(id);
+
+        if (!optionalCity.isPresent()) {
+            return new ErrorDataResult<>("JobSeeker not found");
+        } else {
+            this.cityRepository.deleteById(id);
+            return new SuccessResult("Deleted city by id " + id);
+        }
     }
 
     @Override

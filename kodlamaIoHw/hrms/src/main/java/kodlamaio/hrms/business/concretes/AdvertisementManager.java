@@ -43,7 +43,7 @@ public class AdvertisementManager implements AdvertisementService {
     }
 
     private boolean isEmployerExists(int id) {
-        if (id <= 0 || employerService.getById(id).getData() == null) {
+        if (id <= 0 || employerService.getById(id) == null) {
             System.out.println("No such employer found! Employer Id :  " + id);
             return false;
         }
@@ -81,7 +81,7 @@ public class AdvertisementManager implements AdvertisementService {
 
     @Override
     public DataResult<Advertisement> findByEmployerId(int id) {
-        return new SuccessDataResult<>(this.advertisementRepository.findByEmployerId(id));
+        return new SuccessDataResult<>(this.advertisementRepository.findById(id));
     }
 
     @Override
@@ -90,7 +90,7 @@ public class AdvertisementManager implements AdvertisementService {
             return new ErrorsResult(advertisement.getId() + "Same advertisement cannot repeat");
         } else {
             System.out.println("addAdvertisement 1: " + advertisement);
-            if (!isEmployerExists(advertisement.getEmployerId())) {
+            if (!isEmployerExists(advertisement.getId())) {
                 return new ErrorsResult("No such employer found!");
             }
             if (!checkApplicationCreationAndDeadline(advertisement.getCreatedDate(), advertisement.getApplicationDeadline())) {
@@ -105,7 +105,7 @@ public class AdvertisementManager implements AdvertisementService {
 
             advertisement.setPosition( positionService.findById(advertisement.getJobPositionId()).getData());
 
-            advertisement.setEmployer( employerService.getById(advertisement.getEmployerId()).getData());
+            advertisement.setEmployer( employerService.getById(advertisement.getId()).getData());
 
             this.advertisementRepository.save(advertisement);
             return new SuccessResult("Added advertisement : " + advertisement);
@@ -126,20 +126,20 @@ public class AdvertisementManager implements AdvertisementService {
 
     @Override
     public Result changeOpenToClose(int id) {
-        Optional<Advertisement> advertisement = this.advertisementRepository.findById(id);
+        Advertisement advertisement = this.advertisementRepository.findById(id);
         String result;
 
-        if (!advertisement.isPresent()) {
+        if (advertisement.equals(null)) {
             result = "advertisement object not available with id : " + id;
         } else {
-            if (advertisement.get().isAdvertisementOpen()) {
-                advertisement.get().setAdvertisementOpen(false);
+            if (advertisement.isAdvertisementOpen()) {
+                advertisement.setAdvertisementOpen(false);
                 result = "isAdvertisementOpen updated True to False successfully.";
             } else {
-                advertisement.get().setAdvertisementOpen(true);
+                advertisement.setAdvertisementOpen(true);
                 result = "isAdvertisementOpen updated False to True successfully.";
             }
-            this.advertisementRepository.save(advertisement.get());
+            this.advertisementRepository.save(advertisement);
         }
         return new SuccessResult(result);
     }
