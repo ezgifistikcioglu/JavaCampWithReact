@@ -27,8 +27,8 @@ export default function JobAdvertisementList() {
                         advertisements.map(advertisement => (
                             <Table.Row key={advertisement.id}>
                                 <Table.Cell>{advertisement.jobDescription}</Table.Cell>
-                                <Table.Cell>{advertisement.maxSalary}</Table.Cell>
                                 <Table.Cell>{advertisement.minSalary}</Table.Cell>
+                                <Table.Cell>{advertisement.maxSalary}</Table.Cell>
                                 <Table.Cell>{advertisement.numberOfOpenPosition}</Table.Cell>
                             </Table.Row>
                         ))

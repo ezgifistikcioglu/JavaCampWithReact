@@ -15,18 +15,17 @@ export default function JobPositionList() {
             <Table.Header>
                 <Table.Row>
                     <Table.HeaderCell>Job Name</Table.HeaderCell>
-                    <Table.HeaderCell>Position Deleted</Table.HeaderCell>
                     <Table.HeaderCell>Position Active</Table.HeaderCell>
+                    <Table.HeaderCell>Position Deleted</Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
-
             <Table.Body>
                 {
                     jobPositions.map(jobPosition => (
                         <Table.Row key={jobPosition.id}>
                             <Table.Cell>{jobPosition.jobName}</Table.Cell>
-                            <Table.Cell>{jobPosition.deletedPosition}</Table.Cell>
                             <Table.Cell>{jobPosition.activePosition}</Table.Cell>
+                            <Table.Cell>{jobPosition.deletedPosition}</Table.Cell>
                         </Table.Row>
                     ))
                 }
