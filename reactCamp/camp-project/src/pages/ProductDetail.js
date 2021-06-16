@@ -48,5 +48,5 @@ export default function ProductDetail() {
                 </Card>
             </Card.Group>
         </div>
-    )
+    );
 }
