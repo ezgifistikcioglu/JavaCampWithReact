@@ -77,8 +77,6 @@ public class EmailVerificationManager implements EmailVerificationService {
             emailVerification.setEmail(email);
             verCode = "test"; // TODO check this verification code structure
             emailVerification.setAuthentication(verCode);
-            emailVerification.setActivationDate(LocalDateTime.now());
-            emailVerification.setExpirationDate(LocalDateTime.now().plusMonths(1));
 
             emailVerificationRepository.save(emailVerification);
 

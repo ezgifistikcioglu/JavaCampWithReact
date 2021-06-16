@@ -9,7 +9,6 @@ import java.util.List;
 public interface UserService {
     Result checkUserByEmail(String email);
 
-
     Result addUserAccount(User user);
 
     Result updateUserAccount(User user);

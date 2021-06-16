@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.time.LocalDate;
 
 public interface PositionRepository extends JpaRepository<Position, Integer> {
-    Position findByJobName(String jobName);
+    Position findByJobPositionName(String jobName);
 
     Position findByCreatedDate(LocalDate createdDate);
 

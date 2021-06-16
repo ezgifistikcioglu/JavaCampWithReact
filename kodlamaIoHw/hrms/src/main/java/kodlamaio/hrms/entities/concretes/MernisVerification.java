@@ -23,16 +23,12 @@ public class MernisVerification {
     @OneToOne()
     private User user;
 
-    @NotNull
     @Column(name = "is_approved", columnDefinition = "boolean default false")
     private boolean isApproved = false;
 
-    @NotNull
     @Column(name = "created_at", columnDefinition = "Date default CURRENT_DATE")
     private final LocalDateTime createdAt = LocalDateTime.now();
 
-    @NotNull
-    @PastOrPresent
     @Column(name = "approval_date")
     private LocalDateTime approvalDate;
 

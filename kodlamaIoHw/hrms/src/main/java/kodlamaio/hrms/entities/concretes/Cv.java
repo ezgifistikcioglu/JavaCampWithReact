@@ -1,13 +1,11 @@
 package kodlamaio.hrms.entities.concretes;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -27,7 +25,25 @@ public class Cv {
     @Column(name = "cover_letter")
     private String coverLetter;
 
-    @JoinColumn(name = "user_id")
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", nullable=false)
+    @ManyToOne(fetch = FetchType.EAGER)
     private JobSeeker jobSeeker;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "cv", cascade = CascadeType.ALL)
+    private Set<PhotoInfo> photoInfo;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "cv", cascade = CascadeType.ALL)
+    private Set<LanguagesForCv> languagesForCvs;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "cv", cascade = CascadeType.ALL)
+    private Set<EducationInformationForCv> educationInformationForCvs;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "cv", cascade = CascadeType.ALL)
+    private Set<WorkExperienceForCv> workExperienceForCvs;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "cv", cascade = CascadeType.ALL)
+    private Set<ProgrammingSkillForCv> programmingSkillForCvs;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "cv", cascade = CascadeType.ALL)
+    private Set<SocialMediaForCv> socialMediaForCvs;
 }

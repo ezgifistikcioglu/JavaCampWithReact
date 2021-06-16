@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -17,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @PrimaryKeyJoinColumn(name = "user_id")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "cvs", "photoInfo","languagesForCvs","educationInformationForCvs","workExperienceForCvs","programmingSkillForCvs","socialMediaForCvs"})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "cvs", "photoInfo"})
 public class JobSeeker extends User {
 
     @Column(name = "firstname")
@@ -33,24 +34,11 @@ public class JobSeeker extends User {
     private int birthYear;
 
     @OneToMany(mappedBy = "jobSeeker", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Cv> cvs;
+    @JsonIgnore
+    private Set<Cv> cvs;
 
     @OneToOne(mappedBy = "jobSeeker")
     @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JsonIgnore
     private PhotoInfo photoInfo;
-
-    @OneToMany(mappedBy = "jobSeeker")
-    private List<LanguagesForCv> languagesForCvs;
-
-    @OneToMany(mappedBy = "jobSeeker")
-    private List<EducationInformationForCv> educationInformationForCvs;
-
-    @OneToMany(mappedBy = "jobSeeker")
-    private List<WorkExperienceForCv> workExperienceForCvs;
-
-    @OneToMany(mappedBy = "jobSeeker")
-    private List<ProgrammingSkillForCv> programmingSkillForCvs;
-
-    @OneToMany(mappedBy = "jobSeeker")
-    private List<SocialMediaForCv> socialMediaForCvs;
 }

@@ -20,8 +20,7 @@ public class SystemEmployee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotNull
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable=false)
     @OneToOne()
     private User user;
 
@@ -34,13 +33,9 @@ public class SystemEmployee {
     @Column(name = "is_approved", columnDefinition = "boolean default false")
     private boolean isApproved = false;
 
-    @NotBlank
-    @NotNull
     @Column(name = "created_at", columnDefinition = "Date default CURRENT_DATE")
     private final LocalDateTime createdAt = LocalDateTime.now();
 
-    @NotBlank
-    @NotNull
     @Column(name = "approval_date")
     private LocalDateTime approvalDate;
 }

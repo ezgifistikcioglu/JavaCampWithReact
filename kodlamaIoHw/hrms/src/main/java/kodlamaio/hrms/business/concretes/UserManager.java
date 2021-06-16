@@ -77,7 +77,6 @@ public class UserManager implements UserService {
                 userOpt.get().setEmail(user.getEmail());
                 userOpt.get().setPassword(user.getPassword());
                 userOpt.get().setConfirmPassword(user.getConfirmPassword());
-                userOpt.get().setDeletedUser(user.isDeletedUser());
 
                 this.userRepository.save(userOpt.get());
                 return new SuccessResult("User (" + user.getUserId() + ") updated successfully.");

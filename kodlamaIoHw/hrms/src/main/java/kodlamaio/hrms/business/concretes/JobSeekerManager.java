@@ -84,10 +84,7 @@ public class JobSeekerManager implements JobSeekerService {
     public Result addJobSeeker(JobSeeker jobSeeker) {
         LoginForJobSeekerDto jobSeekerDto = new LoginForJobSeekerDto();
         Result checkRegister = register(jobSeekerDto);
-        if (getById(jobSeeker.getUserId()).getData() != null) {
-            if(!checkRegister.isSuccess()){
-                return new ErrorsResult(checkRegister.getMessage() + "Please check register" );
-            }
+        if (getById(jobSeeker.getUserId()).getData() != null || !checkRegister.isSuccess()) {
             return new ErrorsResult(jobSeeker.getUserId() + "Same job seeker cannot repeat" + checkRegister.getMessage());
         } else {
             this.jobSeekerRepository.save(jobSeeker);
@@ -106,7 +103,6 @@ public class JobSeekerManager implements JobSeekerService {
             jobSeekerOptional.get().setEmail(jobSeeker.getEmail());
             jobSeekerOptional.get().setPassword(jobSeeker.getPassword());
             jobSeekerOptional.get().setConfirmPassword(jobSeeker.getConfirmPassword());
-            jobSeekerOptional.get().setDeletedUser(jobSeeker.isDeletedUser());
             jobSeekerOptional.get().setBirthYear(jobSeeker.getBirthYear());
             jobSeekerOptional.get().setFirstname(jobSeeker.getFirstname());
             jobSeekerOptional.get().setLastname(jobSeeker.getLastname());

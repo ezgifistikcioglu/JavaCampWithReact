@@ -1,9 +1,6 @@
 package kodlamaio.hrms.business.concretes;
 
-import kodlamaio.hrms.business.abstracts.AdvertisementService;
-import kodlamaio.hrms.business.abstracts.CityService;
-import kodlamaio.hrms.business.abstracts.EmployerService;
-import kodlamaio.hrms.business.abstracts.PositionService;
+import kodlamaio.hrms.business.abstracts.*;
 import kodlamaio.hrms.core.utilities.results.*;
 import kodlamaio.hrms.dataAccess.abstracts.AdvertisementRepository;
 import kodlamaio.hrms.entities.concretes.Advertisement;
@@ -15,7 +12,6 @@ import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDateTime;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,14 +20,18 @@ public class AdvertisementManager implements AdvertisementService {
     private final EmployerService employerService;
     private final CityService cityService;
     private final PositionService positionService;
+    private final WorkFeatureService workFeatureService;
+    private final WorkTimeService workTimeService;
 
     @Autowired
-    public AdvertisementManager(AdvertisementRepository advertisementRepository, EmployerService employerService, CityService cityService, PositionService positionService) {
+    public AdvertisementManager(AdvertisementRepository advertisementRepository, EmployerService employerService, CityService cityService, PositionService positionService, WorkFeatureService workFeatureService, WorkTimeService workTimeService) {
         super();
         this.advertisementRepository = advertisementRepository;
         this.employerService = employerService;
         this.cityService = cityService;
         this.positionService = positionService;
+        this.workFeatureService = workFeatureService;
+        this.workTimeService = workTimeService;
     }
 
     private boolean checkMinMaxSalary(double maxSalary, double minSalary) {
@@ -43,7 +43,7 @@ public class AdvertisementManager implements AdvertisementService {
     }
 
     private boolean isEmployerExists(int id) {
-        if (id <= 0 || employerService.getById(id) == null) {
+        if (id < 0 || employerService.getById(id) == null) {
             System.out.println("No such employer found! Employer Id :  " + id);
             return false;
         }
@@ -101,11 +101,15 @@ public class AdvertisementManager implements AdvertisementService {
             }
 
             // TODO check null states !!!
-            advertisement.setCity( cityService.getCity(advertisement.getCityId()).getData() );
+            advertisement.setCity( cityService.getCity(advertisement.getId()).getData()) ;
 
-            advertisement.setPosition( positionService.findById(advertisement.getJobPositionId()).getData());
+            advertisement.setPosition( positionService.findById(advertisement.getId()).getData());
 
             advertisement.setEmployer( employerService.getById(advertisement.getId()).getData());
+
+            advertisement.setTypeOfWorkFeature(workFeatureService.findByWorkTypeId(advertisement.getId()).getData());
+
+            advertisement.setWorkTimeFeature(workTimeService.findByWorkTimeId(advertisement.getId()).getData());
 
             this.advertisementRepository.save(advertisement);
             return new SuccessResult("Added advertisement : " + advertisement);
@@ -129,7 +133,7 @@ public class AdvertisementManager implements AdvertisementService {
         Advertisement advertisement = this.advertisementRepository.findById(id);
         String result;
 
-        if (advertisement.equals(null)) {
+        if (advertisement == null) {
             result = "advertisement object not available with id : " + id;
         } else {
             if (advertisement.isAdvertisementOpen()) {

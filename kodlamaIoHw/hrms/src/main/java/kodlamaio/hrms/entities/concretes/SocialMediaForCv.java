@@ -1,6 +1,7 @@
 package kodlamaio.hrms.entities.concretes;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 @Table(name = "social_medias")
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler","cv"})
 public class SocialMediaForCv {
     @Column(name = "id")
     @Id
@@ -28,9 +30,8 @@ public class SocialMediaForCv {
     @Column(name = "created_at", columnDefinition = "Date default CURRENT_DATE")
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    @JoinColumn(name = "user_id")
-    @ManyToOne()
+    @JoinColumn(name = "cv_id", nullable=false)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Cv.class)
     @JsonIgnore
-    private JobSeeker jobSeeker;
-
+    private Cv cv;
 }

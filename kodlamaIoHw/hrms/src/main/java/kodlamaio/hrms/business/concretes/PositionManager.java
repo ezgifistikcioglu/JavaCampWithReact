@@ -41,7 +41,7 @@ public class PositionManager implements PositionService {
 
     @Override
     public DataResult<Position> getByJobName(String jobName) {
-        return new SuccessDataResult<>(this.positionRepository.findByJobName(jobName));
+        return new SuccessDataResult<>(this.positionRepository.findByJobPositionName(jobName));
     }
 
     @Override
@@ -51,8 +51,8 @@ public class PositionManager implements PositionService {
 
     @Override
     public Result add(Position position) {
-        if (getByJobName(position.getJobName()).getData() != null) {
-            return new ErrorsResult(position.getJobName() + "Positions cannot repeat");
+        if (getByJobName(position.getJobPositionName()).getData() != null) {
+            return new ErrorsResult(position.getJobPositionName() + "Positions cannot repeat");
         } else {
             this.positionRepository.save(position);
             return new SuccessResult("Added position");

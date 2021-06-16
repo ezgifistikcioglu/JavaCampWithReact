@@ -1,12 +1,12 @@
 package kodlamaio.hrms.entities.concretes;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @Table(name = "programming_skills")
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler","cv"})
 public class ProgrammingSkillForCv {
     @Id
     @Column(name = "skill_id")
@@ -29,8 +30,8 @@ public class ProgrammingSkillForCv {
     @Column(name = "created_at", columnDefinition = "Date default CURRENT_DATE")
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    @JoinColumn(name = "user_id")
-    @ManyToOne()
+    @JoinColumn(name = "cv_id", nullable=false)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Cv.class)
     @JsonIgnore
-    private JobSeeker jobSeeker;
+    private Cv cv;
 }

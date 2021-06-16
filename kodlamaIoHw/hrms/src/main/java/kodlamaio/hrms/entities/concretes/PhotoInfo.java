@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Table(name = "photos")
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler", "user" })
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler", "jobSeeker", "cv" })
 public class PhotoInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,8 +25,10 @@ public class PhotoInfo {
     private String photoUrl;
 
     @OneToOne()
-    @JsonIgnore
     @JoinColumn(name = "user_id")
     private JobSeeker jobSeeker;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "cv_id", nullable=false)
+    private Cv cv;
 }

@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -24,7 +23,7 @@ public class Position {
     private int id;
 
     @Column(name = "job_name")
-    private String jobName;
+    private String jobPositionName;
 
     @Column(name = "is_active_position", columnDefinition = "boolean default true")
     private boolean isActivePosition = true;
@@ -35,8 +34,7 @@ public class Position {
     @Column(name = "created_date", columnDefinition = "Date default CURRENT_DATE")
     private LocalDateTime createdDate = LocalDateTime.now();
 
-    @OneToMany(mappedBy = "position")
-    @Transient
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "position", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Advertisement> advertisementList;
 

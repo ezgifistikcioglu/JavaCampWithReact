@@ -2,7 +2,6 @@ package kodlamaio.hrms.entities.concretes;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +10,6 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @Entity
@@ -39,10 +37,7 @@ public class User {
     @Column(name = "created_date", columnDefinition = "Date default CURRENT_DATE")
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    @Column(name = "is_user_deleted", columnDefinition = "boolean default false")
-    private boolean isDeletedUser = false;
-
-    @OneToMany(mappedBy = "user")
-    @JsonManagedReference
-    private Set<EmailVerification> emailVerifications;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<EmailVerification> emailVerifications;
 }

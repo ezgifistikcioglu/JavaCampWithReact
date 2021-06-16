@@ -47,8 +47,18 @@ public class EmployerManager implements EmployerService {
 
     @Override
     public Result addEmployer(Employer employer) {
-        this.employerRepository.save(employer);
-        return new SuccessResult("Added employer");
+      //  LoginForEmployerDto employerDto = new LoginForEmployerDto();
+      //  Result checkRegister = register(employerDto);
+      //  if (getById(employer.getUserId()).getData() != null){
+      //      if(!checkRegister.isSuccess()){
+      //          return new ErrorsResult(checkRegister.getMessage() + "Please check register" );
+      //      }
+      //      return new ErrorsResult(employer.getUserId() + "Same employer cannot repeat" + checkRegister.getMessage());
+      //  }else {
+      //      this.employerRepository.save(employer);
+      //      return new SuccessResult("Added employer");
+      //  }
+        return null;
     }
 
     @Override
@@ -63,7 +73,6 @@ public class EmployerManager implements EmployerService {
             employerOptional.get().setEmail(employer.getEmail());
             employerOptional.get().setPassword(employer.getPassword());
             employerOptional.get().setConfirmPassword(employer.getConfirmPassword());
-            employerOptional.get().setDeletedUser(employer.isDeletedUser());
             employerOptional.get().setCompanyName(employer.getCompanyName());
             employerOptional.get().setWebAddress(employer.getWebAddress());
             employerOptional.get().setAdvertisementList(employer.getAdvertisementList());
@@ -99,8 +108,8 @@ public class EmployerManager implements EmployerService {
             if (this.employerRepository.findByEmail(employerDto.getEmail()).isPresent()) {
                 return new ErrorsResult("Error : This email : " + employerDto.getEmail() + " already exists!");
             } else {
-                if (!checkPasswordMatch(employerDto.getPassword(), employerDto.getConfirmPassword()) && !isCorporateEmail(employerDto.getEmail(), employerDto.getWebAddress())) {
-                    return new ErrorsResult("Error : Please Check Employer password , email and website : " + employerDto);
+                if (!checkPasswordMatch(employerDto.getPassword(), employerDto.getConfirmPassword())) {
+                    return new ErrorsResult("Error : Please Check Employer password : " + employerDto);
                 } else {
                     Employer employer = new Employer();
                     employer.setEmail(employerDto.getEmail());
@@ -109,7 +118,8 @@ public class EmployerManager implements EmployerService {
                     employer.setTelephoneNumber(employerDto.getTelephoneNumber());
                     employer.setPassword(employerDto.getPassword());
                     employer.setConfirmPassword(employerDto.getConfirmPassword());
-                    addEmployer(employer);
+                    System.out.println("Register employer : " + employer);
+                    this.employerRepository.save(employer);
                     // TODO : check also save user repository too
 
                     emailVerificationService.sendActivationCode(employer, employer.getEmail());

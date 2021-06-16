@@ -8,6 +8,7 @@ import EmployerList from '../pages/EmployerList'
 import JobSeekerList from '../pages/JobSeekerList'
 import JobPositionList from '../pages/JobPositionList'
 import Settings from './Settings'
+import AddAdvertisement from '../pages/AddAdvertisement'
 
 
 export default function Dashboard() {
@@ -25,6 +26,7 @@ export default function Dashboard() {
                         <Route  path= "/jobSeekers" component={JobSeekerList}/>
                         <Route  path= "/cvs" component={CvList}/>
                         <Route  path= "/settings" component={Settings}/>
+                        <Route  path= "/advertisements" component={AddAdvertisement}/>
                     </Grid.Column>
                 </GridRow>
             </Grid>

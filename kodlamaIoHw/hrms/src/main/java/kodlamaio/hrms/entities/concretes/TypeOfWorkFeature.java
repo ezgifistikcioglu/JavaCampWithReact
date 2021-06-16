@@ -11,20 +11,20 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "cities")
+@Table(name = "work_type_features")
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "advertisementList"})
-public class City {
+public class TypeOfWorkFeature {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private int id;
+    @Column(name = "work_type_id")
+    private int workTypeId;
 
-    @Column(name = "city_name")
-    private String cityName;
+    @Column(name = "work_type_name")
+    private String workTypeName;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "city")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "typeOfWorkFeature", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Advertisement> advertisementList;
 }

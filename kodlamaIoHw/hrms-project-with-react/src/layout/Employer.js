@@ -1,5 +1,6 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
+import { useHistory } from "react-router-dom";
 import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles({
@@ -15,10 +16,14 @@ const useStyles = makeStyles({
     },
 });
 
-export default function Employer() {
+export default function Employer({advertisement}) {
     const classes = useStyles();
+    const history = useHistory();
+    const handleRoute = () =>{ 
+        history.push("/advertisements");
+      }
     return (
-        <Button color="primary" className={classes.root} variant="contained" fullWidth type="submit">
+        <Button onClick={handleRoute}  color="primary" className={classes.root} variant="contained" fullWidth type="submit">
             Add Advertisement
         </Button>
     )
