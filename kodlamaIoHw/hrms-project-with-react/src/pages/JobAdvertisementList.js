@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import { Table, Menu, Icon } from 'semantic-ui-react'
+import { Table, Menu, Icon,Button } from 'semantic-ui-react'
+import { NavLink } from "react-router-dom";
 import AdvertisementService from '../services/advertisementService';
 
 export default function JobAdvertisementList() {
     const [advertisements, setAdvertisements] = useState([]);
 
-    useEffect(()=>{
-        let advertisementService = new AdvertisementService()
-        advertisementService.getAdvertisements().then(result=>setAdvertisements(result.data.data))
-    },[])
+    useEffect(() => {
+        let advertisementService = new AdvertisementService();
+        advertisementService.getAdvertisements().then(result => setAdvertisements(result.data.data))
+    }, [])
 
     return (
         <div>
@@ -18,7 +19,13 @@ export default function JobAdvertisementList() {
                         <Table.HeaderCell>Job Description</Table.HeaderCell>
                         <Table.HeaderCell>Min Salary</Table.HeaderCell>
                         <Table.HeaderCell>Max Salary</Table.HeaderCell>
+                        <Table.HeaderCell>Application Deadline</Table.HeaderCell>
                         <Table.HeaderCell>Open Position</Table.HeaderCell>
+                        <Table.HeaderCell>Work Type</Table.HeaderCell>
+                        <Table.HeaderCell>Work Time</Table.HeaderCell>
+                        <Table.HeaderCell>City Name</Table.HeaderCell>
+                        <Table.HeaderCell>Activation Status</Table.HeaderCell>
+                        <Table.HeaderCell>Detail</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
 
@@ -29,7 +36,23 @@ export default function JobAdvertisementList() {
                                 <Table.Cell>{advertisement.jobDescription}</Table.Cell>
                                 <Table.Cell>{advertisement.minSalary}</Table.Cell>
                                 <Table.Cell>{advertisement.maxSalary}</Table.Cell>
+                                <Table.Cell>{advertisement.applicationDeadline}</Table.Cell>
                                 <Table.Cell>{advertisement.numberOfOpenPosition}</Table.Cell>
+                                <Table.Cell>{advertisement.typeOfWorkFeature.workTypeName}</Table.Cell>
+                                <Table.Cell>{advertisement.workTimeFeature.workTimeName}</Table.Cell>
+                                <Table.Cell>{advertisement.city.cityName}</Table.Cell>
+                                <Table.Cell>
+                                    {advertisement.advertisementOpen === true ? "Active" : "Passive"}
+                                </Table.Cell>
+                                <Table.Cell>
+                                    <Button animated as={NavLink} to={`/advertisementDetails/${advertisement.id}`} color="orange">
+                                        <Button.Content visible>Show Detail</Button.Content>
+                                        <Button.Content hidden>
+                                            <Icon name="arrow right" />
+                                        </Button.Content>
+                                    </Button>
+
+                                </Table.Cell>
                             </Table.Row>
                         ))
                     }

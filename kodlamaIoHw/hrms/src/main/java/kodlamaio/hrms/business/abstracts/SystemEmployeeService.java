@@ -12,11 +12,15 @@ public interface SystemEmployeeService {
 
     DataResult<List<SystemEmployee>> getAllSystemEmployee();
 
-    DataResult<SystemEmployee> getByUserId(final int userId);
+    DataResult<SystemEmployee> getById(int id);
 
-    Result addEmployer(SystemEmployee systemEmployee);
+    Result addEmployee(SystemEmployee systemEmployee);
 
-    Result updateEmployer(SystemEmployee systemEmployee);
+    Result updateEmployee(SystemEmployee systemEmployee);
 
-    Result deleteEmployer(SystemEmployee systemEmployee);
+    Result updateEmployer(Employer employer);
+
+    Result deleteEmployer(int id);
+
+    Result deleteEmployee(int id);
 }

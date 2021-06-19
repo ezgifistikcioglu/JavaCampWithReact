@@ -14,6 +14,8 @@ public interface AdvertisementRepository extends JpaRepository<Advertisement, In
 
     Advertisement findByMinSalary(double minSalary);
 
+    List<Advertisement> findAllById(int id);
+
     @Query("From Advertisement where isAdvertisementOpen = true")
     List<Advertisement> getAllOpenAdvertisementList();
 

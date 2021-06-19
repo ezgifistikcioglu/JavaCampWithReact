@@ -18,7 +18,7 @@ import java.util.List;
 public class TypeOfWorkFeature {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "work_type_id")
+    @Column(name = "work_type_id", unique = true, nullable = false)
     private int workTypeId;
 
     @Column(name = "work_type_name")

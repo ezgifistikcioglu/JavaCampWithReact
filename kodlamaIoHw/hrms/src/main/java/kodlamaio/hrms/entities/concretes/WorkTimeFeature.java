@@ -18,7 +18,7 @@ import java.util.List;
 public class WorkTimeFeature {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "work_time_id")
+    @Column(name = "work_time_id", unique = true, nullable = false)
     private int workTimeId;
 
     @Column(name = "work_time_name")

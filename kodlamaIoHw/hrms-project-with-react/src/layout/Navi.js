@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { Button, Container, Menu } from 'semantic-ui-react'
+import { Container, Menu } from 'semantic-ui-react'
+import { NavLink } from "react-router-dom";
 import Employer from './Employer'
 import SignIn from './SignIn'
 import SignOut from './SignOut'
@@ -21,6 +22,7 @@ export default function Navi() {
             <Menu inverted fixed="top" size='massive'>
                 <Container>
                     <Menu.Item
+                     as = {NavLink} to="/"
                         name='home'
                     />
                     <Menu.Item

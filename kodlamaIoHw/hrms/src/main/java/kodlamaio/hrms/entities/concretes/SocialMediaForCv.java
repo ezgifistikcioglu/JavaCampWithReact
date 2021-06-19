@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler","cv"})
 public class SocialMediaForCv {
-    @Column(name = "id")
+    @Column(name = "id", unique = true, nullable = false)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

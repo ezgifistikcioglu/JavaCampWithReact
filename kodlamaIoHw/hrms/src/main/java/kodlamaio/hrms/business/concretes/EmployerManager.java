@@ -6,6 +6,7 @@ import kodlamaio.hrms.business.abstracts.SystemEmployeeService;
 import kodlamaio.hrms.core.utilities.results.*;
 import kodlamaio.hrms.dataAccess.abstracts.EmployerRepository;
 import kodlamaio.hrms.entities.concretes.Employer;
+import kodlamaio.hrms.entities.concretes.ProgrammingSkillForCv;
 import kodlamaio.hrms.entities.concretes.SystemEmployee;
 import kodlamaio.hrms.entities.dtos.LoginForEmployerDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,22 +47,6 @@ public class EmployerManager implements EmployerService {
     }
 
     @Override
-    public Result addEmployer(Employer employer) {
-      //  LoginForEmployerDto employerDto = new LoginForEmployerDto();
-      //  Result checkRegister = register(employerDto);
-      //  if (getById(employer.getUserId()).getData() != null){
-      //      if(!checkRegister.isSuccess()){
-      //          return new ErrorsResult(checkRegister.getMessage() + "Please check register" );
-      //      }
-      //      return new ErrorsResult(employer.getUserId() + "Same employer cannot repeat" + checkRegister.getMessage());
-      //  }else {
-      //      this.employerRepository.save(employer);
-      //      return new SuccessResult("Added employer");
-      //  }
-        return null;
-    }
-
-    @Override
     public Result updateEmployer(Employer employer) {
 
         Optional<Employer> employerOptional = this.employerRepository.findById(employer.getUserId());
@@ -85,10 +70,10 @@ public class EmployerManager implements EmployerService {
 
     @Override
     public Result deleteEmployer(int id) {
-        Optional<Employer> employerOptional = this.employerRepository.findById(id);
+        List<Employer> employers = this.employerRepository.findAllByUserId(id);
 
-        if (!employerOptional.isPresent()) {
-            return new ErrorDataResult<>("JobSeeker not found");
+        if (employers.isEmpty()) {
+            return new ErrorDataResult<>("This employer not found");
         } else {
             this.employerRepository.deleteById(id);
             return new SuccessResult("Deleted employer with id :" + id);
@@ -102,6 +87,7 @@ public class EmployerManager implements EmployerService {
 
     @Override
     public Result register(LoginForEmployerDto employerDto) {
+        SystemEmployeeManager employeeManager = new SystemEmployeeManager();
         if (!isCorporateEmail(employerDto.getEmail(), employerDto.getWebAddress())) {
             return new ErrorsResult("Error : Email or web address not valid! " + employerDto.getEmail());
         } else {
@@ -119,16 +105,14 @@ public class EmployerManager implements EmployerService {
                     employer.setPassword(employerDto.getPassword());
                     employer.setConfirmPassword(employerDto.getConfirmPassword());
                     System.out.println("Register employer : " + employer);
-                    this.employerRepository.save(employer);
                     // TODO : check also save user repository too
 
+                    if (employeeManager.addEmployer(employer)){
+                        this.employerRepository.save(employer);
+                        return new SuccessResult("Employer registration completed successfully.");
+                    }
                     emailVerificationService.sendActivationCode(employer, employer.getEmail());
-                    SystemEmployee systemEmployee = new SystemEmployee();
-                    systemEmployee.setUser(employer);
-                    // TODO : check here, Does this check add Employer
-                    systemEmployeeService.addEmployer(systemEmployee);
-
-                    return new SuccessResult("Employer registration completed successfully.");
+                    return new ErrorsResult("Error : You are not approved by system personnel " );
                 }
             }
         }

@@ -38,7 +38,7 @@ public class CityManager implements CityService {
 
     @Override
     public Result addCity(City city) {
-        if (findByCityName(city.getCityName()).getData() != null) {
+        if (findAllById(city.getId()).getData() != null) {
             return new ErrorsResult(city.getCityName() + "Same city cannot repeat");
         } else {
             this.cityRepository.save(city);
@@ -67,6 +67,16 @@ public class CityManager implements CityService {
     @Override
     public DataResult<List<City>> getAllCity() {
         return new SuccessDataResult<>(this.cityRepository.findAll(), "Listed city data");
+    }
+
+    @Override
+    public DataResult<List<City>> findAllById(int id) {
+        List<City> cities = this.cityRepository.findAllById(id);
+        if (cities.isEmpty()){
+            return new ErrorDataResult<>("These cities were not found.");
+        }else {
+            return new SuccessDataResult<>(cities, "Cities have been successfully added");
+        }
     }
 
     @Override

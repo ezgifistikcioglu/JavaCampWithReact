@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -26,7 +27,7 @@ public class Employer extends User {
     @Column(name = "web_address")
     private String webAddress;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "employer", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "employer")
     @JsonIgnore
-    private Set<Advertisement> advertisementList;
+    private List<Advertisement> advertisementList;
 }

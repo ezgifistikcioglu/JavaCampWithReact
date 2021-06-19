@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler","cv"})
 public class LanguagesForCv {
     @Id
-    @Column(name = "language_id")
+    @Column(name = "language_id", unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int languageId;
 

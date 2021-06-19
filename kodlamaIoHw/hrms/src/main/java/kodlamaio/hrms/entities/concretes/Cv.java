@@ -14,7 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 @PrimaryKeyJoinColumn(name = "user_id")
 public class Cv {
-    @Column(name = "cv_id")
+    @Column(name = "cv_id", unique = true, nullable = false)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int cvId;

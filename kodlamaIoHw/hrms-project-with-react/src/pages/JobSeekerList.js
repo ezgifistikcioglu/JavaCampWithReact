@@ -6,7 +6,7 @@ export default function JobSeekerList(){
     const [jobSeekers, setJobSeekers] = useState([]);
 
     useEffect(() => {
-      let  jobSeekerService = new JobSeekerService
+      let  jobSeekerService = new JobSeekerService();
       jobSeekerService.getJobSeekers().then(result=>setJobSeekers(result.data.data))
     }, [])
     return (

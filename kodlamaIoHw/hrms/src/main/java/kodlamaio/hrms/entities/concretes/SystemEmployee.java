@@ -15,12 +15,12 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SystemEmployee {
-    @Column(name = "id")
+    @Column(name = "id", unique = true, nullable = false)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @JoinColumn(name = "user_id", nullable=false)
+    @JoinColumn(name = "user_id")
     @OneToOne()
     private User user;
 
@@ -35,7 +35,4 @@ public class SystemEmployee {
 
     @Column(name = "created_at", columnDefinition = "Date default CURRENT_DATE")
     private final LocalDateTime createdAt = LocalDateTime.now();
-
-    @Column(name = "approval_date")
-    private LocalDateTime approvalDate;
 }

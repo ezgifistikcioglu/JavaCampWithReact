@@ -30,11 +30,6 @@ public class EmployersController {
         return this.employerService.getAll();
     }
 
-    @PostMapping("/add")
-    public Result add(@RequestBody Employer employer) {
-        return this.employerService.addEmployer(employer);
-    }
-
     @PostMapping("/register")
     public ResponseEntity<Result> register(@Valid @RequestBody final LoginForEmployerDto loginForEmployerDto) {
         final Result result = employerService.register(loginForEmployerDto);
@@ -45,5 +40,8 @@ public class EmployersController {
         return ResponseEntity.ok(result);
     }
 
-
+    @DeleteMapping("/deleteEmployer")
+    public ResponseEntity<Result> deleteEmployer(@RequestBody int id) {
+        return ResponseEntity.ok(this.employerService.deleteEmployer(id));
+    }
 }

@@ -44,8 +44,8 @@ public class CitiesController {
         return ResponseEntity.ok(this.cityService.updateCity(city));
     }
 
-    @PostMapping("/deleteCityById")
-    public ResponseEntity<Result> deleteCityById(@RequestBody int id) {
+    @DeleteMapping("/deleteCityById")
+    public ResponseEntity<Result> deleteCityById(@RequestParam int id) {
         return ResponseEntity.ok(this.cityService.deleteCityById(id));
     }
 

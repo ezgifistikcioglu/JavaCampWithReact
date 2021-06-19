@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler","cv"})
 public class ProgrammingSkillForCv {
     @Id
-    @Column(name = "skill_id")
+    @Column(name = "skill_id", unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
@@ -30,7 +30,7 @@ public class ProgrammingSkillForCv {
     @Column(name = "created_at", columnDefinition = "Date default CURRENT_DATE")
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    @JoinColumn(name = "cv_id", nullable=false)
+    @JoinColumn(name = "cv_id")
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Cv.class)
     @JsonIgnore
     private Cv cv;

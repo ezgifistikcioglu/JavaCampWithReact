@@ -6,7 +6,7 @@ export default function Categories() {
     return (
         <div>
             <Menu secondary vertical>
-                <Menu.Item as = {NavLink} to="/"
+                <Menu.Item as = {NavLink} to="/advertisementLists"
                     name='Advertisement'
                 />
                 <Menu.Item as = {NavLink} to="/positions"

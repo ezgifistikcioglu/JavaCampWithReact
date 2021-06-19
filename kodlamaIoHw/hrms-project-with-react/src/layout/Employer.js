@@ -23,7 +23,7 @@ export default function Employer({advertisement}) {
         history.push("/advertisements");
       }
     return (
-        <Button onClick={handleRoute}  color="primary" className={classes.root} variant="contained" fullWidth type="submit">
+        <Button onClick={handleRoute} className={classes.root} variant="contained" fullWidth type="submit">
             Add Advertisement
         </Button>
     )

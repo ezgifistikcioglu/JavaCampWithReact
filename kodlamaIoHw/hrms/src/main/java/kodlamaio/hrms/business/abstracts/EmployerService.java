@@ -13,8 +13,6 @@ public interface EmployerService {
 
     DataResult<Employer> getById(int id);
 
-    Result addEmployer(Employer employer);
-
     Result updateEmployer(Employer employer);
 
     Result deleteEmployer(int id);

@@ -18,6 +18,8 @@ public interface CityService {
 
     DataResult<List<City>> getAllCity();
 
+    DataResult<List<City>> findAllById(int id);
+
     DataResult<City> findByCityName(String cityName);
 
     DataResult<List<City>> findByCityNameContains(String name);

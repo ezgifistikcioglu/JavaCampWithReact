@@ -3,6 +3,7 @@ package kodlamaio.hrms.business.abstracts;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.entities.concretes.Advertisement;
+import kodlamaio.hrms.entities.dtos.AdvertisementDto;
 
 import java.util.List;
 
@@ -12,11 +13,11 @@ public interface AdvertisementService {
 
     DataResult<Advertisement> findBySalaryMin(double minSalary) throws NoSuchMethodException;
 
-    DataResult<Advertisement> findByEmployerId(int id);
+    DataResult<Advertisement> findById(int id);
 
-    Result addAdvertisement(Advertisement advertisement);
+    Result addAdvertisement(AdvertisementDto advertisementDto);
 
-    Result updateAdvertisement(Advertisement advertisement);
+    Result updateAdvertisement(AdvertisementDto advertisementDto);
 
     Result deleteAdvertisement(int id);
 

@@ -1,7 +1,5 @@
 package kodlamaio.hrms.entities.concretes;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,11 +13,10 @@ import java.time.LocalDateTime;
 @Table(name = "advertisements")
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "city","position","employer","typeOfWorkFeature","workTimeFeature"})
 public class Advertisement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", unique = true, nullable = false)
     private int id;
 
     @Column(name = "job_description")
@@ -31,8 +28,8 @@ public class Advertisement {
     @Column(name = "max_salary")
     private double maxSalary;
 
-    @Column(name = "is_advertisement_open", columnDefinition = "boolean default true")
-    private boolean isAdvertisementOpen = true;
+    @Column(name = "is_advertisement_open", columnDefinition = "boolean default false")
+    private boolean isAdvertisementOpen = false;
 
     @Column(name = "application_deadline")
     private LocalDate applicationDeadline;
@@ -43,28 +40,23 @@ public class Advertisement {
     @Column(name = "creation_date", columnDefinition = "Date default CURRENT_DATE")
     private LocalDateTime createdDate = LocalDateTime.now();
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = City.class)
     @JoinColumn(name = "city_id")
-    @JsonIgnore
     private City city;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Position.class)
     @JoinColumn(name = "job_position_id")
-    @JsonIgnore
     private Position position;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "employer_id")
-    @JsonIgnore
     private Employer employer;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = TypeOfWorkFeature.class)
     @JoinColumn(name = "work_type_id")
-    @JsonIgnore
     private TypeOfWorkFeature typeOfWorkFeature;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = WorkTimeFeature.class)
     @JoinColumn(name = "work_time_id")
-    @JsonIgnore
     private WorkTimeFeature workTimeFeature;
 }
