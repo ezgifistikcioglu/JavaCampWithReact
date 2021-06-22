@@ -66,8 +66,14 @@ public class LanguageManager implements LanguageService {
     }
 
     @Override
-    public Result delete(LanguagesForCv language) {
-        this.languagesRepository.delete(language);
-        return new SuccessResult("Deleted language");
+    public Result delete(int id) {
+        List<LanguagesForCv> languagesForCvs = this.languagesRepository.findAllByLanguageId(id);
+
+        if (languagesForCvs.isEmpty()) {
+            return new ErrorDataResult<>("This language not found");
+        } else {
+            this.languagesRepository.deleteById(id);
+            return new SuccessResult("Deleted language with id :" + id);
+        }
     }
 }

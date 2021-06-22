@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoginForEmailVerificationDto {
-
     private String email;
 
     private String activationCode;

@@ -17,11 +17,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "emailVerifications"})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "emailVerifications","advertisementList"})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id", unique = true, nullable = false)
+    @Column(name = "user_id", unique = true)
     private int userId;
 
     @Column(name = "email")
@@ -37,7 +37,14 @@ public class User {
     @Column(name = "created_date", columnDefinition = "Date default CURRENT_DATE")
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    @Column(name = "is_system_user", columnDefinition = "boolean default false")
+    private boolean isSystemUser = false;
+
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<EmailVerification> emailVerifications;
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<Advertisement> advertisementList;
 }

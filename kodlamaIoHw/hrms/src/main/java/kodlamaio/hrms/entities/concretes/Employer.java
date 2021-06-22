@@ -1,14 +1,13 @@
 package kodlamaio.hrms.entities.concretes;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import java.util.List;
-import java.util.Set;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
 
 @Entity
 @Data
@@ -16,7 +15,6 @@ import java.util.Set;
 @PrimaryKeyJoinColumn(name = "user_id")
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "advertisementList"})
 public class Employer extends User {
     @Column(name = "company_name")
     private String companyName;
@@ -27,7 +25,9 @@ public class Employer extends User {
     @Column(name = "web_address")
     private String webAddress;
 
-    @OneToMany(mappedBy = "employer")
-    @JsonIgnore
-    private List<Advertisement> advertisementList;
+    @Column(name = "is_active")
+    private boolean isActive;
+
+    @Column(name = "is_approved", columnDefinition = "boolean default false")
+    private boolean isApproved = false;
 }

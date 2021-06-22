@@ -17,5 +17,5 @@ public interface LanguageService {
 
     Result update(LanguagesForCv language);
 
-    Result delete(LanguagesForCv language);
+    Result delete(int id);
 }

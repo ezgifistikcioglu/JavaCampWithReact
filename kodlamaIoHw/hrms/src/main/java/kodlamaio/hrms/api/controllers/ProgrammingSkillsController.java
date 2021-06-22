@@ -22,7 +22,7 @@ public class ProgrammingSkillsController {
         this.programmingSkillService = programmingSkillService;
     }
 
-    @GetMapping("/getall")
+    @GetMapping("/getAll")
     public ResponseEntity<DataResult<List<ProgrammingSkillForCv>>> getAll() {
         DataResult<List<ProgrammingSkillForCv>> result = programmingSkillService.getAll();
         return ResponseEntity.ok(result);
@@ -33,8 +33,8 @@ public class ProgrammingSkillsController {
         return ResponseEntity.ok(this.programmingSkillService.add(cv));
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<Result> delete(@RequestBody int id) {
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Result> delete(@PathVariable("id") int id) {
         return ResponseEntity.ok(this.programmingSkillService.delete(id));
     }
 

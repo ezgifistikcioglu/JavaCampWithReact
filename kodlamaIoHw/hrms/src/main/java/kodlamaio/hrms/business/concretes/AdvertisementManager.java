@@ -1,23 +1,28 @@
 package kodlamaio.hrms.business.concretes;
 
-import kodlamaio.hrms.business.abstracts.*;
+import kodlamaio.hrms.business.abstracts.AdvertisementService;
 import kodlamaio.hrms.core.utilities.results.*;
 import kodlamaio.hrms.dataAccess.abstracts.*;
 import kodlamaio.hrms.entities.concretes.Advertisement;
-import kodlamaio.hrms.entities.dtos.AdvertisementDto;
+import kodlamaio.hrms.entities.concretes.User;
+import kodlamaio.hrms.entities.dtos.AdvertisementRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDateTime;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
 public class AdvertisementManager implements AdvertisementService {
     private final AdvertisementRepository advertisementRepository;
+    private final SystemEmployeeRepository systemEmployeeRepository;
+    private final UserRepository userRepository;
     private final EmployerRepository employerRepository;
     private final CityRepository cityRepository;
     private final PositionRepository positionRepository;
@@ -25,9 +30,11 @@ public class AdvertisementManager implements AdvertisementService {
     private final WorkTimeRepository workTimeRepository;
 
     @Autowired
-    public AdvertisementManager(AdvertisementRepository advertisementRepository, EmployerRepository employerRepository, CityRepository cityRepository, PositionRepository positionRepository, WorkFeatureRepository workFeatureRepository, WorkTimeRepository workTimeRepository) {
+    public AdvertisementManager(AdvertisementRepository advertisementRepository, SystemEmployeeRepository systemEmployeeRepository, UserRepository userRepository, EmployerRepository employerRepository, CityRepository cityRepository, PositionRepository positionRepository, WorkFeatureRepository workFeatureRepository, WorkTimeRepository workTimeRepository) {
         super();
         this.advertisementRepository = advertisementRepository;
+        this.systemEmployeeRepository = systemEmployeeRepository;
+        this.userRepository = userRepository;
         this.employerRepository = employerRepository;
         this.cityRepository = cityRepository;
         this.positionRepository = positionRepository;
@@ -44,7 +51,7 @@ public class AdvertisementManager implements AdvertisementService {
     }
 
     private boolean isEmployerExists(int id) {
-        if (id < 0 || employerRepository.getByUserId(id) == null) {
+        if (id < 0 || !employerRepository.findById(id).isPresent()) {
             System.out.println("No such employer found! Employer Id :  " + id);
             return false;
         }
@@ -95,96 +102,104 @@ public class AdvertisementManager implements AdvertisementService {
         return new SuccessDataResult<>(this.advertisementRepository.findById(id));
     }
 
+    // TODO : Check valid annotation
     @Override
-    public Result addAdvertisement(AdvertisementDto advertisementDto) {
-        SystemEmployeeManager employeeManager = new SystemEmployeeManager();
-
+    public Result addAdvertisement(@Valid AdvertisementRequest advertisementRequest) {
         Advertisement advertisement = new Advertisement();
-        if (findById(advertisementDto.getEmployerId()) == null) {
-            return new ErrorsResult(advertisementDto.getEmployerId() + "Employer cannot be empty!");
+        if (findById(advertisementRequest.getEmployerId()) == null) {
+            return new ErrorsResult(advertisementRequest.getEmployerId() + "Employer cannot be empty!");
         } else {
-            System.out.println("addAdvertisement 1: " + advertisementDto);
-            if (!isEmployerExists(advertisementDto.getEmployerId())) {
+            System.out.println("addAdvertisement 1: " + advertisementRequest);
+            if (!isEmployerExists(advertisementRequest.getEmployerId())) {
                 return new ErrorsResult("No such employer found!");
             }
-            if (!checkApplicationCreationAndDeadline(advertisementDto.getCreatedDate(), advertisementDto.getApplicationDeadline())) {
+            if (!checkApplicationCreationAndDeadline(advertisementRequest.getCreatedDate(), advertisementRequest.getApplicationDeadline())) {
                 return new ErrorsResult("Creation date cannot be later than Application Deadline");
             }
-            if (!checkMinMaxSalary(advertisementDto.getMaxSalary(), advertisementDto.getMinSalary())) {
+            if (!checkMinMaxSalary(advertisementRequest.getMaxSalary(), advertisementRequest.getMinSalary())) {
                 return new ErrorsResult("Min salary must not be less than max salary");
             }
-            if (!isOpenPositionControl(advertisementDto.getNumberOfOpenPosition())) {
+            if (!isOpenPositionControl(advertisementRequest.getNumberOfOpenPosition())) {
                 return new ErrorsResult("Open position number cannot be equal to or less than 0.");
             }
-
-            // TODO check null states !!!
-            advertisement.setJobDescription(advertisementDto.getJobDescription());
-
-            advertisement.setMinSalary(advertisementDto.getMinSalary());
-
-            advertisement.setMaxSalary(advertisementDto.getMaxSalary());
-
+            advertisement.setApproved(false);
             advertisement.setAdvertisementOpen(false);
 
-            advertisement.setNumberOfOpenPosition(advertisementDto.getNumberOfOpenPosition());
+            advertisement.setJobDescription(advertisementRequest.getJobDescription());
 
-            advertisement.setApplicationDeadline(advertisementDto.getApplicationDeadline());
+            advertisement.setMinSalary(advertisementRequest.getMinSalary());
 
-            advertisement.setCreatedDate(advertisementDto.getCreatedDate());
+            advertisement.setMaxSalary(advertisementRequest.getMaxSalary());
 
-            advertisement.setCity(this.cityRepository.getById(advertisementDto.getCityId()));
+            advertisement.setNumberOfOpenPosition(advertisementRequest.getNumberOfOpenPosition());
 
-            advertisement.setPosition(this.positionRepository.getById(advertisementDto.getJobPositionId()));
+            advertisement.setApplicationDeadline(advertisementRequest.getApplicationDeadline());
 
-            advertisement.setEmployer(this.employerRepository.getByUserId(advertisementDto.getEmployerId()));
+            advertisement.setCreatedDate(advertisementRequest.getCreatedDate());
 
-            advertisement.setTypeOfWorkFeature(workFeatureRepository.findByWorkTypeId(advertisementDto.getWorkTypeId()));
+            advertisement.setCity(this.cityRepository.getById(advertisementRequest.getCityId()));
 
-            advertisement.setWorkTimeFeature(workTimeRepository.findByWorkTimeId(advertisementDto.getWorkTimeId()));
+            advertisement.setPosition(this.positionRepository.getById(advertisementRequest.getJobPositionId()));
 
-            if (employeeManager.confirmAdvertisement(advertisement)) {
-                this.advertisementRepository.save(advertisement);
-                return new SuccessResult("Added advertisement : " + advertisement);
-            }
-            return new ErrorsResult("Error : You are not approved by system personnel");
+            advertisement.setUser(this.userRepository.getOne(advertisementRequest.getEmployerId()));
 
+            advertisement.setTypeOfWorkFeature(workFeatureRepository.findByWorkTypeId(advertisementRequest.getWorkTypeId()));
+
+            advertisement.setWorkTimeFeature(workTimeRepository.findByWorkTimeId(advertisementRequest.getWorkTimeId()));
+
+            this.advertisementRepository.save(advertisement);
+            return new SuccessResult("Added advertisement : " + advertisement);
         }
     }
 
     @Override
-    public Result updateAdvertisement(AdvertisementDto advertisementDto) {
-        Advertisement advertisement = this.advertisementRepository.findById(advertisementDto.getId());
+    public Result updateAdvertisement(AdvertisementRequest advertisementRequest) {
+        Advertisement advertisement = this.advertisementRepository.findById(advertisementRequest.getId());
 
-        //TODO null check
-        if (advertisement.equals(false)) {
-            return new ErrorsResult("This advertisement ( id " + advertisement.getId() + " ) doesnt available!");
+        if (!this.userRepository.findById(advertisementRequest.getEmployerId()).isPresent()) {
+            return new ErrorsResult("There is not available system employee with this id! : " + advertisementRequest.getEmployerId() + "!");
         } else {
-            advertisement.setJobDescription(advertisementDto.getJobDescription());
-            advertisement.setMinSalary(advertisementDto.getMinSalary());
-            advertisement.setMaxSalary(advertisementDto.getMaxSalary());
-            advertisement.setAdvertisementOpen(false);
-            advertisement.setNumberOfOpenPosition(advertisementDto.getNumberOfOpenPosition());
-            advertisement.setApplicationDeadline(advertisementDto.getApplicationDeadline());
-            advertisement.setCreatedDate(advertisementDto.getCreatedDate());
-            advertisement.setCity(this.cityRepository.getById(advertisementDto.getCityId()));
-            advertisement.setPosition(this.positionRepository.getById(advertisementDto.getJobPositionId()));
-            advertisement.setEmployer(this.employerRepository.getByUserId(advertisementDto.getEmployerId()));
-            advertisement.setTypeOfWorkFeature(workFeatureRepository.findByWorkTypeId(advertisementDto.getWorkTypeId()));
-            advertisement.setWorkTimeFeature(workTimeRepository.findByWorkTimeId(advertisementDto.getWorkTimeId()));
+            User user = this.userRepository.findById(advertisementRequest.getEmployerId()).get();
+            if (advertisement == null) {
+                return new ErrorsResult("This advertisement ( id " + Objects.requireNonNull(advertisement).getId() + " ) doesnt available!");
+            } else {
+                advertisement.setJobDescription(advertisementRequest.getJobDescription());
+                advertisement.setMinSalary(advertisementRequest.getMinSalary());
+                advertisement.setMaxSalary(advertisementRequest.getMaxSalary());
+                advertisement.setNumberOfOpenPosition(advertisementRequest.getNumberOfOpenPosition());
+                advertisement.setApplicationDeadline(advertisementRequest.getApplicationDeadline());
+                advertisement.setCreatedDate(advertisementRequest.getCreatedDate());
+                advertisement.setCity(this.cityRepository.getById(advertisementRequest.getCityId()));
+                advertisement.setPosition(this.positionRepository.getById(advertisementRequest.getJobPositionId()));
+                advertisement.setTypeOfWorkFeature(workFeatureRepository.findByWorkTypeId(advertisementRequest.getWorkTypeId()));
+                advertisement.setWorkTimeFeature(workTimeRepository.findByWorkTimeId(advertisementRequest.getWorkTimeId()));
 
-            this.advertisementRepository.save(advertisement);
-            return new SuccessResult("Advertisement (" + advertisement.getId() + ") updated successfully.");
+                // print out users
+                if (user.isSystemUser()) {
+                    //User systemEmpUser = this.systemEmployeeRepository.findByUserId(advertisementRequest.getEmployerId());
+                    advertisement.setUser(this.systemEmployeeRepository.findByUserId(advertisementRequest.getEmployerId()));
+                    advertisement.setApproved(advertisementRequest.isApproved());
+                    advertisement.setAdvertisementOpen(advertisementRequest.isAdvertisementOpen());
+                } else {
+                    //User employerUser = this.employerRepository.findByUserId(advertisementRequest.getEmployerId());
+                    advertisement.setUser(this.employerRepository.findByUserId(advertisementRequest.getEmployerId()));
+                    advertisement.setApproved(false);
+                    advertisement.setAdvertisementOpen(true);
+                }
+                this.advertisementRepository.save(advertisement);
+                return new SuccessResult("Advertisement (" + advertisement.getId() + ") updated successfully.");
+            }
         }
     }
 
     @Override
     public Result deleteAdvertisement(int id) {
         List<Advertisement> advertisementList = this.advertisementRepository.findAllById(id);
-        if (advertisementList.isEmpty()){
+        if (advertisementList.isEmpty()) {
             return new ErrorDataResult<>("This advertisement not found");
-        }else {
+        } else {
             this.advertisementRepository.deleteById(id);
-            return new SuccessResult("Deleted advertisement with id : " +id);
+            return new SuccessResult("Deleted advertisement with id : " + id);
         }
     }
 
@@ -215,10 +230,19 @@ public class AdvertisementManager implements AdvertisementService {
     }
 
     @Override
-    public DataResult<List<Advertisement>> getAllOpenAdvertisementList() {
+    public DataResult<List<Advertisement>> getAllOpenAndApprovedAdvertisementList() {
         List<Advertisement> advertisementList = this.advertisementRepository.findAll();
-        List<Advertisement> openAdvertisementList = advertisementList.stream()
-                .filter(Advertisement::isAdvertisementOpen).collect(Collectors.toList());
-        return new SuccessDataResult<>(openAdvertisementList);
+        List<Advertisement> advList = advertisementList.stream()
+                .filter(advertisement -> advertisement.isApproved() && advertisement.isAdvertisementOpen())
+                .collect(Collectors.toList());
+        return new SuccessDataResult<>(advList);
+    }
+
+    @Override
+    public DataResult<List<Advertisement>> getAllWaitApproveAdvertisementList() {
+        List<Advertisement> advertisementList = this.advertisementRepository.findAll();
+        List<Advertisement> waitApproveAdvList = advertisementList.stream()
+                .filter(advertisement -> !advertisement.isApproved()).collect(Collectors.toList());
+        return new SuccessDataResult<>(waitApproveAdvList);
     }
 }

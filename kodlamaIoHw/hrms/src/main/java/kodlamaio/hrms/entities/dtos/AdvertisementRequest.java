@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AdvertisementDto {
+public class AdvertisementRequest {
     private int id;
 
     private String jobDescription;
@@ -20,6 +20,8 @@ public class AdvertisementDto {
     private double maxSalary;
 
     private boolean isAdvertisementOpen;
+
+    private boolean isApproved;
 
     private int numberOfOpenPosition;
 

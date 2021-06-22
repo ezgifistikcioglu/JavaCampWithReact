@@ -4,7 +4,8 @@ import kodlamaio.hrms.business.abstracts.AdvertisementService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.entities.concretes.Advertisement;
-import kodlamaio.hrms.entities.dtos.AdvertisementDto;
+import kodlamaio.hrms.entities.dtos.AdvertisementRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,13 +19,14 @@ import java.util.List;
 public class AdvertisementsController {
     private final AdvertisementService advertisementService;
 
+
     @Autowired
     public AdvertisementsController(AdvertisementService advertisementService) {
         this.advertisementService = advertisementService;
     }
 
     @PostMapping("/addAdvertisement")
-    public ResponseEntity<Result> addAdvertisement(@RequestBody AdvertisementDto advertisement) {
+    public ResponseEntity<Result> addAdvertisement(@RequestBody AdvertisementRequest advertisement) {
         Result result = advertisementService.addAdvertisement(advertisement);
         if (!result.isSuccess()) {
             return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
@@ -34,7 +36,7 @@ public class AdvertisementsController {
     }
 
     @PostMapping("/updateAdvertisement")
-    public ResponseEntity<Result> updateAdvertisement(@RequestBody AdvertisementDto advertisement) {
+    public ResponseEntity<Result> updateAdvertisement(@RequestBody AdvertisementRequest advertisement) {
         Result result = advertisementService.addAdvertisement(advertisement);
         if (!result.isSuccess()) {
             return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
@@ -43,8 +45,8 @@ public class AdvertisementsController {
         }
     }
 
-    @DeleteMapping("/deleteAdvertisement")
-    public ResponseEntity<Result>  deleteAdvertisement(@RequestParam int id) {
+    @DeleteMapping("/deleteAdvertisement/{id}")
+    public ResponseEntity<Result>  deleteAdvertisement(@PathVariable("id") int id) {
         return ResponseEntity.ok(this.advertisementService.deleteAdvertisement(id));
     }
 
@@ -53,29 +55,33 @@ public class AdvertisementsController {
         return ResponseEntity.ok(this.advertisementService.getAllAdvertisementList());
     }
 
-    @GetMapping("/findBySalaryMax")
-    public DataResult<Advertisement> findBySalaryMax(@RequestParam double maxSalary) throws NoSuchMethodException {
+    @GetMapping("/findBySalaryMax/{maxSalary}")
+    public DataResult<Advertisement> findBySalaryMax(@PathVariable("maxSalary") double maxSalary) throws NoSuchMethodException {
         return this.advertisementService.findBySalaryMax(maxSalary);
     }
 
-    @GetMapping("/findBySalaryMin")
-    public DataResult<Advertisement> findBySalaryMin(@RequestParam int minSalary) throws NoSuchMethodException {
+    @GetMapping("/findBySalaryMin/{minSalary}")
+    public DataResult<Advertisement> findBySalaryMin(@PathVariable("minSalary") int minSalary) throws NoSuchMethodException {
         return this.advertisementService.findBySalaryMin(minSalary);
     }
 
-    @GetMapping("/findById")
-    public DataResult<Advertisement> findById(@RequestParam int id) {
+    @GetMapping("/findById/{id}")
+    public DataResult<Advertisement> findById(@PathVariable("id") int id) {
         return this.advertisementService.findById(id);
     }
 
 
-    @PostMapping("/changeOpenToClose")
-    public Result changeOpenToClose(int id) {
+    @PostMapping("/changeOpenToClose/{id}")
+    public Result changeOpenToClose(@PathVariable("id") int id) {
         return this.advertisementService.changeOpenToClose(id);
     }
 
-    @GetMapping("/getAllOpenAdvertisementList")
-    public DataResult<List<Advertisement>> getAllOpenAdvertisementList() {
-        return this.advertisementService.getAllOpenAdvertisementList();
+    @GetMapping("/getAllOpenAndApprovedAdvertisementList")
+    public DataResult<List<Advertisement>> getAllOpenAndApprovedAdvertisementList() {
+        return this.advertisementService.getAllOpenAndApprovedAdvertisementList();
+    }
+    @GetMapping("/getAllWaitApproveAdvertisementList")
+    public DataResult<List<Advertisement>> getAllWaitApproveAdvertisementList() {
+        return this.advertisementService.getAllWaitApproveAdvertisementList();
     }
 }

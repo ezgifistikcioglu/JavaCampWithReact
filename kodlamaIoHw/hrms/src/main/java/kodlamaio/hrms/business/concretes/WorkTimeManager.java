@@ -3,7 +3,6 @@ package kodlamaio.hrms.business.concretes;
 import kodlamaio.hrms.business.abstracts.WorkTimeService;
 import kodlamaio.hrms.core.utilities.results.*;
 import kodlamaio.hrms.dataAccess.abstracts.WorkTimeRepository;
-import kodlamaio.hrms.entities.concretes.TypeOfWorkFeature;
 import kodlamaio.hrms.entities.concretes.WorkTimeFeature;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +11,7 @@ import java.util.Optional;
 
 @Service
 public class WorkTimeManager implements WorkTimeService {
-    private  final WorkTimeRepository workTimeRepository;
+    private final WorkTimeRepository workTimeRepository;
 
     public WorkTimeManager(WorkTimeRepository workTimeRepository) {
         super();

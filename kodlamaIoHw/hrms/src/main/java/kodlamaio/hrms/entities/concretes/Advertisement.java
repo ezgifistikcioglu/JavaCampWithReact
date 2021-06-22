@@ -31,6 +31,9 @@ public class Advertisement {
     @Column(name = "is_advertisement_open", columnDefinition = "boolean default false")
     private boolean isAdvertisementOpen = false;
 
+    @Column(name = "is_approved", columnDefinition = "boolean default false")
+    private boolean isApproved = false;
+
     @Column(name = "application_deadline")
     private LocalDate applicationDeadline;
 
@@ -49,8 +52,8 @@ public class Advertisement {
     private Position position;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "employer_id")
-    private Employer employer;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = TypeOfWorkFeature.class)
     @JoinColumn(name = "work_type_id")

@@ -4,7 +4,6 @@ import kodlamaio.hrms.business.abstracts.EducationInformationService;
 import kodlamaio.hrms.core.utilities.results.*;
 import kodlamaio.hrms.dataAccess.abstracts.EducationInformationForCVRepository;
 import kodlamaio.hrms.entities.concretes.EducationInformationForCv;
-import kodlamaio.hrms.entities.concretes.WorkExperienceForCv;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;

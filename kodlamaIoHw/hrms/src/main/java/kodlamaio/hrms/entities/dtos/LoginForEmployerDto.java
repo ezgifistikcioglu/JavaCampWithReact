@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoginForEmployerDto {
+    private int userId;
 
     private String email;
 
@@ -20,4 +21,10 @@ public class LoginForEmployerDto {
     private String password;
 
     private String confirmPassword;
+
+    private boolean isActive = false;
+
+    private boolean isApproved = false;
+
+    private boolean isSystemUser = false;
 }

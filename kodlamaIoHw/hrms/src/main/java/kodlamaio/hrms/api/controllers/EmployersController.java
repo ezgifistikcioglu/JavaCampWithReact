@@ -40,8 +40,27 @@ public class EmployersController {
         return ResponseEntity.ok(result);
     }
 
-    @DeleteMapping("/deleteEmployer")
-    public ResponseEntity<Result> deleteEmployer(@RequestBody int id) {
+    @DeleteMapping("/deleteEmployer/{id}")
+    public ResponseEntity<Result> deleteEmployer(@PathVariable("id") int id) {
         return ResponseEntity.ok(this.employerService.deleteEmployer(id));
+    }
+
+    @PostMapping("/confirmEmployer")
+    public ResponseEntity<Result> confirmEmployer(@Valid @RequestBody LoginForEmployerDto employerDto) {
+        final Result result = employerService.confirmEmployer(employerDto);
+
+        if (!result.isSuccess())
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/getAllActiveAndApprovedEmployerList")
+    public DataResult<List<Employer>> getAllActiveAndApprovedEmployerList() {
+        return this.employerService.getAllActiveAndApprovedEmployerList();
+    }
+    @GetMapping("/getAllWaitApproveEmployerList")
+    public DataResult<List<Employer>> getAllWaitApproveEmployerList() {
+        return this.employerService.getAllWaitApproveEmployerList();
     }
 }

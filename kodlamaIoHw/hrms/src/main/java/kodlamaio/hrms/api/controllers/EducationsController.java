@@ -9,7 +9,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -24,7 +23,7 @@ public class EducationsController {
         this.educationInformationService = educationInformationService;
     }
 
-    @GetMapping("/getall")
+    @GetMapping("/getAll")
     public ResponseEntity<DataResult<List<EducationInformationForCv>>> getAll() {
         DataResult<List<EducationInformationForCv>> result = educationInformationService.getAll();
         return ResponseEntity.ok(result);
@@ -35,8 +34,8 @@ public class EducationsController {
         return ResponseEntity.ok(this.educationInformationService.add(information));
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<Result> delete(@RequestBody int id) {
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Result> delete(@PathVariable("id") int id) {
         return ResponseEntity.ok(this.educationInformationService.delete(id));
     }
 

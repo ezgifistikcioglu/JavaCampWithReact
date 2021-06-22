@@ -22,7 +22,7 @@ public class LanguagesController {
         this.languageService = languageService;
     }
 
-    @GetMapping("/getall")
+    @GetMapping("/getAll")
     public ResponseEntity<DataResult<List<LanguagesForCv>>> getAll() {
         DataResult<List<LanguagesForCv>> result = languageService.getAll();
         return ResponseEntity.ok(result);
@@ -33,9 +33,9 @@ public class LanguagesController {
         return ResponseEntity.ok(this.languageService.add(cv));
     }
 
-    @PostMapping("/delete")
-    public ResponseEntity<Result> delete(@RequestBody @Valid LanguagesForCv cv) {
-        return ResponseEntity.ok(this.languageService.delete(cv));
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Result> delete(@PathVariable("id") int id) {
+        return ResponseEntity.ok(this.languageService.delete(id));
     }
 
     @PostMapping("/update")

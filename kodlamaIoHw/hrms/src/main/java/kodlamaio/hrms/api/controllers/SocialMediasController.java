@@ -23,7 +23,7 @@ public class SocialMediasController {
         this.socialMediaService = socialMediaService;
     }
 
-    @GetMapping("/getall")
+    @GetMapping("/getAll")
     public ResponseEntity<DataResult<List<SocialMediaForCv>>> getAll() {
         DataResult<List<SocialMediaForCv>> result = socialMediaService.getAll();
         return ResponseEntity.ok(result);
@@ -34,8 +34,8 @@ public class SocialMediasController {
         return ResponseEntity.ok(this.socialMediaService.add(cv));
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<Result> delete(@RequestBody int id) {
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Result> delete(@PathVariable("id") int id) {
         return ResponseEntity.ok(this.socialMediaService.delete(id));
     }
 
@@ -44,8 +44,8 @@ public class SocialMediasController {
         return ResponseEntity.ok(this.socialMediaService.update(cv));
     }
 
-    @GetMapping("/findAllByCvId")
-    public ResponseEntity<DataResult<List<SocialMediaForCv>>> findAllByCvId(@RequestParam int id) {
+    @GetMapping("/findAllByCvId/{id}")
+    public ResponseEntity<DataResult<List<SocialMediaForCv>>> findAllByCvId(@PathVariable("id") int id) {
         DataResult<List<SocialMediaForCv>> result = socialMediaService.findAllByCvId(id);
         return ResponseEntity.ok(result);
     }

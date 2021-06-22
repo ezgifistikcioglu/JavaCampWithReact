@@ -4,7 +4,6 @@ import kodlamaio.hrms.business.abstracts.WorkFeatureService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.entities.concretes.TypeOfWorkFeature;
-import kodlamaio.hrms.entities.concretes.WorkTimeFeature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

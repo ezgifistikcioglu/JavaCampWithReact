@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -25,7 +24,7 @@ public class JobSeekersController {
         this.jobSeekerService = jobSeekerService;
     }
 
-    @GetMapping("/getall")
+    @GetMapping("/getAll")
     public DataResult<List<JobSeeker>> getAll() {
         return this.jobSeekerService.getAll();
     }
@@ -35,8 +34,8 @@ public class JobSeekersController {
         return ResponseEntity.ok(this.jobSeekerService.addJobSeeker(jobSeeker));
     }
 
-    @GetMapping("/getById")
-    public DataResult<JobSeeker> getById(@RequestParam int id) {
+    @GetMapping("/getById/{id}")
+    public DataResult<JobSeeker> getById(@PathVariable("id") int id) {
         return this.jobSeekerService.getById(id);
     }
 
@@ -45,8 +44,8 @@ public class JobSeekersController {
         return ResponseEntity.ok(this.jobSeekerService.updateJobSeeker(jobSeeker));
     }
 
-    @PostMapping("/deleteJobSeeker")
-    public ResponseEntity<Result> deleteJobSeeker(@RequestBody int id) {
+    @DeleteMapping("/deleteJobSeeker/{id}")
+    public ResponseEntity<Result> deleteJobSeeker(@PathVariable("id") int id) {
         return ResponseEntity.ok(this.jobSeekerService.deleteJobSeeker(id));
     }
 

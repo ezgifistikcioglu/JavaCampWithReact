@@ -1,38 +1,24 @@
 package kodlamaio.hrms.entities.concretes;
 
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import java.time.LocalDateTime;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
 
 @Data
 @Entity
 @Table(name = "hrms_employees")
+@PrimaryKeyJoinColumn(name = "user_id")
 @AllArgsConstructor
 @NoArgsConstructor
-public class SystemEmployee {
-    @Column(name = "id", unique = true, nullable = false)
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    @JoinColumn(name = "user_id")
-    @OneToOne()
-    private User user;
-
+public class SystemEmployee extends User{
     @Column(name = "firstname")
     private String firstName;
 
     @Column(name = "lastname")
     private String lastName;
-
-    @Column(name = "is_approved", columnDefinition = "boolean default false")
-    private boolean isApproved = false;
-
-    @Column(name = "created_at", columnDefinition = "Date default CURRENT_DATE")
-    private final LocalDateTime createdAt = LocalDateTime.now();
 }

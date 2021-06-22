@@ -2,37 +2,83 @@ package kodlamaio.hrms.business.concretes;
 
 import kodlamaio.hrms.business.abstracts.EmailVerificationService;
 import kodlamaio.hrms.business.abstracts.EmployerService;
-import kodlamaio.hrms.business.abstracts.SystemEmployeeService;
 import kodlamaio.hrms.core.utilities.results.*;
 import kodlamaio.hrms.dataAccess.abstracts.EmployerRepository;
+import kodlamaio.hrms.dataAccess.abstracts.SystemEmployeeRepository;
+import kodlamaio.hrms.dataAccess.abstracts.UserRepository;
 import kodlamaio.hrms.entities.concretes.Employer;
-import kodlamaio.hrms.entities.concretes.ProgrammingSkillForCv;
-import kodlamaio.hrms.entities.concretes.SystemEmployee;
+import kodlamaio.hrms.entities.concretes.User;
 import kodlamaio.hrms.entities.dtos.LoginForEmployerDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class EmployerManager implements EmployerService {
 
     private final EmployerRepository employerRepository;
     private final EmailVerificationService emailVerificationService;
-    private final SystemEmployeeService systemEmployeeService;
+    private final UserRepository userRepository;
+    private final SystemEmployeeRepository systemEmployeeRepository;
 
     @Autowired
-    public EmployerManager(EmployerRepository employerRepository, EmailVerificationService emailVerificationService, SystemEmployeeService systemEmployeeService) {
+    public EmployerManager(EmployerRepository employerRepository, EmailVerificationService emailVerificationService, UserRepository userRepository, SystemEmployeeRepository systemEmployeeRepository) {
         super();
         this.employerRepository = employerRepository;
         this.emailVerificationService = emailVerificationService;
-        this.systemEmployeeService = systemEmployeeService;
+        this.userRepository = userRepository;
+        this.systemEmployeeRepository = systemEmployeeRepository;
     }
 
     @Override
     public DataResult<List<Employer>> getAll() {
         return new SuccessDataResult<>(this.employerRepository.findAll(), "Listed data");
+    }
+
+    @Override
+    public DataResult<List<Employer>> getAllActiveAndApprovedEmployerList() {
+        List<Employer> employerList = this.employerRepository.findAll();
+        List<Employer> employers = employerList.stream()
+                .filter(employer -> employer.isApproved() && employer.isActive())
+                .collect(Collectors.toList());
+        return new SuccessDataResult<>(employers);
+    }
+
+    @Override
+    public DataResult<List<Employer>> getAllWaitApproveEmployerList() {
+        List<Employer> employerList = this.employerRepository.findAll();
+        List<Employer> waitApproveEmployers = employerList.stream()
+                .filter(employer -> !employer.isApproved()).collect(Collectors.toList());
+        return new SuccessDataResult<>(waitApproveEmployers);
+    }
+
+    @Override
+    public Result confirmEmployer(LoginForEmployerDto employerDto) {
+        try {
+            if (!this.userRepository.findById(employerDto.getUserId()).isPresent()) {
+                return new ErrorsResult("There is not available system employee with this id! : " + employerDto.getUserId() + "!");
+            } else {
+                User user = this.userRepository.findById(employerDto.getUserId()).get();
+                Employer employer = this.employerRepository.findById(employerDto.getUserId()).get();
+
+                if (!user.isSystemUser() && !this.employerRepository.findById(employerDto.getUserId()).isPresent() && !this.systemEmployeeRepository.findById(employerDto.getUserId()).isPresent()) {
+                    employer.setApproved(false);
+                    employer.setActive(false);
+                    return new ErrorsResult("There is not available system employee with this id! : " + employerDto.getUserId() + "!");
+                } else {
+                    employer.setApproved(employerDto.isApproved());
+                    employer.setActive(employer.isActive());
+                    this.userRepository.save(employer);
+                }
+            }
+        } catch (EntityNotFoundException exception) {
+            return new ErrorDataResult<>(exception.getMessage());
+        }
+        return new SuccessDataResult<>("User approved");
     }
 
     @Override
@@ -54,7 +100,6 @@ public class EmployerManager implements EmployerService {
         if (!employerOptional.isPresent()) {
             return new ErrorsResult("This employer ( id " + employer.getUserId() + "-" + employer.getEmail() + " ) doesnt available!");
         } else {
-
             employerOptional.get().setEmail(employer.getEmail());
             employerOptional.get().setPassword(employer.getPassword());
             employerOptional.get().setConfirmPassword(employer.getConfirmPassword());
@@ -87,7 +132,6 @@ public class EmployerManager implements EmployerService {
 
     @Override
     public Result register(LoginForEmployerDto employerDto) {
-        SystemEmployeeManager employeeManager = new SystemEmployeeManager();
         if (!isCorporateEmail(employerDto.getEmail(), employerDto.getWebAddress())) {
             return new ErrorsResult("Error : Email or web address not valid! " + employerDto.getEmail());
         } else {
@@ -98,6 +142,8 @@ public class EmployerManager implements EmployerService {
                     return new ErrorsResult("Error : Please Check Employer password : " + employerDto);
                 } else {
                     Employer employer = new Employer();
+                    employer.setActive(false);
+                    employer.setApproved(false);
                     employer.setEmail(employerDto.getEmail());
                     employer.setCompanyName(employerDto.getCompanyName());
                     employer.setWebAddress(employerDto.getWebAddress());
@@ -105,14 +151,10 @@ public class EmployerManager implements EmployerService {
                     employer.setPassword(employerDto.getPassword());
                     employer.setConfirmPassword(employerDto.getConfirmPassword());
                     System.out.println("Register employer : " + employer);
-                    // TODO : check also save user repository too
+                    this.employerRepository.save(employer);
 
-                    if (employeeManager.addEmployer(employer)){
-                        this.employerRepository.save(employer);
-                        return new SuccessResult("Employer registration completed successfully.");
-                    }
                     emailVerificationService.sendActivationCode(employer, employer.getEmail());
-                    return new ErrorsResult("Error : You are not approved by system personnel " );
+                    return new SuccessDataResult<>("Your registration has been sent to the admin for approval.");
                 }
             }
         }

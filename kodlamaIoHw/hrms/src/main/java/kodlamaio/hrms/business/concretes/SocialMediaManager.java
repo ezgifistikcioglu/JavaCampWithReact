@@ -4,7 +4,6 @@ import kodlamaio.hrms.business.abstracts.SocialMediaService;
 import kodlamaio.hrms.core.utilities.results.*;
 import kodlamaio.hrms.dataAccess.abstracts.SocialMediaForCvRepository;
 import kodlamaio.hrms.entities.concretes.SocialMediaForCv;
-import kodlamaio.hrms.entities.concretes.WorkExperienceForCv;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -60,7 +59,7 @@ public class SocialMediaManager implements SocialMediaService {
 
         if (!socialMediaForCv.isPresent()) {
             return new ErrorDataResult<>("Social media not found");
-        }else {
+        } else {
             this.socialMediaForCvRepository.deleteById(id);
             return new SuccessResult("Deleted socialMedia");
         }

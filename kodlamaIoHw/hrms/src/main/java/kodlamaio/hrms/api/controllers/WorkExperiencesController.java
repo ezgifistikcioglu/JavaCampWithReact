@@ -23,7 +23,7 @@ public class WorkExperiencesController {
         this.workExperienceService = workExperienceService;
     }
 
-    @GetMapping("/getall")
+    @GetMapping("/getAll")
     public ResponseEntity<DataResult<List<WorkExperienceForCv>>> getAll() {
         DataResult<List<WorkExperienceForCv>> result = workExperienceService.getAll();
         return ResponseEntity.ok(result);
@@ -34,9 +34,9 @@ public class WorkExperiencesController {
         return ResponseEntity.ok(this.workExperienceService.add(cv));
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<Result> delete(@RequestBody int cv) {
-        return ResponseEntity.ok(this.workExperienceService.delete(cv));
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Result> delete(@PathVariable("id") int id) {
+        return ResponseEntity.ok(this.workExperienceService.delete(id));
     }
 
     @PostMapping("/update")

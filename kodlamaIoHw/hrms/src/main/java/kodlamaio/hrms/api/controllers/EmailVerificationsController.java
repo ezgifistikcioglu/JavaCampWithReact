@@ -35,8 +35,8 @@ public class EmailVerificationsController {
         return ResponseEntity.ok(this.emailVerificationService.updateEmailVerification(emailVerification));
     }
 
-    @DeleteMapping("/deleteEmailVerification")
-    public ResponseEntity<Result> deleteEmailVerification(@RequestParam int id) {
+    @DeleteMapping("/deleteEmailVerification/{id}")
+    public ResponseEntity<Result> deleteEmailVerification(@PathVariable("id") int id) {
         return ResponseEntity.ok(this.emailVerificationService.deleteEmailVerification(id));
     }
 

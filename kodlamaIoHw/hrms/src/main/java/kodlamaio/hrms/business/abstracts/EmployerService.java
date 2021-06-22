@@ -20,4 +20,10 @@ public interface EmployerService {
     Result isEmailAvailable(String email);
 
     Result register(LoginForEmployerDto employerDto);
+
+    Result confirmEmployer(LoginForEmployerDto employerDto);
+
+    DataResult<List<Employer>> getAllWaitApproveEmployerList();
+
+    DataResult<List<Employer>> getAllActiveAndApprovedEmployerList();
 }

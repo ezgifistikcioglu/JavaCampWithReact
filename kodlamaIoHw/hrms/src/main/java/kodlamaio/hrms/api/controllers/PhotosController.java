@@ -6,14 +6,11 @@ import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.entities.concretes.JobSeeker;
 import kodlamaio.hrms.entities.concretes.PhotoInfo;
-import kodlamaio.hrms.entities.concretes.User;
-import kodlamaio.hrms.services.ImageService.CloudinaryPhotoUploadAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/images")
@@ -30,7 +27,6 @@ public class PhotosController {
         this.jobSeekerService = jobSeekerService;
     }
 
-
     @PostMapping(value = "/add")
     public Result add(@RequestParam(value = "id") int id, @RequestParam(value = "imageFile") MultipartFile imageFile) {
         JobSeeker jobSeeker = this.jobSeekerService.getById(id).getData();
@@ -45,20 +41,20 @@ public class PhotosController {
 
     }
 
-    @PostMapping("/delete")
-    public Result delete(@RequestParam int id) {
+    @PostMapping("/delete/{id}")
+    public Result delete(@PathVariable("id") int id) {
         return this.photoService.delete(id);
 
     }
 
-    @GetMapping("/getall")
+    @GetMapping("/getAll")
     public DataResult<List<PhotoInfo>> getAll() {
         return this.photoService.getAll();
     }
 
 
-    @GetMapping("/getById")
-    public DataResult<PhotoInfo> getById(@RequestParam int id) {
+    @GetMapping("/getById/{id}")
+    public DataResult<PhotoInfo> getById(@PathVariable("id") int id) {
         return this.photoService.getById(id);
     }
 }

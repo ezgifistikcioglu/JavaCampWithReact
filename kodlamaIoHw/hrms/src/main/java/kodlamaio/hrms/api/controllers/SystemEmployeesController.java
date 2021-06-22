@@ -4,6 +4,7 @@ import kodlamaio.hrms.business.abstracts.SystemEmployeeService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.entities.concretes.SystemEmployee;
+import kodlamaio.hrms.entities.dtos.LoginForEmployeeDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,9 +29,9 @@ public class SystemEmployeesController {
         return ResponseEntity.ok(result);
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<Result> add(@RequestParam int id) {
-        final Result result = systemEmployeeService.add(id);
+    @PostMapping("/addEmployee")
+    public ResponseEntity<Result> addEmployee(@RequestBody LoginForEmployeeDto employeeDto) {
+        final Result result = systemEmployeeService.addEmployee(employeeDto);
 
         if (!result.isSuccess())
             return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);

@@ -22,8 +22,8 @@ public class CitiesController {
         this.cityService = cityService;
     }
 
-    @GetMapping("/getCity")
-    public ResponseEntity<DataResult<City>> getCity(int id) {
+    @GetMapping("/getCity/{id}")
+    public ResponseEntity<DataResult<City>> getCity(@PathVariable("id") int id) {
         DataResult<City> result = cityService.getCity(id);
         return ResponseEntity.ok(result);
     }
@@ -44,8 +44,8 @@ public class CitiesController {
         return ResponseEntity.ok(this.cityService.updateCity(city));
     }
 
-    @DeleteMapping("/deleteCityById")
-    public ResponseEntity<Result> deleteCityById(@RequestParam int id) {
+    @DeleteMapping("/deleteCityById/{id}")
+    public ResponseEntity<Result> deleteCityById(@PathVariable("id") int id) {
         return ResponseEntity.ok(this.cityService.deleteCityById(id));
     }
 

@@ -22,8 +22,8 @@ public class UsersController {
         this.userService = userService;
     }
 
-    @GetMapping("/getUser")
-    public ResponseEntity<DataResult<User>> getUser(int id) {
+    @GetMapping("/getUser/{id}")
+    public ResponseEntity<DataResult<User>> getUser(@PathVariable("id")int id) {
         return ResponseEntity.ok(this.userService.getUser(id));
     }
 
@@ -47,8 +47,8 @@ public class UsersController {
         return ResponseEntity.ok(this.userService.updateUserAccount(user));
     }
 
-    @GetMapping("/deleteUserAccount")
-    public ResponseEntity<Result> deleteUserAccount(int id) {
+    @DeleteMapping("/deleteUserAccount/{id}")
+    public ResponseEntity<Result> deleteUserAccount(@PathVariable("id") int id) {
         return ResponseEntity.ok(this.userService.deleteUserAccount(id));
     }
 }

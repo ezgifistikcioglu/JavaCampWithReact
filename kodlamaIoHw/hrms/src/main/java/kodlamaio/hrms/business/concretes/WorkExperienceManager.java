@@ -3,7 +3,6 @@ package kodlamaio.hrms.business.concretes;
 import kodlamaio.hrms.business.abstracts.WorkExperienceService;
 import kodlamaio.hrms.core.utilities.results.*;
 import kodlamaio.hrms.dataAccess.abstracts.WorkExperienceForCvRepository;
-import kodlamaio.hrms.entities.concretes.User;
 import kodlamaio.hrms.entities.concretes.WorkExperienceForCv;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -32,9 +31,10 @@ public class WorkExperienceManager implements WorkExperienceService {
     public Result add(WorkExperienceForCv experience) {
         if (findByExperienceId(experience.getExperienceId()).getData() != null) {
             return new ErrorsResult(experience.getExperienceId() + "Same experience cannot repeat");
+        } else {
+            this.workExperienceForCvRepository.save(experience);
+            return new SuccessResult("Added new experience");
         }
-        this.workExperienceForCvRepository.save(experience);
-        return new SuccessResult("Added new experience");
     }
 
     @Override

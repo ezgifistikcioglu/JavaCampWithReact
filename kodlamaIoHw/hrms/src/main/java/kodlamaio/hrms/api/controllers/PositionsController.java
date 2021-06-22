@@ -22,7 +22,7 @@ public class PositionsController {
         this.positionService = positionService;
     }
 
-    @GetMapping("/getall")
+    @GetMapping("/getAll")
     public ResponseEntity<DataResult<List<Position>>> getAll() {
         return ResponseEntity.ok(this.positionService.getAll());
     }

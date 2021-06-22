@@ -1,11 +1,13 @@
 package kodlamaio.hrms.business.concretes;
 
 import kodlamaio.hrms.business.abstracts.SystemEmployeeService;
+import kodlamaio.hrms.business.abstracts.UserService;
 import kodlamaio.hrms.core.utilities.results.*;
 import kodlamaio.hrms.dataAccess.abstracts.SystemEmployeeRepository;
-import kodlamaio.hrms.entities.concretes.Advertisement;
-import kodlamaio.hrms.entities.concretes.Employer;
 import kodlamaio.hrms.entities.concretes.SystemEmployee;
+import kodlamaio.hrms.entities.dtos.LoginForEmployeeDto;
+import lombok.NoArgsConstructor;
+import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,23 +15,54 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@NoArgsConstructor
 public class SystemEmployeeManager implements SystemEmployeeService {
-
     private SystemEmployeeRepository systemEmployeeRepository;
+    private UserService userService;
 
     @Autowired
-    public SystemEmployeeManager(SystemEmployeeRepository systemEmployeeRepository) {
+    public SystemEmployeeManager(SystemEmployeeRepository systemEmployeeRepository, UserService userService) {
         super();
         this.systemEmployeeRepository = systemEmployeeRepository;
+        this.userService = userService;
     }
 
-    public SystemEmployeeManager() {
+    private boolean checkPasswordMatch(String password, String confirmPassword) {
+        boolean resultValidate = password.length() >= 4;
+        if (!resultValidate) {
+            System.out.println("Password must not be less than 4 characters, please check your password: " + password);
+            return false;
+        }
+        return password.equals(confirmPassword);
     }
 
     @Override
-    public Result add(int id) {
-        Optional<SystemEmployee> employee = this.systemEmployeeRepository.findById(id);
-        return new SuccessResult("Added employer: " + employee);
+    public Result addEmployee(LoginForEmployeeDto employeeDto) {
+        var checkEmail = userService.checkUserByEmail(employeeDto.getEmail());
+
+        if (checkEmail.isSuccess()) {
+            return new ErrorsResult("Error : employee user email : " + employeeDto.getEmail() + " already exists!");
+        } else {
+
+            if (!checkPasswordMatch(employeeDto.getPassword(), employeeDto.getConfirmPassword())) {
+                return new ErrorsResult("Error : Employee password and confirmPassword does not match! : " + employeeDto.getPassword() + "-" + employeeDto.getConfirmPassword());
+            } else {
+                if (getById(employeeDto.getId()).getData() != null) {
+                    return new ErrorsResult(employeeDto.getId() + "Same employee cannot repeat");
+                } else {
+                    SystemEmployee employee = new SystemEmployee();
+                    employee.setEmail(employeeDto.getEmail());
+                    employee.setFirstName(employeeDto.getFirstName());
+                    employee.setLastName(employeeDto.getLastName());
+                    employee.setPassword(employeeDto.getPassword());
+                    employee.setConfirmPassword(employeeDto.getConfirmPassword());
+                    employee.setSystemUser(true);
+                    this.systemEmployeeRepository.save(employee);
+
+                    return new SuccessResult("Employee registration completed successfully.");
+                }
+            }
+        }
     }
 
     @Override
@@ -39,73 +72,53 @@ public class SystemEmployeeManager implements SystemEmployeeService {
 
     @Override
     public DataResult<SystemEmployee> getById(int id) {
-        Optional<SystemEmployee> systemEmployee = this.systemEmployeeRepository.findById(id);
+        Optional<SystemEmployee> optionalSystemEmployee = this.systemEmployeeRepository.findById(id);
 
-        if (!systemEmployee.isPresent()) {
+        if (!optionalSystemEmployee.isPresent()) {
             return new ErrorDataResult<>("System employee not found");
         } else {
-            return new SuccessDataResult<>(systemEmployee.get());
+            return new SuccessDataResult<>(optionalSystemEmployee.get());
         }
     }
 
     @Override
-    public Result addEmployee(SystemEmployee systemEmployee) {
-        if (this.getById(systemEmployee.getId()).getData() != null) {
-            return new ErrorsResult("id: " + systemEmployee.getId() + "Employee first name: " + systemEmployee.getFirstName() + "Employee last name: " + systemEmployee.getLastName() + "Same employee cannot repeat");
+    public DataResult<List<SystemEmployee>> findAllById(int id) {
+        List<SystemEmployee> systemEmployee = this.systemEmployeeRepository.findAllByUserId(id);
+
+        if (systemEmployee.isEmpty()) {
+            return new ErrorDataResult<>("Information for these system employees could not be found.");
         } else {
-            this.systemEmployeeRepository.save(systemEmployee);
-            return new SuccessResult("Added Employee");
-        }
-    }
-
-    public boolean addEmployer(Employer employer) {
-        SystemEmployee systemEmployee = new SystemEmployee();
-        if (systemEmployee.isApproved()) {
-            systemEmployee.setUser(employer);
-            systemEmployee.setApproved(true);
-            return true;
-        }else {
-            systemEmployee.setApproved(false);
-            return false;
-        }
-    }
-
-    public boolean confirmAdvertisement(Advertisement advertisement) {
-        SystemEmployee systemEmployee = new SystemEmployee();
-        if (systemEmployee.isApproved()) {
-            systemEmployee.setApproved(true);
-            advertisement.setAdvertisementOpen(true);
-            return true;
-        }else {
-            systemEmployee.setApproved(false);
-            advertisement.setAdvertisementOpen(false);
-            return false;
+            return new SuccessDataResult<>(systemEmployee, "System employee added successfully");
         }
     }
 
     @Override
     public Result updateEmployee(SystemEmployee systemEmployee) {
-        if (this.getById(systemEmployee.getId()).getData() != null) {
-            return new ErrorsResult("id: " + systemEmployee.getId() + "Employee first name: " + systemEmployee.getFirstName() + "Employee last name: " + systemEmployee.getLastName() + "Same employee cannot repeat");
+        Optional<SystemEmployee> optionalSystemEmployee = this.systemEmployeeRepository.findById(systemEmployee.getUserId());
+
+        if (!optionalSystemEmployee.isPresent()) {
+            return new ErrorsResult("This employee ( id " + systemEmployee.getUserId() + "-" + systemEmployee.getEmail() + " ) doesnt available!");
         } else {
-            this.systemEmployeeRepository.save(systemEmployee);
-            return new SuccessResult("Updated employee");
+            if (!systemEmployee.getPassword().equals(systemEmployee.getConfirmPassword())) {
+                return new ErrorsResult("Employee password and confirmPassword values must be same!");
+            } else {
+
+                optionalSystemEmployee.get().setUserId(systemEmployee.getUserId());
+                optionalSystemEmployee.get().setEmail(systemEmployee.getEmail());
+                optionalSystemEmployee.get().setPassword(systemEmployee.getPassword());
+                optionalSystemEmployee.get().setConfirmPassword(systemEmployee.getConfirmPassword());
+                optionalSystemEmployee.get().setFirstName(systemEmployee.getFirstName());
+                optionalSystemEmployee.get().setLastName(systemEmployee.getLastName());
+
+                this.systemEmployeeRepository.save(optionalSystemEmployee.get());
+                return new SuccessResult("Employee (" + systemEmployee.getUserId() + ") updated successfully.");
+            }
         }
     }
 
     @Override
-    public Result updateEmployer(Employer employer) {
-        return null;
-    }
-
-    @Override
-    public Result deleteEmployer(int id) {
+    public Result deleteEmployee(int id) {
         this.systemEmployeeRepository.deleteById(id);
         return new SuccessResult("Deleted employee");
-    }
-
-    @Override
-    public Result deleteEmployee(int id) {
-        return null;
     }
 }
