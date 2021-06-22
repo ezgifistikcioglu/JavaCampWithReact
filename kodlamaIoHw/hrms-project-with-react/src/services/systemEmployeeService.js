@@ -1,9 +1,7 @@
-import React from 'react'
+import axios from "axios"
 
-export default function systemEmployeeService() {
-    return (
-        <div>
-            
-        </div>
-    )
+export default class systemEmployeeService {
+    getSystemEmployees(){
+        return axios.get("http://localhost:8080/api/system_employees/getAll")
+    }
 }

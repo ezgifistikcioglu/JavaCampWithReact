@@ -10,4 +10,10 @@ export default class AdvertisementService{
     findById(id){
         return axios.get("http://localhost:8080/api/advertisements/findById?id="+id)
     }
+    getAllOpenAndApprovedAdvertisementList(){
+        return axios.get("http://localhost:8080/api/advertisements/getAllOpenAndApprovedAdvertisementList")
+    }
+    getAllWaitApproveAdvertisementList(){
+        return axios.get("getAllWaitApproveAdvertisementList")
+    }
 }

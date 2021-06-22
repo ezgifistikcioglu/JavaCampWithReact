@@ -10,6 +10,7 @@ import JobPositionList from '../pages/JobPositionList'
 import Settings from './Settings'
 import AddAdvertisement from '../pages/AddAdvertisement'
 import AdvertisementDetails from '../pages/AdvertisementDetails'
+import OpenAndApprovedAdvertisementList from '../pages/OpenAndApprovedAdvertisementList'
 
 
 export default function Dashboard() {
@@ -21,6 +22,7 @@ export default function Dashboard() {
                         <Categories />
                     </GridColumn>
                     <Grid.Column width = {12}>
+                        <Route exact path= "/" component={OpenAndApprovedAdvertisementList}/>
                         <Route exact path= "/advertisementLists" component={JobAdvertisementList}/>
                         <Route exact path= "/positions" component={JobPositionList}/>
                         <Route exact path= "/employers" component={EmployerList}/>

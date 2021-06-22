@@ -42,14 +42,14 @@ const useStyles = makeStyles({
     },
 });
 
-export default function JobAdvertisementList() {
+export default function OpenAndApprovedAdvertisementList() {
     const classes = useStyles();
 
     const [advertisements, setAdvertisements] = useState([]);
 
     useEffect(() => {
         let advertisementService = new AdvertisementService();
-        advertisementService.getAdvertisements().then(result => setAdvertisements(result.data.data))
+        advertisementService.getAllOpenAndApprovedAdvertisementList().then(result => setAdvertisements(result.data.data))
     }, []);
 
     return (

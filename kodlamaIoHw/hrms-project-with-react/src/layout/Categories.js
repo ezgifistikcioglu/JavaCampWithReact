@@ -5,7 +5,7 @@ import { Menu } from 'semantic-ui-react'
 export default function Categories() {
     return (
         <div>
-            <Menu secondary vertical>
+            <Menu secondary vertical color='orange'>
                 <Menu.Item as = {NavLink} to="/advertisementLists"
                     name='Advertisement'
                 />
