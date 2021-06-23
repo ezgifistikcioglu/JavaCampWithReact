@@ -10,7 +10,11 @@ import JobPositionList from '../pages/JobPositionList'
 import Settings from './Settings'
 import AddAdvertisement from '../pages/AddAdvertisement'
 import AdvertisementDetails from '../pages/AdvertisementDetails'
+import EmployeeLogin from '../pages/Authentications/EmployeeRegister'
+import EmployerLogin from '../pages/Authentications/EmployerRegister'
+import JobSeekerLogin from '../pages/Authentications/JobSeekerRegister'
 import OpenAndApprovedAdvertisementList from '../pages/OpenAndApprovedAdvertisementList'
+import LoginPage from '../pages/Authentications/LoginPage'
 
 
 export default function Dashboard() {
@@ -18,10 +22,10 @@ export default function Dashboard() {
         <div>
             <Grid columns={2} divided>
                 <GridRow> 
-                    <GridColumn width={4}>
+                    <GridColumn width={2}>
                         <Categories />
                     </GridColumn>
-                    <Grid.Column width = {12}>
+                    <Grid.Column width = {14}>
                         <Route exact path= "/" component={OpenAndApprovedAdvertisementList}/>
                         <Route exact path= "/advertisementLists" component={JobAdvertisementList}/>
                         <Route exact path= "/positions" component={JobPositionList}/>
@@ -31,6 +35,10 @@ export default function Dashboard() {
                         <Route exact path= "/settings" component={Settings}/>
                         <Route exact path= "/advertisements" component={AddAdvertisement}/>
                         <Route exact path="/advertisementDetails/:id" component={AdvertisementDetails} />
+                        <Route exact path="/employeeRegister" component={EmployeeLogin} />
+                        <Route exact path="/employerRegister" component={EmployerLogin} />
+                        <Route exact path="/jobSeekerRegister" component={JobSeekerLogin} />
+                        <Route exact path="/login" component={LoginPage} />
                     </Grid.Column>
                 </GridRow>
             </Grid>

@@ -26,9 +26,17 @@ export default function Navi() {
                         name='home'
                     />
                     <Menu.Item
-                        name='messages'
+                        name='Products'
                     />
-
+                    
+                    <Menu.Item
+                        name='Solutions'
+                    />
+                    
+                    <Menu.Item
+                        name='Resources'
+                    />
+                    
                     <Menu.Menu position='right'>
                         <Employer />
                         {isAuthenticated ? <SignIn signOut= {handleSignOut}/> : <SignOut signIn= {handleSignIn} />}
