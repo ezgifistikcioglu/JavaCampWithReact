@@ -25,7 +25,7 @@ public class UserManager implements UserService {
 
     @Override
     public Result checkUserByEmail(String email) {
-        return this.userRepository.findUserByEmail(email) != null ? new SuccessResult("user email available for add") : new ErrorsResult("The user with this email already exists.");
+        return this.userRepository.findUserByEmail(email) != null ? new SuccessResult("user email available for uploadPhoto") : new ErrorsResult("The user with this email already exists.");
     }
 
     @Override

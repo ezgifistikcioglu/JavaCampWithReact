@@ -9,4 +9,6 @@ public interface WorkTimeRepository extends JpaRepository<WorkTimeFeature, Integ
     WorkTimeFeature findByWorkTimeId(int id);
 
     List<WorkTimeFeature> findByWorkTimeNameContains(String name);
+
+    List<WorkTimeFeature> findAllByWorkTimeId(int id);
 }

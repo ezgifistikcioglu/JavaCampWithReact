@@ -25,6 +25,30 @@ public class WorkFeatureManager implements WorkFeatureService {
     }
 
     @Override
+    public Result update(TypeOfWorkFeature workFeature) {
+        Optional<TypeOfWorkFeature> workFeatureOptional = this.featureRepository.findById(workFeature.getWorkTypeId());
+
+        if (!workFeatureOptional.isPresent()) {
+            return new ErrorsResult("This type feature ( id " + workFeature.getWorkTypeId() + "-" + workFeature.getWorkTypeName() + " ) doesnt available!");
+        } else {
+            workFeatureOptional.get().setWorkTypeName(workFeature.getWorkTypeName());
+            this.featureRepository.save(workFeatureOptional.get());
+            return new SuccessResult("Type feature (" + workFeature.getWorkTypeName() + ") updated successfully.");
+        }
+    }
+
+    @Override
+    public Result delete(int id) {
+        List<TypeOfWorkFeature> type = this.featureRepository.findAllByWorkTypeId(id);
+        if (type.isEmpty()) {
+            return new ErrorDataResult<>("This time feature not found");
+        } else {
+            this.featureRepository.deleteById(id);
+            return new SuccessResult("Deleted time feature with id : " + id);
+        }
+    }
+
+    @Override
     public DataResult<TypeOfWorkFeature> findByWorkTypeId(int id) {
         Optional<TypeOfWorkFeature> typeOfWorkFeature = this.featureRepository.findById(id);
 

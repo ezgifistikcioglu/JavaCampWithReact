@@ -9,4 +9,6 @@ public interface WorkFeatureRepository extends JpaRepository<TypeOfWorkFeature, 
     TypeOfWorkFeature findByWorkTypeId(int id);
 
     List<TypeOfWorkFeature> findByWorkTypeNameContains(String name);
+
+    List<TypeOfWorkFeature> findAllByWorkTypeId(int id);
 }

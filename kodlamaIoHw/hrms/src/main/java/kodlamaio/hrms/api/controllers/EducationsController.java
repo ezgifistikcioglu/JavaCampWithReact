@@ -4,8 +4,10 @@ import kodlamaio.hrms.business.abstracts.EducationInformationService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.entities.concretes.EducationInformationForCv;
+import kodlamaio.hrms.entities.dtos.EducationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,10 +31,10 @@ public class EducationsController {
         return ResponseEntity.ok(result);
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<Result> add(@RequestBody EducationInformationForCv information) {
-        return ResponseEntity.ok(this.educationInformationService.add(information));
-    }
+   @PostMapping("/add")
+   public ResponseEntity<Result> add(@RequestBody EducationDto educationDto) {
+       return ResponseEntity.ok(this.educationInformationService.add(educationDto));
+   }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Result> delete(@PathVariable("id") int id) {
@@ -40,8 +42,13 @@ public class EducationsController {
     }
 
     @PostMapping("/update")
-    public ResponseEntity<Result> update(@RequestBody EducationInformationForCv information) {
-        return ResponseEntity.ok(this.educationInformationService.update(information));
+    public ResponseEntity<Result> update(@RequestBody EducationDto educationDto) {
+        Result result = educationInformationService.update(educationDto);
+        if (!result.isSuccess()) {
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        } else {
+            return ResponseEntity.ok(result);
+        }
     }
 
     @GetMapping("/findByEducationIdOrderBySchoolGraduationDate")

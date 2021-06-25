@@ -5,7 +5,9 @@ import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.entities.concretes.Cv;
 import kodlamaio.hrms.entities.dtos.CvDetailForJobSeekerDto;
+import kodlamaio.hrms.entities.dtos.CvDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,8 +32,8 @@ public class CVsController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Result> add(@RequestBody Cv cv) {
-        return ResponseEntity.ok(this.cvService.add(cv));
+    public ResponseEntity<Result> add(@RequestBody CvDto cvDto) {
+        return ResponseEntity.ok(this.cvService.add(cvDto));
     }
 
     @DeleteMapping("/delete/{id}")
@@ -39,10 +41,15 @@ public class CVsController {
         return ResponseEntity.ok(this.cvService.delete(id));
     }
 
-    @PostMapping("/update")
-    public ResponseEntity<Result> update(@RequestBody Cv cv) {
-        return ResponseEntity.ok(this.cvService.update(cv));
-    }
+     @PostMapping("/update")
+     public ResponseEntity<Result> update(@RequestBody CvDto cvDto) {
+         Result result = cvService.update(cvDto);
+         if (!result.isSuccess()) {
+             return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+         } else {
+             return ResponseEntity.ok(result);
+         }
+     }
 
     @GetMapping("/getByCvId/{id}")
     public ResponseEntity<DataResult<Cv>> getByCvId(@PathVariable("id") int id) {

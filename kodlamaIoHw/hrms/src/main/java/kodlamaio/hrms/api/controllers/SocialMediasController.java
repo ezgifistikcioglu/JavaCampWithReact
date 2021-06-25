@@ -4,7 +4,9 @@ import kodlamaio.hrms.business.abstracts.SocialMediaService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.entities.concretes.SocialMediaForCv;
+import kodlamaio.hrms.entities.dtos.SocialMediaDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,8 +32,8 @@ public class SocialMediasController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Result> add(@RequestBody @Valid SocialMediaForCv cv) {
-        return ResponseEntity.ok(this.socialMediaService.add(cv));
+    public ResponseEntity<Result> add(@RequestBody @Valid SocialMediaDto socialMediaDto) {
+        return ResponseEntity.ok(this.socialMediaService.add(socialMediaDto));
     }
 
     @DeleteMapping("/delete/{id}")
@@ -40,8 +42,13 @@ public class SocialMediasController {
     }
 
     @PostMapping("/update")
-    public ResponseEntity<Result> update(@RequestBody @Valid SocialMediaForCv cv) {
-        return ResponseEntity.ok(this.socialMediaService.update(cv));
+    public ResponseEntity<Result> update(@RequestBody @Valid SocialMediaDto socialMediaDto) {
+        Result result = socialMediaService.update(socialMediaDto);
+        if (!result.isSuccess()) {
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        } else {
+            return ResponseEntity.ok(result);
+        }
     }
 
     @GetMapping("/findAllByCvId/{id}")

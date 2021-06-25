@@ -1,5 +1,6 @@
 package kodlamaio.hrms.entities.concretes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 @Table(name = "experiences")
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler","cv"})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "cv"})
 public class WorkExperienceForCv {
     @Id
     @Column(name = "experience_id", unique = true, nullable = false)
@@ -40,6 +41,7 @@ public class WorkExperienceForCv {
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @JoinColumn(name = "cv_id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Cv.class)
+    @JsonIgnore
     private Cv cv;
 }

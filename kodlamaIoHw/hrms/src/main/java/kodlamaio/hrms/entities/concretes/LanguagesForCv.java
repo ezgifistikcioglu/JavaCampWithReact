@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Table(name = "languages")
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler","cv"})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "cv"})
 public class LanguagesForCv {
     @Id
     @Column(name = "language_id", unique = true, nullable = false)
@@ -34,7 +34,7 @@ public class LanguagesForCv {
     @Column(name = "created_at", columnDefinition = "Date default CURRENT_DATE")
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    @JoinColumn(name = "cv_id", nullable=false)
+    @JoinColumn(name = "cv_id")
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Cv.class)
     @JsonIgnore
     private Cv cv;

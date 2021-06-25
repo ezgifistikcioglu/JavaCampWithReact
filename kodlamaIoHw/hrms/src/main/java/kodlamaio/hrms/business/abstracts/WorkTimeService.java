@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface WorkTimeService {
     Result add(WorkTimeFeature timeFeature);
+    Result update(WorkTimeFeature timeFeature);
+    Result delete(int id);
     DataResult<WorkTimeFeature> findByWorkTimeId(int id);
     DataResult<List<WorkTimeFeature>> findByWorkTimeNameContains(String name);
     DataResult<List<WorkTimeFeature>> getAll();

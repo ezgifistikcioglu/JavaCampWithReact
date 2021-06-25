@@ -15,7 +15,7 @@ const useStyles = makeStyles({
     },
 });
 
-export default function Employer({}) {
+export default function Employer() {
     const classes = useStyles();
     const history = useHistory();
     const handleRoute = () =>{ 

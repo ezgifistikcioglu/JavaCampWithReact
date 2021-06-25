@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface PhotoService {
 
-    Result add(PhotoInfo photoInfo, MultipartFile imageFile);
+    Result uploadPhoto(PhotoInfo photoInfo, MultipartFile imageFile);
 
     Result update(PhotoInfo resumeImage);
 
@@ -18,4 +18,6 @@ public interface PhotoService {
     DataResult<PhotoInfo> getById(int id);
 
     DataResult<List<PhotoInfo>> getAll();
+
+    DataResult<List<PhotoInfo>> findAllById(int id);
 }

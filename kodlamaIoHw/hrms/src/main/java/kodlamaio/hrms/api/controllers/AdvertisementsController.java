@@ -37,7 +37,7 @@ public class AdvertisementsController {
 
     @PostMapping("/updateAdvertisement")
     public ResponseEntity<Result> updateAdvertisement(@RequestBody AdvertisementRequest advertisement) {
-        Result result = advertisementService.addAdvertisement(advertisement);
+        Result result = advertisementService.updateAdvertisement(advertisement);
         if (!result.isSuccess()) {
             return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         } else {

@@ -3,6 +3,7 @@ package kodlamaio.hrms.business.abstracts;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.entities.concretes.WorkExperienceForCv;
+import kodlamaio.hrms.entities.dtos.WorkExperienceDto;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
@@ -10,9 +11,9 @@ import java.util.List;
 public interface WorkExperienceService {
     DataResult<List<WorkExperienceForCv>> getAll();
 
-    Result add(WorkExperienceForCv experience);
+    Result add(WorkExperienceDto experienceDto);
 
-    Result update(WorkExperienceForCv experience);
+    Result update(WorkExperienceDto experienceDto);
 
     Result delete(int id);
 

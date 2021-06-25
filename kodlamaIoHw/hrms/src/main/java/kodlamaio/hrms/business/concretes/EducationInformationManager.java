@@ -2,45 +2,67 @@ package kodlamaio.hrms.business.concretes;
 
 import kodlamaio.hrms.business.abstracts.EducationInformationService;
 import kodlamaio.hrms.core.utilities.results.*;
+import kodlamaio.hrms.dataAccess.abstracts.CVRepository;
 import kodlamaio.hrms.dataAccess.abstracts.EducationInformationForCVRepository;
 import kodlamaio.hrms.entities.concretes.EducationInformationForCv;
+import kodlamaio.hrms.entities.dtos.EducationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
 public class EducationInformationManager implements EducationInformationService {
 
     private final EducationInformationForCVRepository educationInformationForCVRepository;
+    private final CVRepository cvRepository;
 
     @Autowired
-    public EducationInformationManager(EducationInformationForCVRepository educationInformationForCVRepository) {
+    public EducationInformationManager(EducationInformationForCVRepository educationInformationForCVRepository, CVRepository cvRepository) {
         super();
         this.educationInformationForCVRepository = educationInformationForCVRepository;
+        this.cvRepository = cvRepository;
     }
 
     @Override
     public DataResult<List<EducationInformationForCv>> getAll() {
-        return new SuccessDataResult<List<EducationInformationForCv>>(this.educationInformationForCVRepository.findAll(), "Listed data");
+        List<EducationInformationForCv> educationInformationForCvs = this.educationInformationForCVRepository.findAll();
+        return new SuccessDataResult<>(educationInformationForCvs, "Education information listed successfully");
     }
 
     @Override
-    public Result add(EducationInformationForCv education) {
-        if (findByEducationId(education.getEducationId()).getData() != null) {
-            return new ErrorsResult(education.getEducationId() + "There is no such education");
+    public Result add(EducationDto educationDto) {
+        if (findByEducationId(educationDto.getEducationId()).getData() != null) {
+            return new ErrorsResult(educationDto.getEducationId() + "There is no such education");
         } else {
-            this.educationInformationForCVRepository.save(education);
+            EducationInformationForCv educationInformation = new EducationInformationForCv();
+            customField(educationDto, educationInformation);
             return new SuccessResult("Added new education");
         }
     }
 
     @Override
-    public Result update(EducationInformationForCv education) {
-        this.educationInformationForCVRepository.save(education);
-        return new SuccessResult("Updated education");
+    public Result update(EducationDto educationDto) {
+        EducationInformationForCv educationInformationForCv = this.educationInformationForCVRepository.getByEducationId(educationDto.getEducationId());
+        if (educationInformationForCv == null) {
+            return new ErrorsResult("This time education ( id " + Objects.requireNonNull(educationInformationForCv).getEducationId() + " ) doesnt available!");
+        } else {
+            customField(educationDto, educationInformationForCv);
+            return new SuccessResult("Updated education");
+        }
+    }
+
+    private void customField(EducationDto educationDto, EducationInformationForCv educationInformation) {
+        educationInformation.setSchoolName(educationDto.getSchoolName());
+        educationInformation.setCv(this.cvRepository.getOne(educationDto.getCvId()));
+        educationInformation.setSchoolDepartmentName(educationDto.getSchoolDepartmentName());
+        educationInformation.setSchoolGraduationDate(educationDto.getSchoolGraduationDate());
+        educationInformation.setSchoolStartDate(educationDto.getSchoolStartDate());
+        this.educationInformationForCVRepository.save(educationInformation);
+        System.out.println("education" + educationDto);
     }
 
     @Override
@@ -50,8 +72,8 @@ public class EducationInformationManager implements EducationInformationService 
         if (!educationInformationForCv.isPresent()) {
             return new ErrorDataResult<>("Education not found");
         } else {
-        this.educationInformationForCVRepository.deleteById(id);
-        return new SuccessResult("Deleted education");
+            this.educationInformationForCVRepository.deleteById(id);
+            return new SuccessResult("Deleted education");
         }
     }
 

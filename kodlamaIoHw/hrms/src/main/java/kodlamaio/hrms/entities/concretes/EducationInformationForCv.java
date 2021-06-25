@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Table(name = "educations")
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler","cv"})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "cv"})
 public class EducationInformationForCv {
     @Column(name = "education_id", unique = true, nullable = false)
     @Id
@@ -38,7 +38,8 @@ public class EducationInformationForCv {
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @JoinColumn(name = "cv_id")
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Cv.class,cascade=CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Cv.class, cascade = CascadeType.ALL)
+    @JsonIgnore
     private Cv cv;
 
 }

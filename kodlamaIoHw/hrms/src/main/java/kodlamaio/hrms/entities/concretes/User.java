@@ -10,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -17,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "emailVerifications","advertisementList"})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "emailVerifications", "advertisementList"})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,9 +43,9 @@ public class User {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<EmailVerification> emailVerifications;
+    private Set<EmailVerification> emailVerifications;
 
     @OneToMany(mappedBy = "user")
     @JsonIgnore
-    private List<Advertisement> advertisementList;
+    private Set<Advertisement> advertisementList;
 }

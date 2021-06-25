@@ -2,8 +2,10 @@ package kodlamaio.hrms.business.concretes;
 
 import kodlamaio.hrms.business.abstracts.WorkExperienceService;
 import kodlamaio.hrms.core.utilities.results.*;
+import kodlamaio.hrms.dataAccess.abstracts.CVRepository;
 import kodlamaio.hrms.dataAccess.abstracts.WorkExperienceForCvRepository;
 import kodlamaio.hrms.entities.concretes.WorkExperienceForCv;
+import kodlamaio.hrms.entities.dtos.WorkExperienceDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -15,11 +17,14 @@ import java.util.Optional;
 public class WorkExperienceManager implements WorkExperienceService {
 
     private final WorkExperienceForCvRepository workExperienceForCvRepository;
+    private final CVRepository cvRepository;
+
 
     @Autowired
-    public WorkExperienceManager(WorkExperienceForCvRepository workExperienceForCvRepository) {
+    public WorkExperienceManager(WorkExperienceForCvRepository workExperienceForCvRepository, CVRepository cvRepository) {
         super();
         this.workExperienceForCvRepository = workExperienceForCvRepository;
+        this.cvRepository = cvRepository;
     }
 
     @Override
@@ -28,18 +33,31 @@ public class WorkExperienceManager implements WorkExperienceService {
     }
 
     @Override
-    public Result add(WorkExperienceForCv experience) {
-        if (findByExperienceId(experience.getExperienceId()).getData() != null) {
-            return new ErrorsResult(experience.getExperienceId() + "Same experience cannot repeat");
+    public Result add(WorkExperienceDto experienceDto) {
+        if (findByExperienceId(experienceDto.getExperienceId()).getData() != null) {
+            return new ErrorsResult(experienceDto.getExperienceId() + "Same experience cannot repeat");
         } else {
-            this.workExperienceForCvRepository.save(experience);
+            WorkExperienceForCv workExperienceForCv = new WorkExperienceForCv();
+            customField(experienceDto, workExperienceForCv);
             return new SuccessResult("Added new experience");
         }
     }
 
+    private void customField(WorkExperienceDto experienceDto, WorkExperienceForCv workExperienceForCv) {
+        workExperienceForCv.setBusinessName(experienceDto.getBusinessName());
+        workExperienceForCv.setJobName(experienceDto.getJobName());
+        workExperienceForCv.setStillWorking(experienceDto.isStillWorking());
+        workExperienceForCv.setBusinessLeavingDate(experienceDto.getBusinessLeavingDate());
+        workExperienceForCv.setBusinessStartDate(experienceDto.getBusinessStartDate());
+        workExperienceForCv.setCreatedAt(experienceDto.getCreatedAt());
+        workExperienceForCv.setCv(this.cvRepository.getOne(experienceDto.getCvId()));
+        this.workExperienceForCvRepository.save(workExperienceForCv);
+    }
+
     @Override
-    public Result update(WorkExperienceForCv experience) {
-        this.workExperienceForCvRepository.save(experience);
+    public Result update(WorkExperienceDto experienceDto) {
+        WorkExperienceForCv workExperienceForCv = this.workExperienceForCvRepository.getOne(experienceDto.getExperienceId());
+        customField(experienceDto, workExperienceForCv);
         return new SuccessResult("Updated experience");
     }
 

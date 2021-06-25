@@ -3,6 +3,7 @@ package kodlamaio.hrms.business.abstracts;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.entities.concretes.EducationInformationForCv;
+import kodlamaio.hrms.entities.dtos.EducationDto;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
@@ -10,9 +11,9 @@ import java.util.List;
 public interface EducationInformationService {
     DataResult<List<EducationInformationForCv>> getAll();
 
-    Result add(EducationInformationForCv education);
+    Result add(EducationDto educationDto);
 
-    Result update(EducationInformationForCv education);
+    Result update(EducationDto educationDto);
 
     Result delete(int id);
 

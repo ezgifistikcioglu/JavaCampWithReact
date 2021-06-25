@@ -2,23 +2,29 @@ package kodlamaio.hrms.business.concretes;
 
 import kodlamaio.hrms.business.abstracts.SocialMediaService;
 import kodlamaio.hrms.core.utilities.results.*;
+import kodlamaio.hrms.dataAccess.abstracts.CVRepository;
 import kodlamaio.hrms.dataAccess.abstracts.SocialMediaForCvRepository;
+import kodlamaio.hrms.entities.concretes.ProgrammingSkillForCv;
 import kodlamaio.hrms.entities.concretes.SocialMediaForCv;
+import kodlamaio.hrms.entities.dtos.SocialMediaDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class SocialMediaManager implements SocialMediaService {
 
     private final SocialMediaForCvRepository socialMediaForCvRepository;
+    private final CVRepository cvRepository;
 
     @Autowired
-    public SocialMediaManager(SocialMediaForCvRepository socialMediaForCvRepository) {
+    public SocialMediaManager(SocialMediaForCvRepository socialMediaForCvRepository, CVRepository cvRepository) {
         super();
         this.socialMediaForCvRepository = socialMediaForCvRepository;
+        this.cvRepository = cvRepository;
     }
 
     @Override
@@ -38,19 +44,31 @@ public class SocialMediaManager implements SocialMediaService {
     }
 
     @Override
-    public Result add(SocialMediaForCv socialMedia) {
-        if (findAllByCvId(socialMedia.getId()).getData() != null) {
-            return new ErrorsResult(socialMedia.getId() + "Same social Media knowledge's cannot repeat");
+    public Result add(SocialMediaDto socialMediaDto) {
+        if (findAllByCvId(socialMediaDto.getId()).getData() != null) {
+            return new ErrorsResult(socialMediaDto.getId() + "Same social Media knowledge's cannot repeat");
         } else {
-            this.socialMediaForCvRepository.save(socialMedia);
+            SocialMediaForCv media = new SocialMediaForCv();
+            media.setSocialMediaName(socialMediaDto.getSocialMediaName());
+            media.setSocialMediaUrl(socialMediaDto.getSocialMediaUrl());
+            media.setCv(this.cvRepository.getOne(socialMediaDto.getCvId()));
+            this.socialMediaForCvRepository.save(media);
             return new SuccessResult("Added new socialMedia knowledge");
         }
     }
 
     @Override
-    public Result update(SocialMediaForCv socialMedia) {
-        this.socialMediaForCvRepository.save(socialMedia);
-        return new SuccessResult("Updated socialMedia");
+    public Result update(SocialMediaDto socialMediaDto) {
+        Optional<SocialMediaForCv> socialMediaForCv = this.socialMediaForCvRepository.findById(socialMediaDto.getId());
+        if (!socialMediaForCv.isPresent()) {
+            return new ErrorsResult("This media ( id " + socialMediaDto.getId() + " ) doesnt available!");
+        } else {
+            socialMediaForCv.get().setSocialMediaName(socialMediaDto.getSocialMediaName());
+            socialMediaForCv.get().setSocialMediaUrl(socialMediaDto.getSocialMediaUrl());
+            socialMediaForCv.get().setCv(this.cvRepository.getOne(socialMediaDto.getCvId()));
+            this.socialMediaForCvRepository.save(socialMediaForCv.get());
+            return new SuccessResult("Updated socialMedia");
+        }
     }
 
     @Override

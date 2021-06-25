@@ -71,9 +71,9 @@ public class CityManager implements CityService {
     @Override
     public DataResult<List<City>> findAllById(int id) {
         List<City> cities = this.cityRepository.findAllById(id);
-        if (cities.isEmpty()){
+        if (cities.isEmpty()) {
             return new ErrorDataResult<>("These cities were not found.");
-        }else {
+        } else {
             return new SuccessDataResult<>(cities, "Cities have been successfully added");
         }
     }

@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface WorkFeatureService {
     Result add(TypeOfWorkFeature workFeature);
+    Result update(TypeOfWorkFeature workFeature);
+    Result delete(int id);
     DataResult<TypeOfWorkFeature> findByWorkTypeId(int id);
     DataResult<List<TypeOfWorkFeature>> findByWorkTypeNameContains(String name);
     DataResult<List<TypeOfWorkFeature>> getAll();

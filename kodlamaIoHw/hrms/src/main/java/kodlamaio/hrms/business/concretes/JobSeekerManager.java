@@ -38,7 +38,6 @@ public class JobSeekerManager implements JobSeekerService {
         this.photoService = photoService;
     }
 
-
     @Override
     public DataResult<JobSeeker> getJobSeekerByTcNo(String tcNo) {
         return null;

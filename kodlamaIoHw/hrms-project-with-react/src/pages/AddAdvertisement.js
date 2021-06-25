@@ -313,5 +313,4 @@ export default function AddAdvertisement() {
       </Card>
     </div>
   );
-
 }

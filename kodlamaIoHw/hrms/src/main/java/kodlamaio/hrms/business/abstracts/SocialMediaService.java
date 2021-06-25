@@ -3,6 +3,7 @@ package kodlamaio.hrms.business.abstracts;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.entities.concretes.SocialMediaForCv;
+import kodlamaio.hrms.entities.dtos.SocialMediaDto;
 
 import java.util.List;
 
@@ -11,9 +12,9 @@ public interface SocialMediaService {
 
     DataResult<List<SocialMediaForCv>> getAll();
 
-    Result add(SocialMediaForCv socialMedia);
+    Result add(SocialMediaDto socialMediaDto);
 
-    Result update(SocialMediaForCv socialMedia);
+    Result update(SocialMediaDto socialMediaDto);
 
     Result delete(int id);
 }

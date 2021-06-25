@@ -61,8 +61,7 @@ public class EmailVerificationManager implements EmailVerificationService {
         if (!emailVerificationOptional.isPresent()) {
             return new ErrorDataResult<>("User not found");
         } else {
-
-            this.emailVerificationRepository.save(emailVerificationOptional.get());
+            this.emailVerificationRepository.delete(emailVerificationOptional.get());
             return new SuccessResult("Deleted Email with id :" + id);
         }
     }

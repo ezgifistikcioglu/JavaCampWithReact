@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @PrimaryKeyJoinColumn(name = "user_id")
 @AllArgsConstructor
 @NoArgsConstructor
-public class SystemEmployee extends User{
+public class SystemEmployee extends User {
     @Column(name = "firstname")
     private String firstName;
 

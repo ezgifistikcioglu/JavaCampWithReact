@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Table(name = "social_medias")
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler","cv"})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "cv"})
 public class SocialMediaForCv {
     @Column(name = "id", unique = true, nullable = false)
     @Id
@@ -30,8 +30,8 @@ public class SocialMediaForCv {
     @Column(name = "created_at", columnDefinition = "Date default CURRENT_DATE")
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    @JoinColumn(name = "cv_id", nullable=false)
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Cv.class)
+    @JoinColumn(name = "cv_id")
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Cv.class, cascade = CascadeType.ALL)
     @JsonIgnore
     private Cv cv;
 }

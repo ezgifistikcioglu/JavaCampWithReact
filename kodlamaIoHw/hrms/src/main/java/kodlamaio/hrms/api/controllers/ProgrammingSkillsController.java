@@ -4,6 +4,7 @@ import kodlamaio.hrms.business.abstracts.ProgrammingSkillService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.entities.concretes.ProgrammingSkillForCv;
+import kodlamaio.hrms.entities.dtos.ProgrammingSkillDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,8 +30,8 @@ public class ProgrammingSkillsController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Result> add(@RequestBody @Valid ProgrammingSkillForCv cv) {
-        return ResponseEntity.ok(this.programmingSkillService.add(cv));
+    public ResponseEntity<Result> add(@RequestBody @Valid ProgrammingSkillDto programmingSkillDto) {
+        return ResponseEntity.ok(this.programmingSkillService.add(programmingSkillDto));
     }
 
     @DeleteMapping("/delete/{id}")
@@ -39,8 +40,8 @@ public class ProgrammingSkillsController {
     }
 
     @PostMapping("/update")
-    public ResponseEntity<Result> update(@RequestBody ProgrammingSkillForCv cv) {
-        return ResponseEntity.ok(this.programmingSkillService.update(cv));
+    public ResponseEntity<Result> update(@RequestBody ProgrammingSkillDto programmingSkillDto) {
+        return ResponseEntity.ok(this.programmingSkillService.update(programmingSkillDto));
     }
 
     @GetMapping("/findAllByCvId")

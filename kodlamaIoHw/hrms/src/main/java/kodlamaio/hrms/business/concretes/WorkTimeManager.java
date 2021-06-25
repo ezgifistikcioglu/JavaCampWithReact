@@ -25,6 +25,30 @@ public class WorkTimeManager implements WorkTimeService {
     }
 
     @Override
+    public Result update(WorkTimeFeature timeFeature) {
+        Optional<WorkTimeFeature> feature = this.workTimeRepository.findById(timeFeature.getWorkTimeId());
+
+        if (!feature.isPresent()) {
+            return new ErrorsResult("This time feature ( id " + timeFeature.getWorkTimeId() + "-" + timeFeature.getWorkTimeName() + " ) doesnt available!");
+        } else {
+            feature.get().setWorkTimeName(timeFeature.getWorkTimeName());
+            this.workTimeRepository.save(feature.get());
+            return new SuccessResult("Time feature (" + timeFeature.getWorkTimeName() + ") updated successfully.");
+        }
+    }
+
+    @Override
+    public Result delete(int id) {
+        List<WorkTimeFeature> workTimeFeatures = this.workTimeRepository.findAllByWorkTimeId(id);
+        if (workTimeFeatures.isEmpty()) {
+            return new ErrorDataResult<>("This time feature not found");
+        } else {
+            this.workTimeRepository.deleteById(id);
+            return new SuccessResult("Deleted time feature with id : " + id);
+        }
+    }
+
+    @Override
     public DataResult<WorkTimeFeature> findByWorkTimeId(int id) {
         Optional<WorkTimeFeature> workTimeFeature = this.workTimeRepository.findById(id);
 

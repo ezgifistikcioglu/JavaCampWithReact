@@ -4,6 +4,7 @@ import kodlamaio.hrms.business.abstracts.WorkExperienceService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.entities.concretes.WorkExperienceForCv;
+import kodlamaio.hrms.entities.dtos.WorkExperienceDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
@@ -30,8 +31,8 @@ public class WorkExperiencesController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Result> add(@RequestBody WorkExperienceForCv cv) {
-        return ResponseEntity.ok(this.workExperienceService.add(cv));
+    public ResponseEntity<Result> add(@RequestBody WorkExperienceDto experienceDto) {
+        return ResponseEntity.ok(this.workExperienceService.add(experienceDto));
     }
 
     @DeleteMapping("/delete/{id}")
@@ -40,8 +41,8 @@ public class WorkExperiencesController {
     }
 
     @PostMapping("/update")
-    public ResponseEntity<Result> update(@RequestBody WorkExperienceForCv cv) {
-        return ResponseEntity.ok(this.workExperienceService.update(cv));
+    public ResponseEntity<Result> update(@RequestBody WorkExperienceDto experienceDto) {
+        return ResponseEntity.ok(this.workExperienceService.update(experienceDto));
     }
 
     @GetMapping("/findByExperienceIdOrderByBusinessLeavingDateDesc")

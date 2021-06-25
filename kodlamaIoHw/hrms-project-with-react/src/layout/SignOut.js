@@ -35,7 +35,7 @@ MyButton.propTypes = {
     color: PropTypes.oneOf(['blue', 'red']).isRequired,
 };
 
-export default function SignOut({ signIn }) {
+export default function SignOut() {
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     const handleClick = (event) => {

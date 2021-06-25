@@ -1,11 +1,12 @@
 package kodlamaio.hrms.entities.concretes;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 
@@ -14,7 +15,7 @@ import javax.persistence.*;
 @Table(name = "photos")
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler", "jobSeeker", "cv" })
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "jobSeeker", "cv"})
 public class PhotoInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,6 +30,6 @@ public class PhotoInfo {
     private JobSeeker jobSeeker;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "cv_id", nullable=false)
+    @JoinColumn(name = "cv_id")
     private Cv cv;
 }

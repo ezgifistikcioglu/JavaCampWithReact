@@ -3,12 +3,15 @@ package kodlamaio.hrms.business.concretes;
 import kodlamaio.hrms.business.abstracts.*;
 import kodlamaio.hrms.core.utilities.results.*;
 import kodlamaio.hrms.dataAccess.abstracts.CVRepository;
+import kodlamaio.hrms.dataAccess.abstracts.UserRepository;
 import kodlamaio.hrms.entities.concretes.Cv;
 import kodlamaio.hrms.entities.dtos.CvDetailForJobSeekerDto;
+import kodlamaio.hrms.entities.dtos.CvDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -21,10 +24,12 @@ public class CVManager implements CVService {
     private final ProgrammingSkillService skillService;
     private final SocialMediaService socialMediaService;
     private final JobSeekerService jobSeekerService;
+    private final PhotoService photoService;
+    private final UserRepository userRepository;
 
 
     @Autowired
-    public CVManager(CVRepository cvRepository, EducationInformationService informationService, LanguageService languageService, WorkExperienceService experienceService, ProgrammingSkillService skillService, SocialMediaService socialMediaService, JobSeekerService jobSeekerService) {
+    public CVManager(CVRepository cvRepository, EducationInformationService informationService, LanguageService languageService, WorkExperienceService experienceService, ProgrammingSkillService skillService, SocialMediaService socialMediaService, JobSeekerService jobSeekerService, PhotoService photoService, UserRepository userRepository) {
         super();
         this.cvRepository = cvRepository;
         this.informationService = informationService;
@@ -33,21 +38,24 @@ public class CVManager implements CVService {
         this.skillService = skillService;
         this.socialMediaService = socialMediaService;
         this.jobSeekerService = jobSeekerService;
+        this.photoService = photoService;
+        this.userRepository = userRepository;
     }
 
     @Override
     public DataResult<List<Cv>> getAll() {
-        return new SuccessDataResult<>(this.cvRepository.findAll(), "Listed data");
+        List<Cv> cvs = this.cvRepository.findAll();
+        return new SuccessDataResult<>(cvs, "Cv listed successfully");
     }
 
     @Override
     public DataResult<Cv> getByCvId(int cvId) {
-        Optional<Cv> cv = cvRepository.getByCvId(cvId);
+        Cv cv = cvRepository.findByCvId(cvId);
 
-        if (!cv.isPresent())
+        if (cv == null)
             return new ErrorDataResult<>("This CV Not Found");
 
-        return new SuccessDataResult<>(cv.get());
+        return new SuccessDataResult<>(cv);
     }
 
     @Override
@@ -58,6 +66,7 @@ public class CVManager implements CVService {
             return new ErrorDataResult<>("This cv not found");
         } else {
             jobSeekerDto.setEducationInformationForCvs(this.informationService.findByEducationId(jobSeekerDto.getJobSeeker().getUserId()).getData());
+            jobSeekerDto.setPhotoInfo(this.photoService.findAllById(jobSeekerDto.getId()).getData());
             jobSeekerDto.setWorkExperienceForCvs(this.experienceService.findByExperienceId(jobSeekerDto.getId()).getData());
             jobSeekerDto.setLanguagesForCvs(this.languageService.findAllByLanguageId(jobSeekerDto.getId()).getData());
             jobSeekerDto.setSocialMediaForCvs(this.socialMediaService.findAllByCvId(jobSeekerDto.getId()).getData());
@@ -68,19 +77,42 @@ public class CVManager implements CVService {
     }
 
     @Override
-    public Result add(Cv cv) {
-        if (getByCvId(cv.getCvId()).getData() != null) {
-            return new ErrorsResult(cv.getCvId() + "Same cv cannot repeat");
+    public Result add(CvDto cvDto) {
+        if (getByCvId(cvDto.getCvId()).getData() != null) {
+            return new ErrorsResult(cvDto.getCvId() + "Same cv cannot repeat");
         } else {
-            this.cvRepository.save(cv);
+            Cv cv = new Cv();
+            commonField(cvDto, cv);
             return new SuccessResult("Added new cv");
         }
     }
 
     @Override
-    public Result update(Cv cv) {
+    public Result update(CvDto cvDto) {
+        Cv cv = this.cvRepository.findByCvId(cvDto.getCvId());
+        if (!this.userRepository.findById(cvDto.getUserId()).isPresent()) {
+            return new ErrorsResult("There is not available system employee with this id! : " + cvDto.getUserId() + "!");
+        } else {
+            // User user = this.userRepository.findById(cvDto.getUserId()).get();
+            if (cv == null) {
+                return new ErrorsResult("This cv ( id " + Objects.requireNonNull(cv).getCvId() + " ) doesnt available!");
+            } else {
+                commonField(cvDto, cv);
+                return new SuccessResult("Updated cv");
+            }
+        }
+    }
+
+    private void commonField(CvDto cvDto, Cv cv) {
+        cv.setCoverLetter(cvDto.getCoverLetter());
+        cv.setJobSeeker(this.jobSeekerService.getById(cvDto.getUserId()).getData());
+        cv.setPhotoInfo(this.photoService.findAllById(cvDto.getPhotoId()).getData());
+        cv.setLanguagesForCvs(this.languageService.findAllByLanguageId(cvDto.getLanguageId()).getData());
+        cv.setEducationInformationForCvs(this.informationService.findByEducationId(cvDto.getEducationId()).getData());
+        cv.setWorkExperienceForCvs(this.experienceService.findByExperienceId(cvDto.getExperienceId()).getData());
+        cv.setProgrammingSkillForCvs(this.skillService.findAllByCvId(cvDto.getSkillId()).getData());
+        cv.setSocialMediaForCvs(this.socialMediaService.findAllByCvId(cvDto.getSocialMediaId()).getData());
         this.cvRepository.save(cv);
-        return new SuccessResult("Updated cv");
     }
 
     @Override

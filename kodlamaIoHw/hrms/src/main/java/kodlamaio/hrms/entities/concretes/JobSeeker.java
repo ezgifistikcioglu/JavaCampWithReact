@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -32,9 +33,9 @@ public class JobSeeker extends User {
 
     @OneToMany(mappedBy = "jobSeeker", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonIgnore
-    private Set<Cv> cvs;
+    private List<Cv> cvs;
 
-    @OneToOne(mappedBy = "jobSeeker")
+    @OneToOne()
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonIgnore
     private PhotoInfo photoInfo;
