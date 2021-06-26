@@ -109,6 +109,7 @@ public class SystemEmployeeManager implements SystemEmployeeService {
                 optionalSystemEmployee.get().setConfirmPassword(systemEmployee.getConfirmPassword());
                 optionalSystemEmployee.get().setFirstName(systemEmployee.getFirstName());
                 optionalSystemEmployee.get().setLastName(systemEmployee.getLastName());
+                optionalSystemEmployee.get().setSystemUser(systemEmployee.isSystemUser());
 
                 this.systemEmployeeRepository.save(optionalSystemEmployee.get());
                 return new SuccessResult("Employee (" + systemEmployee.getUserId() + ") updated successfully.");
@@ -118,7 +119,12 @@ public class SystemEmployeeManager implements SystemEmployeeService {
 
     @Override
     public Result deleteEmployee(int id) {
-        this.systemEmployeeRepository.deleteById(id);
-        return new SuccessResult("Deleted employee");
+        List<SystemEmployee> systemEmployees = this.systemEmployeeRepository.findAllByUserId(id);
+        if (systemEmployees.isEmpty()){
+            return new ErrorDataResult<>("This Employee not found!");
+        }else {
+            this.systemEmployeeRepository.deleteById(id);
+            return new SuccessResult("Deleted employee with id: " +id);
+        }
     }
 }

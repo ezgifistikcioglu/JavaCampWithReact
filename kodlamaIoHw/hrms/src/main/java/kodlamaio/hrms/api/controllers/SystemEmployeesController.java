@@ -4,6 +4,7 @@ import kodlamaio.hrms.business.abstracts.SystemEmployeeService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.entities.concretes.SystemEmployee;
+import kodlamaio.hrms.entities.dtos.AdvertisementRequest;
 import kodlamaio.hrms.entities.dtos.LoginForEmployeeDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,5 +38,19 @@ public class SystemEmployeesController {
             return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 
         return ResponseEntity.ok(result);
+    }
+    @PostMapping("/updateEmployee")
+    public ResponseEntity<Result> updateEmployee(@RequestBody SystemEmployee systemEmployee) {
+        Result result = systemEmployeeService.updateEmployee(systemEmployee);
+        if (!result.isSuccess()) {
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        } else {
+            return ResponseEntity.ok(result);
+        }
+    }
+
+    @DeleteMapping("/deleteEmployee/{id}")
+    public ResponseEntity<Result>  deleteEmployee(@PathVariable("id") int id) {
+        return ResponseEntity.ok(this.systemEmployeeService.deleteEmployee(id));
     }
 }

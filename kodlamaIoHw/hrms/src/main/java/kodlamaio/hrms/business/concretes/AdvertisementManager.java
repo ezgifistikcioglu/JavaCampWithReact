@@ -125,21 +125,7 @@ public class AdvertisementManager implements AdvertisementService {
             advertisement.setApproved(false);
             advertisement.setAdvertisementOpen(false);
 
-            advertisement.setJobDescription(advertisementRequest.getJobDescription());
-
-            advertisement.setMinSalary(advertisementRequest.getMinSalary());
-
-            advertisement.setMaxSalary(advertisementRequest.getMaxSalary());
-
-            advertisement.setNumberOfOpenPosition(advertisementRequest.getNumberOfOpenPosition());
-
-            advertisement.setApplicationDeadline(advertisementRequest.getApplicationDeadline());
-
-            advertisement.setCreatedDate(advertisementRequest.getCreatedDate());
-
-            advertisement.setCity(this.cityRepository.getById(advertisementRequest.getCityId()));
-
-            advertisement.setPosition(this.positionRepository.getById(advertisementRequest.getJobPositionId()));
+            customField(advertisementRequest, advertisement);
 
             advertisement.setUser(this.userRepository.getOne(advertisementRequest.getEmployerId()));
 
@@ -163,14 +149,7 @@ public class AdvertisementManager implements AdvertisementService {
             if (advertisement == null) {
                 return new ErrorsResult("This advertisement ( id " + Objects.requireNonNull(advertisement).getId() + " ) doesnt available!");
             } else {
-                advertisement.setJobDescription(advertisementRequest.getJobDescription());
-                advertisement.setMinSalary(advertisementRequest.getMinSalary());
-                advertisement.setMaxSalary(advertisementRequest.getMaxSalary());
-                advertisement.setNumberOfOpenPosition(advertisementRequest.getNumberOfOpenPosition());
-                advertisement.setApplicationDeadline(advertisementRequest.getApplicationDeadline());
-                advertisement.setCreatedDate(advertisementRequest.getCreatedDate());
-                advertisement.setCity(this.cityRepository.getById(advertisementRequest.getCityId()));
-                advertisement.setPosition(this.positionRepository.getById(advertisementRequest.getJobPositionId()));
+                customField(advertisementRequest, advertisement);
                 advertisement.setTypeOfWorkFeature(workFeatureRepository.findByWorkTypeId(advertisementRequest.getWorkTypeId()));
                 advertisement.setWorkTimeFeature(workTimeRepository.findByWorkTimeId(advertisementRequest.getWorkTimeId()));
 
@@ -190,6 +169,17 @@ public class AdvertisementManager implements AdvertisementService {
                 return new SuccessResult("Advertisement (" + advertisement.getId() + ") updated successfully.");
             }
         }
+    }
+
+    private void customField(AdvertisementRequest advertisementRequest, Advertisement advertisement) {
+        advertisement.setJobDescription(advertisementRequest.getJobDescription());
+        advertisement.setMinSalary(advertisementRequest.getMinSalary());
+        advertisement.setMaxSalary(advertisementRequest.getMaxSalary());
+        advertisement.setNumberOfOpenPosition(advertisementRequest.getNumberOfOpenPosition());
+        advertisement.setApplicationDeadline(advertisementRequest.getApplicationDeadline());
+        advertisement.setCreatedDate(advertisementRequest.getCreatedDate());
+        advertisement.setCity(this.cityRepository.getById(advertisementRequest.getCityId()));
+        advertisement.setPosition(this.positionRepository.getById(advertisementRequest.getJobPositionId()));
     }
 
     @Override
