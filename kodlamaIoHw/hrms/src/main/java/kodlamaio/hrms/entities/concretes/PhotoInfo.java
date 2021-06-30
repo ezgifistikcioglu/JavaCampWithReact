@@ -19,7 +19,7 @@ import javax.persistence.*;
 public class PhotoInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", unique = true, nullable = false)
+    @Column(name = "photo_id", unique = true, nullable = false)
     private int id;
 
     @Column(name = "photo_url")

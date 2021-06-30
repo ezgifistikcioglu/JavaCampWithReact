@@ -3,6 +3,7 @@ package kodlamaio.hrms.api.controllers;
 import kodlamaio.hrms.business.abstracts.WorkExperienceService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.Result;
+import kodlamaio.hrms.entities.concretes.EducationInformationForCv;
 import kodlamaio.hrms.entities.concretes.WorkExperienceForCv;
 import kodlamaio.hrms.entities.dtos.WorkExperienceDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,11 @@ public class WorkExperiencesController {
     @PostMapping("/update")
     public ResponseEntity<Result> update(@RequestBody WorkExperienceDto experienceDto) {
         return ResponseEntity.ok(this.workExperienceService.update(experienceDto));
+    }
+
+    @GetMapping("/findByExperienceId/{id}")
+    public DataResult<List<WorkExperienceForCv>> findByExperienceId(@PathVariable("id") int id) {
+        return this.workExperienceService.findByExperienceId(id);
     }
 
     @GetMapping("/findByExperienceIdOrderByBusinessLeavingDateDesc")

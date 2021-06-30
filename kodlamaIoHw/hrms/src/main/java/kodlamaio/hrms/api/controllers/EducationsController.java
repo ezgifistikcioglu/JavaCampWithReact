@@ -3,6 +3,7 @@ package kodlamaio.hrms.api.controllers;
 import kodlamaio.hrms.business.abstracts.EducationInformationService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.Result;
+import kodlamaio.hrms.entities.concretes.Advertisement;
 import kodlamaio.hrms.entities.concretes.EducationInformationForCv;
 import kodlamaio.hrms.entities.dtos.EducationDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,15 @@ public class EducationsController {
         } else {
             return ResponseEntity.ok(result);
         }
+    }
+    @GetMapping("/getByEducationId/{id}")
+    public DataResult<EducationInformationForCv> getByEducationId(@PathVariable("id") int id) {
+        return this.educationInformationService.getByEducationId(id);
+    }
+
+    @GetMapping("/findByEducationId/{id}")
+    public DataResult<List<EducationInformationForCv>> findByEducationId(@PathVariable("id") int id) {
+        return this.educationInformationService.findByEducationId(id);
     }
 
     @GetMapping("/findByEducationIdOrderBySchoolGraduationDate")

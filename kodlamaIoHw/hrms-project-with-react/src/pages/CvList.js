@@ -1,54 +1,62 @@
 import React, { useState, useEffect }  from 'react'
-import { Table, Menu, Icon } from 'semantic-ui-react'
 import CvService from '../services/cvService';
+import JobSeekerService from '../services/jobSeekerService';
+import LanguageService from "../services/languageService";
+import PhotoInfoService from "../services/photoInfoService";
+import { Icon, Button, Card, Image, Rating } from "semantic-ui-react";
+import { Link } from "react-router-dom";
 
 
 export default function CvList() {
-    const [cvs, setCvs] = useState([]);
+  const [cvs, setCvs] = useState([]);
+  const [jobSeekers, setJobSeekers] = useState([]);
+  const [photoInfos, setPhotoInfos] = useState([]);
+  const [languages, setLanguages] = useState([]);
 
-    useEffect(()=>{
-        let cvService = new CvService()
-        cvService.getCvs().then(result=>setCvs(result.data.data))
-    },[])
-    return (
-<div>
-            <Table basic='very' celled collapsing>
-                <Table.Header>
-                    <Table.Row>
-                        <Table.HeaderCell>Photo</Table.HeaderCell>
-                        <Table.HeaderCell>Cover Letter</Table.HeaderCell>
-                    </Table.Row>
-                </Table.Header>
+  useEffect(() => {
+    let cvService = new CvService();
+    let jobSeekerService = new JobSeekerService();
+    let photoInfoService = new PhotoInfoService();
+    let languageService = new LanguageService();
 
-                <Table.Body>
-                    {
-                        cvs.map(cv => (
-                            <Table.Row key={cv.cvId}>
-                                <Table.Cell>{cv.photo}</Table.Cell>
-                                <Table.Cell>{cv.coverLetter}</Table.Cell>
-                            </Table.Row>
-                        ))
-                    }
-                </Table.Body>
-                <Table.Footer>
-                    <Table.Row>
-                        <Table.HeaderCell colSpan='3'>
-                            <Menu floated='right' pagination>
-                                <Menu.Item as='a' icon>
-                                    <Icon name='chevron left' />
-                                </Menu.Item>
-                                <Menu.Item as='a'>1</Menu.Item>
-                                <Menu.Item as='a'>2</Menu.Item>
-                                <Menu.Item as='a'>3</Menu.Item>
-                                <Menu.Item as='a'>4</Menu.Item>
-                                <Menu.Item as='a' icon>
-                                    <Icon name='chevron right' />
-                                </Menu.Item>
-                            </Menu>
-                        </Table.HeaderCell>
-                    </Table.Row>
-                </Table.Footer>
-            </Table>
-        </div>
+    cvService.getCvs().then(result => setCvs(result.data.data));
+    jobSeekerService.getJobSeekers().then(result => setJobSeekers(result.data.data));
+    photoInfoService.getAllPhoto().then(result => setPhotoInfos(result.data.data));
+    languageService.getLanguages().then((result) => setLanguages(result.data.data));
+  });
+
+  return (
+    <div style={{ backgroundColor: "" }} className="ui four cards">
+      <Card.Group>
+        {cvs.map((cv) => (
+          <Card fluid color="violet" >
+
+            <Card.Content>
+              <Image
+                floated='right'
+                size='small'
+                src={cv.photoInfo.photoUrl}
+              />
+              <Card.Header style={{ marginLeft: "9em" }}>{cv.jobSeeker.firstname + " " + cv.jobSeeker.lastname }</Card.Header>
+              <Card.Description style={{ marginLeft: "30em" }}>
+                  {cv.educationInformationForCvs.schoolDepartmentName} </Card.Description>
+              <Card.Content>{cv.coverLetter} <strong></strong>
+
+              </Card.Content>
+              <Rating icon='star' defaultRating={0} maxRating={5}>Rating</Rating>
+
+            </Card.Content>
+            <Card.Content extra>
+              <div className='ui 2 buttons'>
+                <Link to={`/cvDetails/${cv.cvId}`}>
+                  <Button basic color='red'>
+                    View
+                  </Button></Link>
+              </div>
+            </Card.Content>
+          </Card>
+        ))}
+      </Card.Group>
+    </div>
     )
 }

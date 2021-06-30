@@ -4,28 +4,23 @@ import { useFormik } from 'formik';
 import * as Yup from "yup";
 import swal from 'sweetalert';
 import { useParams } from "react-router-dom";
-import SocialMediaService from '../services/socialMediaService';
+import LanguageService from '../services/languageService';
 
 
-export default function AddProgrammingSkillForCv() {
-  let socialMediaService = new SocialMediaService();
+export default function AddLanguageForCv() {
+  let languageService = new LanguageService();
   const { cvId } = useParams();
 
   const validationSchema = Yup.object({
-    socialMediaName: Yup.string().max(250, 'Must be 250 characters or less').required("Please write a programming skill name"),
-    socialMediaUrl: Yup.string()
-    .matches(
-        /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
-        'Enter correct url!'
-    )
-    .required('Please enter website'),
+    languageName: Yup.string().max(250, 'Must be 250 characters or less').required("Please write a language name"),
+    languageLevelNumber: Yup.number().required("Please enter the number of language level for your cv."),
     createdAt: Yup.date().default(() => new Date()),
   });
 
   const formik = useFormik({
     initialValues: {
-      socialMediaName: "",
-      socialMediaUrl: "",
+      languageName: "",
+      languageLevelNumber: "",
       createdAt: new Date(),
       cvId: "",
     },
@@ -34,9 +29,9 @@ export default function AddProgrammingSkillForCv() {
       console.log("values: " + values)
       values.cvId = parseInt(11);
 
-      socialMediaService.addSocialMedias(values).then((result) => console.log(result)).then(swal({
+      languageService.addLanguages(values).then((result) => console.log(result)).then(swal({
         title: "Succeed!",
-        text: "Social Media is added!",
+        text: "Language is added!",
         icon: "success",
         button: "Ok"
       }).then(function () { window.location.reload() }));
@@ -52,33 +47,34 @@ export default function AddProgrammingSkillForCv() {
             <Form.Field style={{ marginBottom: "1em" }}>
               <Input
                 style={{ width: "100%" }}
-                error={Boolean(formik.errors.socialMediaName).toString()}
+                error={Boolean(formik.errors.languageName).toString()}
                 onChange={formik.handleChange}
-                value={formik.values.socialMediaName}
+                value={formik.values.languageName}
                 onBlur={formik.handleBlur}
-                name="socialMediaName"
-                placeholder="Social Media Name"
+                name="languageName"
+                placeholder="Language Name"
               />
-              {formik.errors.socialMediaName && formik.touched.socialMediaName && (
+              {formik.errors.languageName && formik.touched.languageName && (
                 <div className={"ui pointing red basic label"}>
-                  {formik.errors.socialMediaName}
+                  {formik.errors.languageName}
                 </div>
               )}
             </Form.Field>
             <Form.Field>
               <Input
                 style={{ width: "100%" }}
-                id="socialMediaUrl"
-                name="socialMediaUrl"
-                error={Boolean(formik.errors.socialMediaUrl)}
+                id="languageLevelNumber"
+                name="languageLevelNumber"
+                error={Boolean(formik.errors.languageLevelNumber)}
                 onChange={formik.handleChange}
-                value={formik.values.socialMediaUrl}
+                value={formik.values.languageLevelNumber}
                 onBlur={formik.handleBlur}
-                placeholder="Social Media Url"
+                type="number"
+                placeholder="Language Level Number"
               />
-              {formik.errors.socialMediaUrl && formik.touched.socialMediaUrl && (
+              {formik.errors.languageLevelNumber && formik.touched.languageLevelNumber && (
                 <div className={"ui pointing red basic label"}>
-                  {formik.errors.socialMediaUrl}
+                  {formik.errors.languageLevelNumber}
                 </div>
               )}
             </Form.Field>

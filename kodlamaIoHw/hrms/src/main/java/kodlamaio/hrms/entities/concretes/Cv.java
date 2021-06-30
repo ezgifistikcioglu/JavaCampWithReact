@@ -9,6 +9,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -27,8 +28,11 @@ public class Cv {
     @Column(name = "cover_letter")
     private String coverLetter;
 
+    @Column(name = "creation_date", columnDefinition = "Date default CURRENT_DATE")
+    private LocalDateTime createdDate = LocalDateTime.now();
+
     @JoinColumn(name = "user_id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = JobSeeker.class)
     private JobSeeker jobSeeker;
 
     @OneToMany(mappedBy = "cv", cascade = CascadeType.ALL)

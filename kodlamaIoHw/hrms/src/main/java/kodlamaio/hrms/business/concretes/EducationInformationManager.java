@@ -5,6 +5,7 @@ import kodlamaio.hrms.core.utilities.results.*;
 import kodlamaio.hrms.dataAccess.abstracts.CVRepository;
 import kodlamaio.hrms.dataAccess.abstracts.EducationInformationForCVRepository;
 import kodlamaio.hrms.entities.concretes.EducationInformationForCv;
+import kodlamaio.hrms.entities.concretes.WorkTimeFeature;
 import kodlamaio.hrms.entities.dtos.EducationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -31,6 +32,14 @@ public class EducationInformationManager implements EducationInformationService 
     public DataResult<List<EducationInformationForCv>> getAll() {
         List<EducationInformationForCv> educationInformationForCvs = this.educationInformationForCVRepository.findAll();
         return new SuccessDataResult<>(educationInformationForCvs, "Education information listed successfully");
+    }
+
+    @Override
+    public DataResult<EducationInformationForCv> getByEducationId(int id) {
+        if (!this.educationInformationForCVRepository.existsById(id)) {
+            return new ErrorDataResult<>("Error! : Education could not be found!");
+        }
+        return new SuccessDataResult<>(this.educationInformationForCVRepository.getByEducationId(id));
     }
 
     @Override

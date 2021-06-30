@@ -11,6 +11,8 @@ import java.util.List;
 public interface EducationInformationService {
     DataResult<List<EducationInformationForCv>> getAll();
 
+    DataResult<EducationInformationForCv> getByEducationId(int id);
+
     Result add(EducationDto educationDto);
 
     Result update(EducationDto educationDto);

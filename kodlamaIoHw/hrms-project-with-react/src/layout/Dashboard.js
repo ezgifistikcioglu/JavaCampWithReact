@@ -12,9 +12,11 @@ import AddAdvertisement from '../pages/AddAdvertisement'
 import AdvertisementDetails from '../pages/AdvertisementDetails'
 import EmployeeLogin from '../pages/Authentications/EmployeeRegister'
 import EmployerLogin from '../pages/Authentications/EmployerRegister'
-import JobSeekerLogin from '../pages/Authentications/JobSeekerRegister'
+import JobSeekerRegister from '../pages/Authentications/JobSeekerRegister'
 import OpenAndApprovedAdvertisementList from '../pages/OpenAndApprovedAdvertisementList'
 import LoginPage from '../pages/Authentications/LoginPage'
+import AddCv from '../pages/Cvs/AddCv'
+import CvDetails from '../pages/Cvs/CvDetails'
 
 
 export default function Dashboard() {
@@ -37,8 +39,10 @@ export default function Dashboard() {
                         <Route exact path="/advertisementDetails/:id" component={AdvertisementDetails} />
                         <Route exact path="/employeeRegister" component={EmployeeLogin} />
                         <Route exact path="/employerRegister" component={EmployerLogin} />
-                        <Route exact path="/jobSeekerRegister" component={JobSeekerLogin} />
+                        <Route exact path="/jobSeekerRegister" component={JobSeekerRegister} />
                         <Route exact path="/login" component={LoginPage} />
+                        <Route exact path="/addCv" component={AddCv} />
+                        <Route exact path="/cvDetails/:id" component={CvDetails} />
                     </Grid.Column>
                 </GridRow>
             </Grid>

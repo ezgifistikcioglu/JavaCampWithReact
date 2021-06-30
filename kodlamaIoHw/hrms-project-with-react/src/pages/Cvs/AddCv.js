@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import AdvertisementService from '../services/advertisementService';
 import { Button, Dropdown, Input, TextArea, Card, Form, Grid } from "semantic-ui-react";
 import { useFormik } from 'formik';
 import * as Yup from "yup";
 import swal from 'sweetalert';
-import WorkTypeService from '../services/workTypeService';
-import WorkTimeService from '../services/workTimeService';
-import JobPositionService from '../services/jobPositionService';
-import CityService from '../services/cityService';
+import WorkTypeService from '../../services/workTypeService';
+import WorkTimeService from '../../services/workTimeService';
+import JobPositionService from '../../services/jobPositionService';
+import CityService from '../../services/cityService';
+import AdvertisementService from '../../services/advertisementService';
 
 
-export default function AddAdvertisement() {
+export default function AddCv() {
   let advertisementService = new AdvertisementService();
 
   const [workTypeServices, setWorkTypeServices] = useState([]);
@@ -306,7 +306,7 @@ export default function AddAdvertisement() {
               icon="add"
               color="orange"
               type="submit"
-              style={{ marginLeft: "20px" }}
+             
             />
           </Form>
         </Card.Content>

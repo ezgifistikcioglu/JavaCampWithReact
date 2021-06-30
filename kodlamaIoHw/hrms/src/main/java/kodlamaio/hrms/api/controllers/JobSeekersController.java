@@ -29,11 +29,6 @@ public class JobSeekersController {
         return this.jobSeekerService.getAll();
     }
 
-    @PostMapping("/addJobSeeker")
-    public ResponseEntity<Result> addJobSeeker(@RequestBody JobSeeker jobSeeker) {
-        return ResponseEntity.ok(this.jobSeekerService.addJobSeeker(jobSeeker));
-    }
-
     @GetMapping("/getById/{id}")
     public DataResult<JobSeeker> getById(@PathVariable("id") int id) {
         return this.jobSeekerService.getById(id);

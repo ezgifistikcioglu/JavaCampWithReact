@@ -37,5 +37,4 @@ public class Position {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "position", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Advertisement> advertisementList;
-
 }

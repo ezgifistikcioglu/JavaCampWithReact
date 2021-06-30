@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.List;
@@ -15,7 +17,6 @@ import java.util.Set;
 @Table(name = "job_seekers")
 @AllArgsConstructor
 @NoArgsConstructor
-@PrimaryKeyJoinColumn(name = "user_id")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "cvs", "photoInfo"})
 public class JobSeeker extends User {
 
@@ -31,12 +32,10 @@ public class JobSeeker extends User {
     @Column(name = "birth_year")
     private int birthYear;
 
-    @OneToMany(mappedBy = "jobSeeker", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JsonIgnore
+    @OneToMany(mappedBy = "jobSeeker", cascade = CascadeType.ALL)
     private List<Cv> cvs;
 
     @OneToOne()
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @JsonIgnore
+    @JoinColumn(name = "user_id", referencedColumnName = "photo_id")
     private PhotoInfo photoInfo;
 }

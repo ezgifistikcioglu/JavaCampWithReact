@@ -2,9 +2,11 @@ import React from "react";
 import { Formik } from "formik";
 import { Link, useHistory } from "react-router-dom";
 import * as Yup from "yup";
-import { Form, Header, Image, Message } from "semantic-ui-react";
-import Button from '@material-ui/core/Button';
+import { Button, Form, Header, Image } from "semantic-ui-react";
+
 import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+
 import HrmsTextInput from "../../utilities/cutomFormControls/HrmsTextInput";
 // import withRouter
 import { BrowserRouter as Router, Route, Switch, Redirect, withRouter } from "react-router-dom"
@@ -66,24 +68,32 @@ const LoginPage = (props) => (
                         <label><b>Email Address</b></label>
                         <HrmsTextInput
                             type="text"
-                             value={values.email}
-                              name="email"
-                               onChange={handleChange}
-                                onBlur={handleBlur} placeholder="Enter your email" className={errors.email && touched.email && "error"}
+                            value={values.email}
+                            name="email"
+                            onChange={handleChange}
+                            onBlur={handleBlur} placeholder="Enter your email" className={errors.email && touched.email && "error"}
 
                         />
                         <label><b>Password</b></label>
                         <HrmsTextInput
-                        type="password" value={values.password} name="password" onChange={handleChange} onBlur={handleBlur} placeholder="Enter your password" className={errors.password && touched.password && "error"}
+                            type="password" value={values.password} name="password" onChange={handleChange} onBlur={handleBlur} placeholder="Enter your password" className={errors.password && touched.password && "error"}
                         />
-                        <Button type="submit" disabled={isSubmitting}>
-                            Login
-                        </Button>
+                        <Button animated
+                            content="Login"
+                            labelPosition="right"
+                            icon="login"
+                            color="orange"
+                            type="submit"
+                            style={{ marginLeft: "20px" }} disabled={isSubmitting}/>
+                        <Grid container>
+                            <Grid item>
+                                <Link to={"/jobSeekerRegister"} href="signup" variant="body2">
+                                    {"Don't have an account? Sign Up"}
+                                </Link>
+                            </Grid>
+                        </Grid>
+
                     </Form>
-                    <Message info>
-                        Don't have an account?
-                        <b><Link to={"/jobSeekerRegister"}> Sign up here</Link></b>
-                    </Message>
                 </div>
             )
         }}
