@@ -17,13 +17,8 @@ import java.util.List;
 @RequestMapping("/api/cvs")
 @CrossOrigin
 public class CVsController {
-    private final CVService cvService;
-
     @Autowired
-    public CVsController(CVService cvService) {
-        super();
-        this.cvService = cvService;
-    }
+    private CVService cvService;
 
     @GetMapping("/getAll")
     public ResponseEntity<DataResult<List<Cv>>> getAll() {
@@ -54,6 +49,12 @@ public class CVsController {
     @GetMapping("/getByCvId/{id}")
     public ResponseEntity<DataResult<Cv>> getByCvId(@PathVariable("id") int id) {
         DataResult<Cv> result = cvService.getByCvId(id);
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/findByJobSeekerUserId/{id}")
+    public ResponseEntity<DataResult<Cv>> findByJobSeekerUserId(@PathVariable("id") int id) {
+        DataResult<Cv> result = cvService.findByJobSeekerUserId(id);
         return ResponseEntity.ok(result);
     }
 

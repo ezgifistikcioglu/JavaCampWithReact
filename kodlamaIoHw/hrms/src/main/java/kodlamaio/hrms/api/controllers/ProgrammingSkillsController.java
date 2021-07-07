@@ -16,12 +16,8 @@ import java.util.List;
 @RequestMapping("/api/programming-skills")
 @CrossOrigin
 public class ProgrammingSkillsController {
-    private final ProgrammingSkillService programmingSkillService;
-
     @Autowired
-    public ProgrammingSkillsController(ProgrammingSkillService programmingSkillService) {
-        this.programmingSkillService = programmingSkillService;
-    }
+    private ProgrammingSkillService programmingSkillService;
 
     @GetMapping("/getAll")
     public ResponseEntity<DataResult<List<ProgrammingSkillForCv>>> getAll() {

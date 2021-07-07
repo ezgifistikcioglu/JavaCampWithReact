@@ -19,9 +19,9 @@ export default function CvList() {
     let photoInfoService = new PhotoInfoService();
     let languageService = new LanguageService();
 
-    cvService.getCvs().then(result => setCvs(result.data.data));
-    jobSeekerService.getJobSeekers().then(result => setJobSeekers(result.data.data));
-    photoInfoService.getAllPhoto().then(result => setPhotoInfos(result.data.data));
+    cvService.getCvs().then((result) => setCvs(result.data.data));
+    jobSeekerService.getJobSeekers().then((result) => setJobSeekers(result.data.data));
+    photoInfoService.getAllPhoto().then((result) => setPhotoInfos(result.data.data));
     languageService.getLanguages().then((result) => setLanguages(result.data.data));
   });
 

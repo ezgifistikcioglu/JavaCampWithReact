@@ -13,4 +13,7 @@ export default class CvService{
     getByCvId(id){
         return axios.get("http://localhost:8080/api/cvs/getByCvId?id="+id)
     }
+    findByJobSeekerUserId(id){
+        return axios.get("http://localhost:8080/api/cvs/findByJobSeekerUserId?id="+id)
+    }
 }

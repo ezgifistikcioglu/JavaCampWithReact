@@ -14,13 +14,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/users")
 public class UsersController {
-    private final UserService userService;
-
     @Autowired
-    public UsersController(UserService userService) {
-        super();
-        this.userService = userService;
-    }
+    private UserService userService;
 
     @GetMapping("/getUser/{id}")
     public ResponseEntity<DataResult<User>> getUser(@PathVariable("id")int id) {

@@ -13,6 +13,8 @@ public interface CVService {
 
     DataResult<Cv> getByCvId(int cvId);
 
+    DataResult<Cv> findByJobSeekerUserId(int id);
+
     DataResult<CvDetailForJobSeekerDto> getCvDetailForJobSeekerById(int cvId);
 
     Result add(CvDto cvDto);

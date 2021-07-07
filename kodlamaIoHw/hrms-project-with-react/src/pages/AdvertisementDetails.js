@@ -42,7 +42,7 @@ export default function AdvertisementDetails() {
                           </Header.Content>
                                         </Header>
                                     </Table.Cell>
-                                    <Table.Cell>{advertisementDetails.employer?.companyName}</Table.Cell>
+                                    <Table.Cell>{advertisementDetails.user?.companyName}</Table.Cell>
                                 </Table.Row>
 
                                 <Table.Row textAlign={"left"}>
@@ -54,7 +54,7 @@ export default function AdvertisementDetails() {
                           </Header.Content>
                                         </Header>
                                     </Table.Cell>
-                                    <Table.Cell>{advertisementDetails.employer?.email}</Table.Cell>
+                                    <Table.Cell>{advertisementDetails.user?.email}</Table.Cell>
                                 </Table.Row>
 
                                 <Table.Row textAlign={"left"}>
@@ -66,7 +66,7 @@ export default function AdvertisementDetails() {
                           </Header.Content>
                                         </Header>
                                     </Table.Cell>
-                                    <Table.Cell>{advertisementDetails.employer?.telephoneNumber}</Table.Cell>
+                                    <Table.Cell>{advertisementDetails.user?.telephoneNumber}</Table.Cell>
                                 </Table.Row>
 
                                 <Table.Row textAlign={"left"}>
@@ -78,7 +78,7 @@ export default function AdvertisementDetails() {
                           </Header.Content>
                                         </Header>
                                     </Table.Cell>
-                                    <Table.Cell>{advertisementDetails.employer?.webAddress}</Table.Cell>
+                                    <Table.Cell>{advertisementDetails.user?.webAddress}</Table.Cell>
                                 </Table.Row>
 
                                 <Table.Row textAlign={"left"}>
@@ -95,7 +95,7 @@ export default function AdvertisementDetails() {
                                             animated
                                             color="orange"
                                             as={Link}
-                                            to={`/employers/${advertisementDetails.employer?.userId}`}
+                                            to={`/employers/${advertisementDetails.user?.userId}`}
                                         >
                                             <Button.Content visible>Go to details</Button.Content>
                                             <Button.Content hidden>

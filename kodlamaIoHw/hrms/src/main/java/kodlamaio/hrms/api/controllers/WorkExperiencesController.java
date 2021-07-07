@@ -17,13 +17,8 @@ import java.util.List;
 @RequestMapping("/api/work-experiences")
 @CrossOrigin
 public class WorkExperiencesController {
-    private final WorkExperienceService workExperienceService;
-
     @Autowired
-    public WorkExperiencesController(WorkExperienceService workExperienceService) {
-        super();
-        this.workExperienceService = workExperienceService;
-    }
+    private WorkExperienceService workExperienceService;
 
     @GetMapping("/getAll")
     public ResponseEntity<DataResult<List<WorkExperienceForCv>>> getAll() {

@@ -16,12 +16,8 @@ import java.util.List;
 @RequestMapping("/api/languages")
 @CrossOrigin
 public class LanguagesController {
-    private final LanguageService languageService;
-
     @Autowired
-    public LanguagesController(LanguageService languageService) {
-        this.languageService = languageService;
-    }
+    private LanguageService languageService;
 
     @GetMapping("/getAll")
     public ResponseEntity<DataResult<List<LanguagesForCv>>> getAll() {

@@ -17,13 +17,8 @@ import java.util.List;
 @RequestMapping("/api/employers")
 @CrossOrigin
 public class EmployersController {
-    private final EmployerService employerService;
-
     @Autowired
-    public EmployersController(EmployerService employerService) {
-        super();
-        this.employerService = employerService;
-    }
+    private EmployerService employerService;
 
     @GetMapping("/getall")
     public DataResult<List<Employer>> getAll() {

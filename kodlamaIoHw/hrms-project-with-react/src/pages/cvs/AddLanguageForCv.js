@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import * as Yup from "yup";
 import swal from 'sweetalert';
 import { useParams } from "react-router-dom";
-import LanguageService from '../services/languageService';
+import LanguageService from '../../services/languageService';
 
 
 export default function AddLanguageForCv() {

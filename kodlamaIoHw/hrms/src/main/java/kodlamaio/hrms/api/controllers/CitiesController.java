@@ -14,13 +14,8 @@ import java.util.List;
 @RequestMapping("/api/cities")
 @CrossOrigin
 public class CitiesController {
-    private final CityService cityService;
-
     @Autowired
-    public CitiesController(CityService cityService) {
-        super();
-        this.cityService = cityService;
-    }
+    private  CityService cityService;
 
     @GetMapping("/getCity/{id}")
     public ResponseEntity<DataResult<City>> getCity(@PathVariable("id") int id) {

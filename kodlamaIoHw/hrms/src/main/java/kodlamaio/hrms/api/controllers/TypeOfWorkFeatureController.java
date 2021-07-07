@@ -16,13 +16,8 @@ import java.util.List;
 @RequestMapping("/api/work-types")
 @CrossOrigin
 public class TypeOfWorkFeatureController {
-    private final WorkFeatureService featureService;
-
     @Autowired
-    public TypeOfWorkFeatureController(WorkFeatureService featureService) {
-        super();
-        this.featureService = featureService;
-    }
+    private WorkFeatureService featureService;
 
     @PostMapping("/addWorkType")
     public ResponseEntity<Result> addWorkType(@RequestBody TypeOfWorkFeature type) {

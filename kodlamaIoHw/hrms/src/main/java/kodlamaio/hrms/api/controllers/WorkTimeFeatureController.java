@@ -15,13 +15,8 @@ import java.util.List;
 @RequestMapping("/api/work-times")
 @CrossOrigin
 public class WorkTimeFeatureController {
-    private final WorkTimeService workTimeService;
-
     @Autowired
-    public WorkTimeFeatureController(WorkTimeService workTimeService) {
-        super();
-        this.workTimeService = workTimeService;
-    }
+    private WorkTimeService workTimeService;
 
     @PostMapping("/addWorkTime")
     public ResponseEntity<Result> addWorkTime(@RequestBody WorkTimeFeature timeFeature) {

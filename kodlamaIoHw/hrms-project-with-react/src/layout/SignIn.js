@@ -5,7 +5,7 @@ export default function SignIn({signOut}) {
     return (
         <div>
             <Menu.Item>
-            <Image avatar spaced="right" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNPSDB8nreBggf8eWxOfFofhCxseDuCHQAjQ&usqp=CAU"></Image>
+            <Image avatar spaced="right" src="https://avatars.githubusercontent.com/u/18142453?v=4"></Image>
             <Dropdown pointing="top left" text="Ezgi">
                 <Dropdown.Menu>
                     <Dropdown.Item  text = "My infos" icon = "info"/>

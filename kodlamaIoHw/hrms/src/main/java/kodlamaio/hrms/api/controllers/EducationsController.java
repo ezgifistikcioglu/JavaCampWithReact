@@ -18,13 +18,8 @@ import java.util.List;
 @RequestMapping("/api/educations")
 @CrossOrigin
 public class EducationsController {
-    private final EducationInformationService educationInformationService;
-
     @Autowired
-    public EducationsController(EducationInformationService educationInformationService) {
-        super();
-        this.educationInformationService = educationInformationService;
-    }
+    private EducationInformationService educationInformationService;
 
     @GetMapping("/getAll")
     public ResponseEntity<DataResult<List<EducationInformationForCv>>> getAll() {

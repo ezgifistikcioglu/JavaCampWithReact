@@ -14,12 +14,8 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/api/email-verifications")
 public class EmailVerificationsController {
-    private final EmailVerificationService emailVerificationService;
-
     @Autowired
-    public EmailVerificationsController(final EmailVerificationService emailVerificationService) {
-        this.emailVerificationService = emailVerificationService;
-    }
+    private EmailVerificationService emailVerificationService;
 
     @PostMapping("/addEmailVerification")
     public ResponseEntity<Result> addEmailVerification(@RequestBody EmailVerification emailVerification) {

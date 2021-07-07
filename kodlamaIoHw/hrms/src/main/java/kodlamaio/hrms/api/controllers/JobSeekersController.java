@@ -16,13 +16,8 @@ import java.util.List;
 @RequestMapping("/api/job-seekers")
 @CrossOrigin
 public class JobSeekersController {
-    private final JobSeekerService jobSeekerService;
-
     @Autowired
-    public JobSeekersController(JobSeekerService jobSeekerService) {
-        super();
-        this.jobSeekerService = jobSeekerService;
-    }
+    private JobSeekerService jobSeekerService;
 
     @GetMapping("/getAll")
     public DataResult<List<JobSeeker>> getAll() {

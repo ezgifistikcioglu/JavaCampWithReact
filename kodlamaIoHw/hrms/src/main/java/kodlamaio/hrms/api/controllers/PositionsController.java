@@ -14,13 +14,8 @@ import java.util.List;
 @RequestMapping("/api/positions")
 @CrossOrigin
 public class PositionsController {
-    private final PositionService positionService;
-
     @Autowired
-    public PositionsController(PositionService positionService) {
-        super();
-        this.positionService = positionService;
-    }
+    private PositionService positionService;
 
     @GetMapping("/getAll")
     public ResponseEntity<DataResult<List<Position>>> getAll() {

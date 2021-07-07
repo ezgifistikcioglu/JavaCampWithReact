@@ -15,9 +15,13 @@ import EmployerLogin from '../pages/Authentications/EmployerRegister'
 import JobSeekerRegister from '../pages/Authentications/JobSeekerRegister'
 import OpenAndApprovedAdvertisementList from '../pages/OpenAndApprovedAdvertisementList'
 import LoginPage from '../pages/Authentications/LoginPage'
-import AddCv from '../pages/Cvs/AddCv'
-import CvDetails from '../pages/Cvs/CvDetails'
-
+import AddCv from '../pages/cvs/AddCv'
+import CvDetails from '../pages/cvs/CvDetails'
+import AddEducationForCv from '../pages/cvs/AddEducationForCv'
+import AddLanguageForCv from '../pages/cvs/AddLanguageForCv'
+import AddProgrammingSkillForCv from '../pages/cvs/AddProgrammingSkillForCv'
+import AddSocialMediaForCv from '../pages/cvs/AddSocialMediaForCv'
+import AddWorkExperienceForCv from '../pages/cvs/AddWorkExperienceForCv'
 
 export default function Dashboard() {
     return (
@@ -43,6 +47,11 @@ export default function Dashboard() {
                         <Route exact path="/login" component={LoginPage} />
                         <Route exact path="/addCv" component={AddCv} />
                         <Route exact path="/cvDetails/:id" component={CvDetails} />
+                        <Route exact path="/addEducationForCv" component={AddEducationForCv} />
+                        <Route exact path="/addLanguageForCv" component={AddLanguageForCv} />
+                        <Route exact path="/addProgrammingSkillForCv" component={AddProgrammingSkillForCv} />
+                        <Route exact path="/addSocialMediaForCv" component={AddSocialMediaForCv} />
+                        <Route exact path="/addWorkExperienceForCv" component={AddWorkExperienceForCv} />
                     </Grid.Column>
                 </GridRow>
             </Grid>

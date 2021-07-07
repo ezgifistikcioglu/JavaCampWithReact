@@ -16,13 +16,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/system_employees")
 public class SystemEmployeesController {
-    private final SystemEmployeeService systemEmployeeService;
-
     @Autowired
-    public SystemEmployeesController(SystemEmployeeService systemEmployeeService) {
-        super();
-        this.systemEmployeeService = systemEmployeeService;
-    }
+    private SystemEmployeeService systemEmployeeService;
 
     @GetMapping("/getAll")
     public ResponseEntity<DataResult<List<SystemEmployee>>> getAll() {

@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import * as Yup from "yup";
 import swal from 'sweetalert';
 import { useParams } from "react-router-dom";
-import EducationService from '../services/educationService';
+import EducationService from '../../services/educationService';
 
 export default function AddEducationForCv() {
   let educationService = new EducationService();

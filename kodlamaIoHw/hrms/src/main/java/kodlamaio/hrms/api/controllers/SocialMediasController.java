@@ -17,13 +17,8 @@ import java.util.List;
 @RequestMapping("/api/social-medias")
 @CrossOrigin
 public class SocialMediasController {
-    private final SocialMediaService socialMediaService;
-
     @Autowired
-    public SocialMediasController(SocialMediaService socialMediaService) {
-        super();
-        this.socialMediaService = socialMediaService;
-    }
+    private SocialMediaService socialMediaService;
 
     @GetMapping("/getAll")
     public ResponseEntity<DataResult<List<SocialMediaForCv>>> getAll() {

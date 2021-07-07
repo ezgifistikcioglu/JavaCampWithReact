@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import * as Yup from "yup";
 import swal from 'sweetalert';
 import { useParams } from "react-router-dom";
-import ProgrammingSkillService from '../services/programmingSkillService';
+import ProgrammingSkillService from '../../services/programmingSkillService';
 
 
 export default function AddProgrammingSkillForCv() {

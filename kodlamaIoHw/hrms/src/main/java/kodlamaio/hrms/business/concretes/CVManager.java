@@ -59,6 +59,16 @@ public class CVManager implements CVService {
     }
 
     @Override
+    public DataResult<Cv> findByJobSeekerUserId(int id) {
+        Cv cv = cvRepository.findByJobSeekerUserId(id);
+        if (cv == null){
+            return new ErrorDataResult<>("This CV Not Found");
+        }else{
+            return new SuccessDataResult<>(cv,"Data Listed");
+        }
+    }
+
+    @Override
     public DataResult<CvDetailForJobSeekerDto> getCvDetailForJobSeekerById(int cvId) {
         CvDetailForJobSeekerDto jobSeekerDto = this.cvRepository.getCvDetailForJobSeekerById(cvId);
 

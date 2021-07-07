@@ -17,13 +17,8 @@ import java.util.List;
 @RequestMapping("/api/advertisements")
 @CrossOrigin
 public class AdvertisementsController {
-    private final AdvertisementService advertisementService;
-
-
     @Autowired
-    public AdvertisementsController(AdvertisementService advertisementService) {
-        this.advertisementService = advertisementService;
-    }
+    private  AdvertisementService advertisementService;
 
     @PostMapping("/addAdvertisement")
     public ResponseEntity<Result> addAdvertisement(@RequestBody AdvertisementRequest advertisement) {

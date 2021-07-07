@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import * as Yup from "yup";
 import swal from 'sweetalert';
 import { useParams } from "react-router-dom";
-import WorkExperienceService from '../services/workExperienceService';
+import WorkExperienceService from '../../services/workExperienceService';
 
 export default function AddWorkExperienceForCv() {
   let workExperienceService = new WorkExperienceService();
@@ -49,7 +49,7 @@ export default function AddWorkExperienceForCv() {
   return (
     <div>
       <Card color="orange" fluid>
-        <Card.Content header='Add Work Experience Knowledge' />
+        <Card.Content header='Work Experience' />
         <Card.Content>
           <Form color="orange" onSubmit={formik.handleSubmit}>
             <Form.Field style={{ marginBottom: "1em" }}>
