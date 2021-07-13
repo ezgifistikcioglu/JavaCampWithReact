@@ -11,6 +11,6 @@ export default class ProgrammingSkillService {
         return axios.post("http://localhost:8080/api/programming-skills/update",values)
     }
     findAllByCvId(id){
-        return axios.get("http://localhost:8080/api/programming-skills/findAllByCvId?id="+id)
+        return axios.get("http://localhost:8080/api/programming-skills/findAllByCvId/"+id)
     }
 }

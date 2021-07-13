@@ -19,6 +19,8 @@ public interface WorkExperienceService {
 
     DataResult<List<WorkExperienceForCv>> findByExperienceId(int id);
 
+    DataResult<List<WorkExperienceForCv>> getByCv_CvId(int id);
+
     DataResult<List<WorkExperienceForCv>> findByExperienceIdOrderByBusinessLeavingDate(int idWithoutDesc);
 
     DataResult<List<WorkExperienceForCv>> findByExperienceIdOrderByBusinessLeavingDateDesc(int idWithDesc, Sort.Direction direction);

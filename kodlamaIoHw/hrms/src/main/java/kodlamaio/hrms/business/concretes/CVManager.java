@@ -79,7 +79,7 @@ public class CVManager implements CVService {
             jobSeekerDto.setPhotoInfo(this.photoService.findAllById(jobSeekerDto.getId()).getData());
             jobSeekerDto.setWorkExperienceForCvs(this.experienceService.findByExperienceId(jobSeekerDto.getId()).getData());
             jobSeekerDto.setLanguagesForCvs(this.languageService.findAllByLanguageId(jobSeekerDto.getId()).getData());
-            jobSeekerDto.setSocialMediaForCvs(this.socialMediaService.findAllByCvId(jobSeekerDto.getId()).getData());
+            jobSeekerDto.setSocialMediaForCvs(this.socialMediaService.findAllById(jobSeekerDto.getId()).getData());
             jobSeekerDto.setProgrammingSkillForCvs(this.skillService.findAllByCvId(jobSeekerDto.getId()).getData());
             jobSeekerDto.setJobSeeker(this.jobSeekerService.getById(jobSeekerDto.getId()).getData());
             return new SuccessDataResult<>(jobSeekerDto, "CV information has been successfully retrieved.");
@@ -121,7 +121,7 @@ public class CVManager implements CVService {
         cv.setEducationInformationForCvs(this.informationService.findByEducationId(cvDto.getEducationId()).getData());
         cv.setWorkExperienceForCvs(this.experienceService.findByExperienceId(cvDto.getExperienceId()).getData());
         cv.setProgrammingSkillForCvs(this.skillService.findAllByCvId(cvDto.getSkillId()).getData());
-        cv.setSocialMediaForCvs(this.socialMediaService.findAllByCvId(cvDto.getSocialMediaId()).getData());
+        cv.setSocialMediaForCvs(this.socialMediaService.findAllById(cvDto.getSocialMediaId()).getData());
         this.cvRepository.save(cv);
     }
 

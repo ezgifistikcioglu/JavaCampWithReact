@@ -13,4 +13,7 @@ export default class WorkExperienceService {
     findByExperienceId(id){
         return axios.get("http://localhost:8080/api/work-experiences/findByExperienceId?id="+id)
     }
+    getByCvId(id){
+        return axios.get("http://localhost:8080/api/work-experiences/getByCvId/"+id)
+    }
 }

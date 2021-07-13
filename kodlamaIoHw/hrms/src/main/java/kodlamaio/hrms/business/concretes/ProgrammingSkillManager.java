@@ -9,6 +9,7 @@ import kodlamaio.hrms.entities.dtos.ProgrammingSkillDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,7 +33,7 @@ public class ProgrammingSkillManager implements ProgrammingSkillService {
 
     @Override
     public DataResult<List<ProgrammingSkillForCv>> findAllByCvId(int id) {
-        List<ProgrammingSkillForCv> skillForCvs = this.skillForCvRepository.findAllById(id);
+        List<ProgrammingSkillForCv> skillForCvs = this.skillForCvRepository.findAllByCv_CvId(id);
 
         if (skillForCvs.isEmpty()) {
             return new ErrorDataResult<>("These skills were not found on cv.");
@@ -80,7 +81,7 @@ public class ProgrammingSkillManager implements ProgrammingSkillService {
             return new ErrorDataResult<>("This programming skill not found");
         } else {
             this.skillForCvRepository.deleteById(id);
-            return new SuccessResult("Deleted skill");
+            return new SuccessResult("Deleted skill with id : " + id);
         }
     }
 }

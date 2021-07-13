@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface ProgrammingSkillForCvRepository extends JpaRepository<ProgrammingSkillForCv, Integer> {
+    List<ProgrammingSkillForCv> findAllByCv_CvId(int id);
     List<ProgrammingSkillForCv> findAllById(int id);
     Optional<ProgrammingSkillForCv> getById(int id);
 }

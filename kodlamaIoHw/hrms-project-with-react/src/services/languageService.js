@@ -10,4 +10,10 @@ export default class LanguageService{
     addLanguages(values){
         return axios.post("http://localhost:8080/api/languages/add",values)
     }
+    findAllByCvId(id){
+        return axios.get("http://localhost:8080/api/languages/findAllByCvId/"+id)
+    }
+    updateLanguages(values){
+        return axios.post("http://localhost:8080/api/languages/update",values)
+    }
 }

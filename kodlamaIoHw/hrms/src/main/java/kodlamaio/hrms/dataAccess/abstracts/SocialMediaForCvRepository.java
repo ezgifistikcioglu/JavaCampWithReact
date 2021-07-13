@@ -8,4 +8,5 @@ import java.util.Set;
 
 public interface SocialMediaForCvRepository extends JpaRepository<SocialMediaForCv, Integer> {
     List<SocialMediaForCv> findAllById(int id);
+    List<SocialMediaForCv> getByCv_CvId(int id);
 }

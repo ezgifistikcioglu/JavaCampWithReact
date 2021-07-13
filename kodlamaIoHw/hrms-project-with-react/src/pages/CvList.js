@@ -1,36 +1,27 @@
 import React, { useState, useEffect }  from 'react'
 import CvService from '../services/cvService';
-import JobSeekerService from '../services/jobSeekerService';
-import LanguageService from "../services/languageService";
-import PhotoInfoService from "../services/photoInfoService";
-import { Icon, Button, Card, Image, Rating } from "semantic-ui-react";
+import { Button, Card, Image, Rating } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
 
 export default function CvList() {
+  let cvService = new CvService();
+
   const [cvs, setCvs] = useState([]);
-  const [jobSeekers, setJobSeekers] = useState([]);
-  const [photoInfos, setPhotoInfos] = useState([]);
-  const [languages, setLanguages] = useState([]);
-
+  
   useEffect(() => {
-    let cvService = new CvService();
-    let jobSeekerService = new JobSeekerService();
-    let photoInfoService = new PhotoInfoService();
-    let languageService = new LanguageService();
-
-    cvService.getCvs().then((result) => setCvs(result.data.data));
-    jobSeekerService.getJobSeekers().then((result) => setJobSeekers(result.data.data));
-    photoInfoService.getAllPhoto().then((result) => setPhotoInfos(result.data.data));
-    languageService.getLanguages().then((result) => setLanguages(result.data.data));
-  });
+ 
+    cvService.getCvs().then((result) =>{
+      setCvs(result.data.data);
+    });
+    
+  }, []);
 
   return (
     <div style={{ backgroundColor: "" }} className="ui four cards">
       <Card.Group>
-        {cvs.map((cv) => (
-          <Card fluid color="violet" >
-
+        {cvs?.map((cv) => (
+          <Card fluid color="orange"  key= {cv.cvId} >
             <Card.Content>
               <Image
                 floated='right'

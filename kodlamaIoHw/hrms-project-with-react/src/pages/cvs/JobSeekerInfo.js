@@ -4,15 +4,13 @@ import { Grid, Icon, Card, Image } from "semantic-ui-react";
 import image from "../images/me.jpg";
 import getLink from "../../utilities/cvs/getLink";
 
-import dataFile from "../resources/Data.json";
+let  jobSeekerService = new JobSeekerService();
+
 const [jobSeekers, setJobSeekers] = useState([]);
 
 useEffect(() => {
-    let  jobSeekerService = new JobSeekerService();
     jobSeekerService.getJobSeekers().then(result=>setJobSeekers(result.data.data))
-  }, [])
-
-
+  }, [jobSeekers]);
 
 export default () => (
   <Grid.Row>

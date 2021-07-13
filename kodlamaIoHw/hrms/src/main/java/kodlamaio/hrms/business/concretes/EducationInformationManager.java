@@ -43,6 +43,18 @@ public class EducationInformationManager implements EducationInformationService 
     }
 
     @Override
+    public DataResult<List<EducationInformationForCv>> getByCv_CvId(int id) {
+        List<EducationInformationForCv> educationInformationForCvs = educationInformationForCVRepository.getByCv_CvId(id);
+
+        if (educationInformationForCvs.isEmpty()) {
+            return new ErrorDataResult<>("This education information not found");
+
+        } else {
+            return new SuccessDataResult<>(educationInformationForCvs, "This education information has been successfully listed for cvId");
+        }
+    }
+
+    @Override
     public Result add(EducationDto educationDto) {
         if (findByEducationId(educationDto.getEducationId()).getData() != null) {
             return new ErrorsResult(educationDto.getEducationId() + "There is no such education");

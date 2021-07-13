@@ -9,6 +9,8 @@ import java.util.Set;
 public interface WorkExperienceForCvRepository extends JpaRepository<WorkExperienceForCv, Integer> {
     List<WorkExperienceForCv> findByExperienceId(int id);
 
+    List<WorkExperienceForCv> getByCv_CvId(int id);
+
     List<WorkExperienceForCv> findByExperienceIdOrderByBusinessLeavingDate(int idWithoutDesc);
 
     List<WorkExperienceForCv> findByExperienceIdOrderByBusinessLeavingDateDesc(int idWithDesc);

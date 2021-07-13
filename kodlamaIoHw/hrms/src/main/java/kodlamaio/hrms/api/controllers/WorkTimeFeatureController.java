@@ -28,8 +28,8 @@ public class WorkTimeFeatureController {
         DataResult<List<WorkTimeFeature>> result = workTimeService.getAll();
         return ResponseEntity.ok(result);
     }
-    @DeleteMapping("/deleteAdvertisement/{id}")
-    public ResponseEntity<Result>  deleteAdvertisement(@PathVariable("id") int id) {
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Result>  delete(@PathVariable("id") int id) {
         return ResponseEntity.ok(this.workTimeService.delete(id));
     }
 

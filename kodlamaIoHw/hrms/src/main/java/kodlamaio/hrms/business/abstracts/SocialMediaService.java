@@ -8,7 +8,9 @@ import kodlamaio.hrms.entities.dtos.SocialMediaDto;
 import java.util.List;
 
 public interface SocialMediaService {
-    DataResult<List<SocialMediaForCv>> findAllByCvId(int id);
+    DataResult<List<SocialMediaForCv>> findAllById(int id);
+
+    DataResult<List<SocialMediaForCv>> getByCv_CvId(int id);
 
     DataResult<List<SocialMediaForCv>> getAll();
 

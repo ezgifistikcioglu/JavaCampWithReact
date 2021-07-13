@@ -45,4 +45,9 @@ public class LanguagesController {
         DataResult<List<LanguagesForCv>> result = languageService.findAllByLanguageId(id);
         return ResponseEntity.ok(result);
     }
+    @GetMapping("/findAllByCvId/{id}")
+    public ResponseEntity<DataResult<List<LanguagesForCv>>> findAllByCvId(@PathVariable("id") int id) {
+        DataResult<List<LanguagesForCv>> result = languageService.findAllByCvId(id);
+        return ResponseEntity.ok(result);
+    }
 }

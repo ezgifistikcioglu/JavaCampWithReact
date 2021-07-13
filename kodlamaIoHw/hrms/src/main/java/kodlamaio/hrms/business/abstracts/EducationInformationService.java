@@ -13,6 +13,8 @@ public interface EducationInformationService {
 
     DataResult<EducationInformationForCv> getByEducationId(int id);
 
+    DataResult<List<EducationInformationForCv>> getByCv_CvId(int id);
+
     Result add(EducationDto educationDto);
 
     Result update(EducationDto educationDto);

@@ -17,11 +17,17 @@ import OpenAndApprovedAdvertisementList from '../pages/OpenAndApprovedAdvertisem
 import LoginPage from '../pages/Authentications/LoginPage'
 import AddCv from '../pages/cvs/AddCv'
 import CvDetails from '../pages/cvs/CvDetails'
-import AddEducationForCv from '../pages/cvs/AddEducationForCv'
-import AddLanguageForCv from '../pages/cvs/AddLanguageForCv'
-import AddProgrammingSkillForCv from '../pages/cvs/AddProgrammingSkillForCv'
-import AddSocialMediaForCv from '../pages/cvs/AddSocialMediaForCv'
-import AddWorkExperienceForCv from '../pages/cvs/AddWorkExperienceForCv'
+import AddSocialMediaForCv from '../pages/cvs/Crud/Add/AddSocialMediaForCv'
+import AddEducationForCv from '../pages/cvs/Crud/Add/AddEducationForCv'
+import AddLanguageForCv from '../pages/cvs/Crud/Add/AddLanguageForCv'
+import AddProgrammingSkillForCv from '../pages/cvs/Crud/Add/AddProgrammingSkillForCv'
+import AddWorkExperienceForCv from '../pages/cvs/Crud/Add/AddWorkExperienceForCv'
+import UpdateEducationForCv from '../pages/cvs/Crud/Update/UpdateEducationForCv'
+import UpdateLanguageForCv from '../pages/cvs/Crud/Update/UpdateLanguageForCv'
+import UpdateProgrammingSkillForCv from '../pages/cvs/Crud/Update/UpdateProgrammingSkillForCv'
+import UpdateSocialMediaForCv from '../pages/cvs/Crud/Update/UpdateSocialMediaForCv'
+import UpdateWorkExperienceForCv from '../pages/cvs/Crud/Update/UpdateWorkExperienceForCv'
+
 
 export default function Dashboard() {
     return (
@@ -47,11 +53,19 @@ export default function Dashboard() {
                         <Route exact path="/login" component={LoginPage} />
                         <Route exact path="/addCv" component={AddCv} />
                         <Route exact path="/cvDetails/:id" component={CvDetails} />
+                        {/* CRUD Add */}
                         <Route exact path="/addEducationForCv" component={AddEducationForCv} />
                         <Route exact path="/addLanguageForCv" component={AddLanguageForCv} />
                         <Route exact path="/addProgrammingSkillForCv" component={AddProgrammingSkillForCv} />
                         <Route exact path="/addSocialMediaForCv" component={AddSocialMediaForCv} />
                         <Route exact path="/addWorkExperienceForCv" component={AddWorkExperienceForCv} />
+                        {/* CRUD Update */}
+                        <Route exact path="/updateEducationForCv" component={UpdateEducationForCv} />
+                        <Route exact path="/updateLanguageForCv" component={UpdateLanguageForCv} />
+                        <Route exact path="/updateProgrammingSkillForCv" component={UpdateProgrammingSkillForCv} />
+                        <Route exact path="/updateSocialMediaForCv" component={UpdateSocialMediaForCv} />
+                        <Route exact path="/updateWorkExperienceForCv" component={UpdateWorkExperienceForCv} />
+
                     </Grid.Column>
                 </GridRow>
             </Grid>

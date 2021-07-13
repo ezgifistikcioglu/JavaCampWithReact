@@ -1,26 +1,28 @@
-import React from 'react';
+import React from 'react'
 import { Button, Input, Card, Form } from "semantic-ui-react";
 import { useFormik } from 'formik';
 import * as Yup from "yup";
 import swal from 'sweetalert';
-import { useParams } from "react-router-dom";
-import LanguageService from '../../services/languageService';
+import SocialMediaService from '../../../../services/socialMediaService';
 
-
-export default function AddLanguageForCv() {
-  let languageService = new LanguageService();
-  const { cvId } = useParams();
+export default function AddSocialMediaForCv() {
+    let socialMediaService = new SocialMediaService();
 
   const validationSchema = Yup.object({
-    languageName: Yup.string().max(250, 'Must be 250 characters or less').required("Please write a language name"),
-    languageLevelNumber: Yup.number().required("Please enter the number of language level for your cv."),
+    socialMediaName: Yup.string().max(250, 'Must be 250 characters or less').required("Please write a programming skill name"),
+    socialMediaUrl: Yup.string()
+    .matches(
+        /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+        'Enter correct url!'
+    )
+    .required('Please enter website'),
     createdAt: Yup.date().default(() => new Date()),
   });
 
   const formik = useFormik({
     initialValues: {
-      languageName: "",
-      languageLevelNumber: "",
+      socialMediaName: "",
+      socialMediaUrl: "",
       createdAt: new Date(),
       cvId: "",
     },
@@ -29,9 +31,9 @@ export default function AddLanguageForCv() {
       console.log("values: " + values)
       values.cvId = parseInt(11);
 
-      languageService.addLanguages(values).then((result) => console.log(result)).then(swal({
+      socialMediaService.addSocialMedias(values).then((result) => console.log(result)).then(swal({
         title: "Succeed!",
-        text: "Language is added!",
+        text: "Social Media is added!",
         icon: "success",
         button: "Ok"
       }).then(function () { window.location.reload() }));
@@ -41,40 +43,39 @@ export default function AddLanguageForCv() {
   return (
     <div>
       <Card color="orange" fluid>
-        <Card.Content header='Add Language' />
+        <Card.Content header='Add Social Media' />
         <Card.Content>
           <Form color="orange" onSubmit={formik.handleSubmit}>
             <Form.Field style={{ marginBottom: "1em" }}>
               <Input
                 style={{ width: "100%" }}
-                error={Boolean(formik.errors.languageName).toString()}
+                error={Boolean(formik.errors.socialMediaName).toString()}
                 onChange={formik.handleChange}
-                value={formik.values.languageName}
+                value={formik.values.socialMediaName}
                 onBlur={formik.handleBlur}
-                name="languageName"
-                placeholder="Language Name"
+                name="socialMediaName"
+                placeholder="Social Media Name"
               />
-              {formik.errors.languageName && formik.touched.languageName && (
+              {formik.errors.socialMediaName && formik.touched.socialMediaName && (
                 <div className={"ui pointing red basic label"}>
-                  {formik.errors.languageName}
+                  {formik.errors.socialMediaName}
                 </div>
               )}
             </Form.Field>
             <Form.Field>
               <Input
                 style={{ width: "100%" }}
-                id="languageLevelNumber"
-                name="languageLevelNumber"
-                error={Boolean(formik.errors.languageLevelNumber)}
+                id="socialMediaUrl"
+                name="socialMediaUrl"
+                error={Boolean(formik.errors.socialMediaUrl)}
                 onChange={formik.handleChange}
-                value={formik.values.languageLevelNumber}
+                value={formik.values.socialMediaUrl}
                 onBlur={formik.handleBlur}
-                type="number"
-                placeholder="Language Level Number"
+                placeholder="Social Media Url"
               />
-              {formik.errors.languageLevelNumber && formik.touched.languageLevelNumber && (
+              {formik.errors.socialMediaUrl && formik.touched.socialMediaUrl && (
                 <div className={"ui pointing red basic label"}>
-                  {formik.errors.languageLevelNumber}
+                  {formik.errors.socialMediaUrl}
                 </div>
               )}
             </Form.Field>

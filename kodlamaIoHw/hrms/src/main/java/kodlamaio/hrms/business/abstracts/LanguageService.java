@@ -10,6 +10,8 @@ import java.util.List;
 public interface LanguageService {
     DataResult<List<LanguagesForCv>> findAllByLanguageId(int id);
 
+    DataResult<List<LanguagesForCv>> findAllByCvId(int id);
+
     DataResult<LanguagesForCv> getByLanguageId(int id);
 
     DataResult<List<LanguagesForCv>> getAll();

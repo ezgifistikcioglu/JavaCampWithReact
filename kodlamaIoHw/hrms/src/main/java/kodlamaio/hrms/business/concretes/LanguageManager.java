@@ -33,7 +33,19 @@ public class LanguageManager implements LanguageService {
             return new ErrorDataResult<>("Information for these languages could not be found.");
 
         } else {
-            return new SuccessDataResult<>(languagesForCvs, "Languages have been successfully added");
+            return new SuccessDataResult<>(languagesForCvs, "Languages have been successfully listed for LanguageId");
+        }
+    }
+
+    @Override
+    public DataResult<List<LanguagesForCv>> findAllByCvId(int id) {
+        List<LanguagesForCv> languagesForCvs = languagesRepository.findAllByCv_CvId(id);
+
+        if (languagesForCvs.isEmpty()) {
+            return new ErrorDataResult<>("This cv id not found");
+
+        } else {
+            return new SuccessDataResult<>(languagesForCvs, "Languages have been successfully listed for cvId");
         }
     }
 

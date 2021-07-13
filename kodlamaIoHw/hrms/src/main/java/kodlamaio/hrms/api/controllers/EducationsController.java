@@ -51,6 +51,11 @@ public class EducationsController {
         return this.educationInformationService.getByEducationId(id);
     }
 
+    @GetMapping("/getByCvId/{id}")
+    public DataResult<List<EducationInformationForCv>> getByCvId(@PathVariable("id") int id) {
+        return this.educationInformationService.getByCv_CvId(id);
+    }
+
     @GetMapping("/findByEducationId/{id}")
     public DataResult<List<EducationInformationForCv>> findByEducationId(@PathVariable("id") int id) {
         return this.educationInformationService.findByEducationId(id);

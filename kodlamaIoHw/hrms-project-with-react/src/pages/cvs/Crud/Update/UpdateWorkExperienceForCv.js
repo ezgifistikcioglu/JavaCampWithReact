@@ -1,14 +1,12 @@
 import React from 'react';
-import { Button, Input, TextArea, Card, Grid, Form } from "semantic-ui-react";
+import { Button, Input, Card, Grid, Form } from "semantic-ui-react";
 import { useFormik } from 'formik';
 import * as Yup from "yup";
 import swal from 'sweetalert';
-import { useParams } from "react-router-dom";
-import WorkExperienceService from '../../services/workExperienceService';
+import WorkExperienceService from '../../../../services/workExperienceService';
 
-export default function AddWorkExperienceForCv() {
+export default function UpdateWorkExperienceForCv() {
   let workExperienceService = new WorkExperienceService();
-  const { cvId } = useParams();
 
   const validationSchema = Yup.object({
     businessName: Yup.string().max(250, 'Must be 250 characters or less').required("Please write a school name"),
@@ -29,17 +27,19 @@ export default function AddWorkExperienceForCv() {
       businessLeavingDate: "",
       businessStartDate: "",
       createdAt: new Date(),
+      experienceId: "",
       cvId: "",
       stillWorking: ""
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
+      values.experienceId = parseInt(1);
       console.log("values: " + values)
       values.cvId = parseInt(11);
 
-      workExperienceService.addWorkExperiences(values).then((result) => console.log(result)).then(swal({
+      workExperienceService.updateWorkExperiences(values).then((result) => console.log(result)).then(swal({
         title: "Succeed!",
-        text: "Work experiences is added!",
+        text: "Work experiences is updated!",
         icon: "success",
         button: "Ok"
       }).then(function () { window.location.reload() }));
@@ -161,9 +161,9 @@ export default function AddWorkExperienceForCv() {
             </Form.Field>
             <Button
               animated
-              content="Add"
+              content="Update"
               labelPosition="right"
-              icon="add"
+              icon="edit"
               color="orange"
               type="submit"
             />

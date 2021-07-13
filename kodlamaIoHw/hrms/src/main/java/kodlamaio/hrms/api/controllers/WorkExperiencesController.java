@@ -45,6 +45,10 @@ public class WorkExperiencesController {
     public DataResult<List<WorkExperienceForCv>> findByExperienceId(@PathVariable("id") int id) {
         return this.workExperienceService.findByExperienceId(id);
     }
+    @GetMapping("/getByCvId/{id}")
+    public DataResult<List<WorkExperienceForCv>> getByCvId(@PathVariable("id") int id) {
+        return this.workExperienceService.getByCv_CvId(id);
+    }
 
     @GetMapping("/findByExperienceIdOrderByBusinessLeavingDateDesc")
     public ResponseEntity<DataResult<List<WorkExperienceForCv>>> findByExperienceIdOrderByBusinessLeavingDateDesc(@RequestParam int id, @RequestParam Sort.Direction d) {

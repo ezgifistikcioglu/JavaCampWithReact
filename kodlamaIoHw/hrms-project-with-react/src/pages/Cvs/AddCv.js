@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Input, Card, Form } from "semantic-ui-react";
+import { Button, Card, Form } from "semantic-ui-react";
 import { useParams } from "react-router-dom";
 import { NavLink } from "react-router-dom";
-import AddEducationForCv from './AddEducationForCv'
-import AddLanguageForCv from './AddLanguageForCv'
-import AddProgrammingSkillForCv from './AddProgrammingSkillForCv'
-import AddSocialMediaForCv from './AddSocialMediaForCv'
-import AddWorkExperienceForCv from './AddWorkExperienceForCv'
+import AddLanguageForCv from './Crud/Add/AddLanguageForCv'
+import AddProgrammingSkillForCv from './Crud/Add/AddProgrammingSkillForCv'
+import AddSocialMediaForCv from './Crud/Add/AddSocialMediaForCv'
+import AddWorkExperienceForCv from './Crud/Add/AddWorkExperienceForCv'
 import CvService from '../../services/cvService';
-
+import AddEducationForCv from './Crud/Add/AddEducationForCv';
 
 export default function AddCv() {
   let { id } = useParams();

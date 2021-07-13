@@ -1,15 +1,15 @@
 import React from "react";
 import { Formik } from "formik";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import { Button, Form, Header, Image } from "semantic-ui-react";
 
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 
-import HrmsTextInput from "../../utilities/cutomFormControls/HrmsTextInput";
-// import withRouter
-import { BrowserRouter as Router, Route, Switch, Redirect, withRouter } from "react-router-dom"
+import HrmsTextInput from "../../utilities/customFormControls/HrmsTextInput";
+
+import { withRouter } from "react-router-dom"
 
 const useStyles = makeStyles({
     root: {

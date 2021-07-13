@@ -3,13 +3,10 @@ import { Button, Input, Card, Form } from "semantic-ui-react";
 import { useFormik } from 'formik';
 import * as Yup from "yup";
 import swal from 'sweetalert';
-import { useParams } from "react-router-dom";
-import ProgrammingSkillService from '../../services/programmingSkillService';
+import ProgrammingSkillService from '../../../../services/programmingSkillService';
 
-
-export default function AddProgrammingSkillForCv() {
+export default function UpdateProgrammingSkillForCv() {
     let programmingSkillService = new ProgrammingSkillService();
-    const { cvId } = useParams();
 
     const validationSchema = Yup.object({
         programmingName: Yup.string().max(250, 'Must be 250 characters or less').required("Please write a programming skill name"),
@@ -22,16 +19,18 @@ export default function AddProgrammingSkillForCv() {
             programmingName: "",
             programmingSkillLevel: "",
             createdAt: new Date(),
-            cvId: "",
+            id: "",
+            cvId: ""
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
-            console.log("values: " + values)
-            values.cvId = parseInt(11);
+            values.id = parseInt(5);
+            console.log("values: " + values);
+            values.cvId = parseInt(12);
 
-            programmingSkillService.addProgrammingSkills(values).then((result) => console.log(result)).then(swal({
+            programmingSkillService.updateProgrammingSkills(values).then((result) => console.log(result)).then(swal({
                 title: "Succeed!",
-                text: "Programming skill is added!",
+                text: "Programming skill is updated!",
                 icon: "success",
                 button: "Ok"
             }).then(function () { window.location.reload() }));
@@ -41,7 +40,7 @@ export default function AddProgrammingSkillForCv() {
     return (
         <div>
             <Card color="orange" fluid>
-                <Card.Content header='Add Language' />
+                <Card.Content header='Updated Language' />
                 <Card.Content>
                     <Form color="orange" onSubmit={formik.handleSubmit}>
                         <Form.Field style={{ marginBottom: "1em" }}>
@@ -97,9 +96,9 @@ export default function AddProgrammingSkillForCv() {
                         </Form.Field>
                         <Button
                             animated
-                            content="Add"
+                            content="Updated"
                             labelPosition="right"
-                            icon="add"
+                            icon="edit"
                             color="orange"
                             type="submit"
                         />

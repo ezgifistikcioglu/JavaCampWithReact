@@ -10,5 +10,7 @@ import java.util.Set;
 public interface LanguagesRepository extends JpaRepository<LanguagesForCv, Integer> {
     List<LanguagesForCv> findAllByLanguageId(int id);
 
+    List<LanguagesForCv> findAllByCv_CvId(int id);
+
     Optional<LanguagesForCv> getByLanguageId(int id);
 }

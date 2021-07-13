@@ -10,7 +10,10 @@ export default class SocialMediaService {
     updateSocialMedias(values){
         return axios.post("http://localhost:8080/api/social-medias/update",values)
     }
-    findAllByCvId(id){
-        return axios.get("http://localhost:8080/api/social-medias/findAllByCvId?id="+id)
+    findAllById(id){
+        return axios.get("http://localhost:8080/api/social-medias/findAllById?id="+id)
+    }
+    getByCvId(id){
+        return axios.get("http://localhost:8080/api/social-medias/getByCvId/"+id)
     }
 }

@@ -26,13 +26,24 @@ public class SocialMediaManager implements SocialMediaService {
     }
 
     @Override
-    public DataResult<List<SocialMediaForCv>> findAllByCvId(int id) {
+    public DataResult<List<SocialMediaForCv>> findAllById(int id) {
         List<SocialMediaForCv> socialMediaForCvs = socialMediaForCvRepository.findAllById(id);
 
         if (socialMediaForCvs.isEmpty()) {
             return new ErrorDataResult<>("This social media address not found");
         } else {
-            return new SuccessDataResult<>(socialMediaForCvs, "Social media information has been successfully added");
+            return new SuccessDataResult<>(socialMediaForCvs, "Social media information has been successfully listed");
+        }
+    }
+
+    @Override
+    public DataResult<List<SocialMediaForCv>> getByCv_CvId(int id) {
+        List<SocialMediaForCv> socialMediaForCvs = socialMediaForCvRepository.getByCv_CvId(id);
+
+        if (socialMediaForCvs.isEmpty()) {
+            return new ErrorDataResult<>("This cv id not found");
+        } else {
+            return new SuccessDataResult<>(socialMediaForCvs, "Social media information has been successfully listed for cvId");
         }
     }
 
@@ -43,7 +54,7 @@ public class SocialMediaManager implements SocialMediaService {
 
     @Override
     public Result add(SocialMediaDto socialMediaDto) {
-        if (findAllByCvId(socialMediaDto.getId()).getData() != null) {
+        if (findAllById(socialMediaDto.getId()).getData() != null) {
             return new ErrorsResult(socialMediaDto.getId() + "Same social Media knowledge's cannot repeat");
         } else {
             SocialMediaForCv media = new SocialMediaForCv();

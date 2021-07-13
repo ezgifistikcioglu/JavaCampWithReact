@@ -11,9 +11,9 @@ export default class CvService{
         return axios.post("http://localhost:8080/api/cvs/update",values)
     }
     getByCvId(id){
-        return axios.get("http://localhost:8080/api/cvs/getByCvId?id="+id)
+        return axios.get("http://localhost:8080/api/cvs/getByCvId/"+id)
     }
     findByJobSeekerUserId(id){
-        return axios.get("http://localhost:8080/api/cvs/findByJobSeekerUserId?id="+id)
+        return axios.get("http://localhost:8080/api/cvs/findByJobSeekerUserId/"+id)
     }
 }

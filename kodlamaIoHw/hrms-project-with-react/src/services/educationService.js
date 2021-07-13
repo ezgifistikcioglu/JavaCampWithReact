@@ -16,4 +16,7 @@ export default class EducationService{
     getByEducationId(id){
         return axios.get("http://localhost:8080/api/educations/getByEducationId?id="+id)
     }
+    getByCvId(id){
+        return axios.get("http://localhost:8080/api/educations/getByCvId/"+id)
+    }
 }

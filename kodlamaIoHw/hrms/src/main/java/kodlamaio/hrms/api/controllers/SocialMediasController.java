@@ -46,9 +46,15 @@ public class SocialMediasController {
         }
     }
 
-    @GetMapping("/findAllByCvId/{id}")
+    @GetMapping("/findAllById/{id}")
     public ResponseEntity<DataResult<List<SocialMediaForCv>>> findAllByCvId(@PathVariable("id") int id) {
-        DataResult<List<SocialMediaForCv>> result = socialMediaService.findAllByCvId(id);
+        DataResult<List<SocialMediaForCv>> result = socialMediaService.findAllById(id);
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/getByCvId/{id}")
+    public ResponseEntity<DataResult<List<SocialMediaForCv>>> getByCvId(@PathVariable("id") int id) {
+        DataResult<List<SocialMediaForCv>> result = socialMediaService.getByCv_CvId(id);
         return ResponseEntity.ok(result);
     }
 }

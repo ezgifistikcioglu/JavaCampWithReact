@@ -1,14 +1,12 @@
 import React from 'react';
-import { Button, Input, TextArea, Card, Grid, Form } from "semantic-ui-react";
+import { Button, Input, Card, Grid, Form } from "semantic-ui-react";
 import { useFormik } from 'formik';
 import * as Yup from "yup";
 import swal from 'sweetalert';
-import { useParams } from "react-router-dom";
-import EducationService from '../../services/educationService';
+import EducationService from '../../../../services/educationService';
 
 export default function AddEducationForCv() {
   let educationService = new EducationService();
-  const { cvId } = useParams();
 
   const validationSchema = Yup.object({
     schoolName: Yup.string().max(250, 'Must be 250 characters or less').required("Please write a school name"),

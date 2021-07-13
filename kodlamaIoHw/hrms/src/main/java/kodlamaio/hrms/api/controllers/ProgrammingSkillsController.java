@@ -40,8 +40,8 @@ public class ProgrammingSkillsController {
         return ResponseEntity.ok(this.programmingSkillService.update(programmingSkillDto));
     }
 
-    @GetMapping("/findAllByCvId")
-    public ResponseEntity<DataResult<List<ProgrammingSkillForCv>>> findAllByCvId(@RequestParam int id) {
+    @GetMapping("/findAllByCvId/{id}")
+    public ResponseEntity<DataResult<List<ProgrammingSkillForCv>>> findAllByCvId(@PathVariable("id") int id) {
         DataResult<List<ProgrammingSkillForCv>> result = programmingSkillService.findAllByCvId(id);
         return ResponseEntity.ok(result);
     }

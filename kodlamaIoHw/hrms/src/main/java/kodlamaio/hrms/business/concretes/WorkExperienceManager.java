@@ -86,6 +86,17 @@ public class WorkExperienceManager implements WorkExperienceService {
     }
 
     @Override
+    public DataResult<List<WorkExperienceForCv>> getByCv_CvId(int id) {
+        List<WorkExperienceForCv> experience = workExperienceForCvRepository.getByCv_CvId(id);
+
+        if (experience.isEmpty()) {
+            return new ErrorDataResult<>("This Work Experience Not Found");
+        } else {
+            return new SuccessDataResult<>(experience,"Work Experience information has been successfully listed for cvId");
+        }
+    }
+
+    @Override
     public DataResult<List<WorkExperienceForCv>> findByExperienceIdOrderByBusinessLeavingDate(int idWithoutDesc) {
         return new SuccessDataResult<>(workExperienceForCvRepository.findByExperienceIdOrderByBusinessLeavingDate(idWithoutDesc));
     }
