@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import AdvertisementService from '../services/advertisementService';
+import AdvertisementService from '../../services/advertisementService';
 import { Button, Icon } from 'semantic-ui-react';
 import { NavLink } from "react-router-dom";
 import { withStyles, makeStyles } from '@material-ui/core/styles';

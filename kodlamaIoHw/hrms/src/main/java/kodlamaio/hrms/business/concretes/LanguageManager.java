@@ -5,6 +5,7 @@ import kodlamaio.hrms.core.utilities.results.*;
 import kodlamaio.hrms.dataAccess.abstracts.CVRepository;
 import kodlamaio.hrms.dataAccess.abstracts.LanguagesRepository;
 import kodlamaio.hrms.entities.concretes.LanguagesForCv;
+import kodlamaio.hrms.entities.concretes.ProgrammingSkillForCv;
 import kodlamaio.hrms.entities.dtos.LanguageDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,6 +62,16 @@ public class LanguageManager implements LanguageService {
     }
 
     @Override
+    public DataResult<List<LanguagesForCv>> getByCv_CvId(int id) {
+        List<LanguagesForCv> languages = languagesRepository.getByCv_CvId(id);
+        if (languages.isEmpty()) {
+            return new ErrorDataResult<>("This languages Not Found");
+        } else {
+            return new SuccessDataResult<>(languages,"Languages information has been successfully listed for cvId");
+        }
+    }
+
+    @Override
     public DataResult<List<LanguagesForCv>> getAll() {
         return new SuccessDataResult<>(this.languagesRepository.findAll(), "Listed language data");
     }
@@ -97,9 +108,9 @@ public class LanguageManager implements LanguageService {
 
     @Override
     public Result delete(int id) {
-        List<LanguagesForCv> languagesForCvs = this.languagesRepository.findAllByLanguageId(id);
+        Optional<LanguagesForCv> languagesForCvs = this.languagesRepository.findById(id);
 
-        if (languagesForCvs.isEmpty()) {
+        if (!languagesForCvs.isPresent()) {
             return new ErrorDataResult<>("This language not found");
         } else {
             this.languagesRepository.deleteById(id);

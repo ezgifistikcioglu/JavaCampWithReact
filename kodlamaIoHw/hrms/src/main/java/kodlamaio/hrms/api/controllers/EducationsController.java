@@ -37,7 +37,7 @@ public class EducationsController {
         return ResponseEntity.ok(this.educationInformationService.delete(id));
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ResponseEntity<Result> update(@RequestBody EducationDto educationDto) {
         Result result = educationInformationService.update(educationDto);
         if (!result.isSuccess()) {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from "react-router";
 import { Header, Icon, Table, Button, Grid, Card } from "semantic-ui-react";
 import { Link } from "react-router-dom";
-import AdvertisementService from '../services/advertisementService';
+import AdvertisementService from '../../services/advertisementService';
 
 
 export default function AdvertisementDetails() {
@@ -17,14 +17,14 @@ export default function AdvertisementDetails() {
 
     return (
         <div>
-            <Card fluid color={"violet"}>
-                <Card.Content header="jobDescription" />
+            <Card fluid color={"orange"}>
+                <Card.Content header="Job Description" />
                 <Card.Content>{advertisementDetails.jobDescription}</Card.Content>
             </Card>
             <Grid centered stackable>
                 <Grid.Row>
                     <Grid.Column width={6}>
-                        <Table celled color={"violet"} stackable>
+                        <Table celled color={"orange"} stackable>
                             <Table.Header>
                                 <Table.Row>
                                     <Table.HeaderCell>Employer</Table.HeaderCell>
@@ -108,7 +108,7 @@ export default function AdvertisementDetails() {
                         </Table>
                     </Grid.Column>
                     <Grid.Column width={10}>
-                        <Table celled fixed singleLine color={"violet"}>
+                        <Table celled fixed singleLine color={"orange"}>
                             <Table.Header>
                                 <Table.Row>
                                     <Table.HeaderCell>Job Advertisement Details</Table.HeaderCell>

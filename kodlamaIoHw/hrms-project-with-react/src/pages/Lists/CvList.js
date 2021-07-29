@@ -1,5 +1,5 @@
 import React, { useState, useEffect }  from 'react'
-import CvService from '../services/cvService';
+import CvService from '../../services/cvService';
 import { Button, Card, Image, Rating } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
@@ -31,10 +31,7 @@ export default function CvList() {
               <Card.Header style={{ marginLeft: "9em" }}>{cv.jobSeeker.firstname + " " + cv.jobSeeker.lastname }</Card.Header>
               <Card.Description style={{ marginLeft: "30em" }}>
                   {cv.educationInformationForCvs.schoolDepartmentName} </Card.Description>
-              <Card.Content>{cv.coverLetter} <strong></strong>
-
-              </Card.Content>
-              <Rating icon='star' defaultRating={0} maxRating={5}>Rating</Rating>
+              <Card.Content>{cv.coverLetter}</Card.Content>
 
             </Card.Content>
             <Card.Content extra>

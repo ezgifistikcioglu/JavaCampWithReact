@@ -7,9 +7,9 @@ import kodlamaio.hrms.dataAccess.abstracts.ProgrammingSkillForCvRepository;
 import kodlamaio.hrms.entities.concretes.ProgrammingSkillForCv;
 import kodlamaio.hrms.entities.dtos.ProgrammingSkillDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,28 +60,46 @@ public class ProgrammingSkillManager implements ProgrammingSkillService {
 
     @Override
     public Result update(ProgrammingSkillDto programmingSkillDto) {
-        Optional<ProgrammingSkillForCv> skillForCv = this.skillForCvRepository.getById(programmingSkillDto.getSkillId());
-        if (!skillForCv.isPresent()) {
-            return new ErrorsResult("This skill ( id " + programmingSkillDto.getSkillId() + " ) doesnt available!");
-        } else {
-            skillForCv.get().setProgrammingName(programmingSkillDto.getProgrammingName());
-            skillForCv.get().setProgrammingSkillLevel(programmingSkillDto.getProgrammingSkillLevel());
-            skillForCv.get().setCreatedAt(programmingSkillDto.getCreatedAt());
-            skillForCv.get().setCv(this.cvRepository.getOne(programmingSkillDto.getCvId()));
-            this.skillForCvRepository.save(skillForCv.get());
-            return new SuccessResult("Updated new skill");
+        Optional<ProgrammingSkillForCv> skillForCvs = this.skillForCvRepository.findById(programmingSkillDto.getSkillId());
+        if (skillForCvs.isPresent()) {
+            ProgrammingSkillForCv _skill = skillForCvs.get();
+            _skill.setProgrammingName(programmingSkillDto.getProgrammingName());
+            _skill.setProgrammingSkillLevel(programmingSkillDto.getProgrammingSkillLevel());
+            _skill.setCreatedAt(programmingSkillDto.getCreatedAt());
+            _skill.setCv(this.cvRepository.getOne(programmingSkillDto.getCvId()));
+            skillForCvRepository.save(_skill);
+            return  new SuccessDataResult<>("Skill updated successfully!");
+        }else {
+            return new ErrorDataResult<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @Override
     public Result delete(int id) {
-        List<ProgrammingSkillForCv> skillForCvs = this.skillForCvRepository.findAllById(id);
+        Optional<ProgrammingSkillForCv> skillForCvs = this.skillForCvRepository.findById(id);
 
-        if (skillForCvs.isEmpty()) {
+        if (!skillForCvs.isPresent()) {
             return new ErrorDataResult<>("This programming skill not found");
         } else {
             this.skillForCvRepository.deleteById(id);
             return new SuccessResult("Deleted skill with id : " + id);
         }
+    }
+
+    @Override
+    public DataResult<List<ProgrammingSkillForCv>> getByCv_CvId(int id) {
+        List<ProgrammingSkillForCv> programmingSkillForCvList = skillForCvRepository.getByCv_CvId(id);
+        if (programmingSkillForCvList.isEmpty()) {
+            return new ErrorDataResult<>("This Programming Skill Not Found");
+        } else {
+            return new SuccessDataResult<>(programmingSkillForCvList,"Programming Skill information has been successfully listed for cvId");
+        }
+    }
+
+    @Override
+    public ProgrammingSkillForCv findById(int id) {
+        Optional<ProgrammingSkillForCv> skillForCvs = this.skillForCvRepository.findById(id);
+
+        return skillForCvs.isPresent() ? skillForCvs.get() : null;
     }
 }

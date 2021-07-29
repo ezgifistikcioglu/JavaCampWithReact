@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { Table, Menu, Icon } from 'semantic-ui-react'
-import JobPositionService from '../services/jobPositionService'
+import JobPositionService from '../../services/jobPositionService'
 
 export default function JobPositionList() {
     const [jobPositions, setJobPositions] = useState([])
@@ -17,15 +17,17 @@ export default function JobPositionList() {
                     <Table.HeaderCell>Job Name</Table.HeaderCell>
                     <Table.HeaderCell>Position Active</Table.HeaderCell>
                     <Table.HeaderCell>Position Deleted</Table.HeaderCell>
+                    <Table.HeaderCell>Created Date</Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
             <Table.Body>
                 {
                     jobPositions.map(jobPosition => (
                         <Table.Row key={jobPosition.id}>
-                            <Table.Cell>{jobPosition.jobName}</Table.Cell>
+                            <Table.Cell>{jobPosition.jobPositionName}</Table.Cell>
                             <Table.Cell>{jobPosition.activePosition}</Table.Cell>
                             <Table.Cell>{jobPosition.deletedPosition}</Table.Cell>
+                            <Table.Cell>{jobPosition.createdDate}</Table.Cell>
                         </Table.Row>
                     ))
                 }

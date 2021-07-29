@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react'
+import { useParams } from "react-router";
 import { Button, Input, Card, Form } from "semantic-ui-react";
 import { useFormik } from 'formik';
 import * as Yup from "yup";
@@ -7,7 +8,16 @@ import ProgrammingSkillService from '../../../../services/programmingSkillServic
 
 
 export default function AddProgrammingSkillForCv() {
+    let { id } = useParams();
+
     let programmingSkillService = new ProgrammingSkillService();
+
+    const [programmingSkills, setProgrammingSkills] = useState({});
+
+    
+  useEffect(() => {
+    programmingSkillService.getByCvId(id).then((result) => setProgrammingSkills(result.data.data));
+}, [id]);
 
     const validationSchema = Yup.object({
         programmingName: Yup.string().max(250, 'Must be 250 characters or less').required("Please write a programming skill name"),
@@ -25,7 +35,7 @@ export default function AddProgrammingSkillForCv() {
         validationSchema: validationSchema,
         onSubmit: (values) => {
             console.log("values: " + values)
-            values.cvId = parseInt(11);
+            values.cvId = parseInt(id);
 
             programmingSkillService.addProgrammingSkills(values).then((result) => console.log(result)).then(swal({
                 title: "Succeed!",
@@ -39,7 +49,7 @@ export default function AddProgrammingSkillForCv() {
     return (
         <div>
             <Card color="orange" fluid>
-                <Card.Content header='Add Language' />
+                <Card.Content header='Add Programming Skill' />
                 <Card.Content>
                     <Form color="orange" onSubmit={formik.handleSubmit}>
                         <Form.Field style={{ marginBottom: "1em" }}>

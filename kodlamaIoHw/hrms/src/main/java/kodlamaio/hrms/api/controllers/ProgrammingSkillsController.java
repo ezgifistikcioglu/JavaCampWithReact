@@ -35,7 +35,7 @@ public class ProgrammingSkillsController {
         return ResponseEntity.ok(this.programmingSkillService.delete(id));
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ResponseEntity<Result> update(@RequestBody ProgrammingSkillDto programmingSkillDto) {
         return ResponseEntity.ok(this.programmingSkillService.update(programmingSkillDto));
     }
@@ -44,5 +44,10 @@ public class ProgrammingSkillsController {
     public ResponseEntity<DataResult<List<ProgrammingSkillForCv>>> findAllByCvId(@PathVariable("id") int id) {
         DataResult<List<ProgrammingSkillForCv>> result = programmingSkillService.findAllByCvId(id);
         return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/getByCvId/{id}")
+    public DataResult<List<ProgrammingSkillForCv>> getByCvId(@PathVariable("id") int id) {
+        return this.programmingSkillService.getByCv_CvId(id);
     }
 }

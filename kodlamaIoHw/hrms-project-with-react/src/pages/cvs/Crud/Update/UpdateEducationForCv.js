@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react'
+import { useParams } from "react-router";
 import { Button, Input, Card, Grid, Form } from "semantic-ui-react";
 import { useFormik } from 'formik';
 import * as Yup from "yup";
@@ -7,6 +8,13 @@ import EducationService from '../../../../services/educationService';
 
 export default function UpdateEducationForCv() {
     let educationService = new EducationService();
+    let { id } = useParams();
+
+    const [educations, setEducations] = useState({});
+  
+    useEffect(() => {
+      educationService.getByCvId(id).then((result) => setEducations(result.data.data));
+  }, [educations]);
 
     const validationSchema = Yup.object({
       schoolName: Yup.string().max(250, 'Must be 250 characters or less').required("Please write a school name"),
@@ -28,10 +36,10 @@ export default function UpdateEducationForCv() {
       },
       validationSchema: validationSchema,
       onSubmit: (values) => {
-        values.educationId = parseInt(16);
-        console.log("values: " + values)
-        values.cvId = parseInt(11);
-  
+        values.educationId = parseInt(34);
+        values.cvId = parseInt(id);
+          console.log("values: " + values)
+
         educationService.updateEducations(values).then((result) => console.log(result)).then(swal({
           title: "Succeed!",
           text: "Education is updated!",
@@ -44,7 +52,7 @@ export default function UpdateEducationForCv() {
     return (
       <div>
         <Card color="orange" fluid>
-          <Card.Content header='Add Education Knowledge' />
+          <Card.Content header='Education' />
           <Card.Content>
             <Form color="orange" onSubmit={formik.handleSubmit}>
               <Form.Field style={{ marginBottom: "1em" }}>
@@ -66,7 +74,7 @@ export default function UpdateEducationForCv() {
               <Form.Field>
                 <Input
                   style={{ minHeight: 30 }}
-                  error={Boolean(formik.errors.schoolDepartmentName).toString()}
+                  error={Boolean(formik.errors.schoolDepartmentName)}
                   value={formik.values.schoolDepartmentName}
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}

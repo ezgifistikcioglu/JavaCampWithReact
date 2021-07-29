@@ -6,6 +6,9 @@ import { Grid, Icon, Feed, Button } from "semantic-ui-react";
 import getBulletIcon from "../../utilities/cvs/getBulletIcon";
 import getLink from "../../utilities/cvs/getLink";
 import WorkExperienceService from '../../services/workExperienceService'
+import CustomizedDialogs from "../../utilities/cvs/components/dialog";
+import AddWorkExperienceForCv from './Crud/Add/AddWorkExperienceForCv';
+import UpdateWorkExperienceForCv from './Crud/Update/UpdateWorkExperienceForCv';
 
 export default function GetExperienceInfo() {
     let workExperienceService = new WorkExperienceService();
@@ -26,9 +29,11 @@ export default function GetExperienceInfo() {
                     <Icon name="travel" color="black" />
                     Experience
                     <div style={{ justifyContent: "flex-end", display: "flex" }}>
-                    <Button icon="add" color="green" compact="true" attached='bottom' onClick={{}}></Button>
-                    </div> <Divider />
-                    
+                        <CustomizedDialogs color="green" icon="add">
+                            <AddWorkExperienceForCv />
+                        </CustomizedDialogs>
+                    </div>
+                    <Divider />
                 </h2>
 
                 <Feed>
@@ -39,15 +44,18 @@ export default function GetExperienceInfo() {
                             style={{ marginBottom: "0.5em" }}
                             date={exp.businessStartDate + " / " + exp.businessLeavingDate}
                             summary={
-                                <p>
-                                    <b>{exp.jobName}</b> @{" "}
-                                    {getLink(exp.businessName, "www.google.com")}
+                                    <div>
+                                        <b>{exp.jobName}</b> @{" "}
+                                        {getLink(exp.businessName, "www.google.com")}
                                         <div style={{ justifyContent: "flex-end", display: "flex" }}>
-                                            <Button icon="edit" color="blue" onClick={{}} compact="true"/>
-                                            <Button icon="delete" color="red" onClick={{}} compact="true"/>
+                                            <CustomizedDialogs color="blue" icon="edit">
+                                                <UpdateWorkExperienceForCv />
+                                            </CustomizedDialogs>
+                                            <hr/>
+                                            <Button size='mini' icon="delete" color="red" onClick={{}} compact="true" />
                                         </div>
-                                        <Divider style={{ background: 'black' }}/>
-                                </p>
+                                        <Divider style={{ background: 'black' }} />
+                                    </div>
                             }
                         />
                     ))}

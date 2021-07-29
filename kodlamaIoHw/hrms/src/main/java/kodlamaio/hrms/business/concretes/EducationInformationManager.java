@@ -88,9 +88,9 @@ public class EducationInformationManager implements EducationInformationService 
 
     @Override
     public Result delete(int id) {
-        Optional<EducationInformationForCv> educationInformationForCv = this.educationInformationForCVRepository.findById(id);
+        boolean educationInformationForCv = this.educationInformationForCVRepository.existsById(id);
 
-        if (!educationInformationForCv.isPresent()) {
+        if (!educationInformationForCv) {
             return new ErrorDataResult<>("Education not found");
         } else {
             this.educationInformationForCVRepository.deleteById(id);

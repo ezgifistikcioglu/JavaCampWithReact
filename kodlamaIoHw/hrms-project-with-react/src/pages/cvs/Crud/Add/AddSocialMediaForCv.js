@@ -29,7 +29,7 @@ export default function AddSocialMediaForCv() {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       console.log("values: " + values)
-      values.cvId = parseInt(11);
+      values.cvId = parseInt(13);
 
       socialMediaService.addSocialMedias(values).then((result) => console.log(result)).then(swal({
         title: "Succeed!",

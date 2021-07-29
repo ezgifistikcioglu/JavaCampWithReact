@@ -10,8 +10,11 @@ export default class WorkExperienceService {
     updateWorkExperiences(values){
         return axios.post("http://localhost:8080/api/work-experiences/update",values)
     }
+    deleteWorkExperiences(values){
+        return axios.post("http://localhost:8080/api/work-experiences/update",values)
+    }
     findByExperienceId(id){
-        return axios.get("http://localhost:8080/api/work-experiences/findByExperienceId?id="+id)
+        return axios.get("http://localhost:8080/api/work-experiences/findByExperienceId/"+id)
     }
     getByCvId(id){
         return axios.get("http://localhost:8080/api/work-experiences/getByCvId/"+id)

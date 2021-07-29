@@ -23,10 +23,9 @@ export default function CvDetails() {
 
     useEffect(() => {
         cvService.getByCvId(id).then((result) => {
-            console.log(result.data.data);
             setCvs(result.data.data);
         });
-    }, [id]);
+    }, [cvs]);
     return (
         <div>
             <Grid columns={2} divided>

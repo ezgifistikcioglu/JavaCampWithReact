@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react'
+import { useParams } from "react-router";
 import { Button, Input, Card, Grid, Form } from "semantic-ui-react";
 import { useFormik } from 'formik';
 import * as Yup from "yup";
@@ -7,6 +8,13 @@ import WorkExperienceService from '../../../../services/workExperienceService';
 
 export default function UpdateWorkExperienceForCv() {
   let workExperienceService = new WorkExperienceService();
+  let { id } = useParams();
+
+  const [experiences, setExperiences] = useState({});
+  
+  useEffect(() => {
+    workExperienceService.getByCvId(id).then((result) => setExperiences(result.data.data));
+}, [experiences]);
 
   const validationSchema = Yup.object({
     businessName: Yup.string().max(250, 'Must be 250 characters or less').required("Please write a school name"),
@@ -33,9 +41,9 @@ export default function UpdateWorkExperienceForCv() {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      values.experienceId = parseInt(1);
+      values.experienceId = parseInt(38);
       console.log("values: " + values)
-      values.cvId = parseInt(11);
+      values.cvId = parseInt(id);
 
       workExperienceService.updateWorkExperiences(values).then((result) => console.log(result)).then(swal({
         title: "Succeed!",

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react'
+import { useParams } from "react-router";
 import { Button, Input, Card, Form } from "semantic-ui-react";
 import { useFormik } from 'formik';
 import * as Yup from "yup";
@@ -7,6 +8,14 @@ import ProgrammingSkillService from '../../../../services/programmingSkillServic
 
 export default function UpdateProgrammingSkillForCv() {
     let programmingSkillService = new ProgrammingSkillService();
+    let { id } = useParams();
+
+    const [programmingSkills, setProgrammingSkills] = useState({});
+
+        
+  useEffect(() => {
+    programmingSkillService.getByCvId(id).then((result) => setProgrammingSkills(result.data.data));
+}, [programmingSkills]);
 
     const validationSchema = Yup.object({
         programmingName: Yup.string().max(250, 'Must be 250 characters or less').required("Please write a programming skill name"),
@@ -24,9 +33,9 @@ export default function UpdateProgrammingSkillForCv() {
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
-            values.id = parseInt(5);
+            values.id = parseInt(14);
+            values.cvId = parseInt(id);
             console.log("values: " + values);
-            values.cvId = parseInt(12);
 
             programmingSkillService.updateProgrammingSkills(values).then((result) => console.log(result)).then(swal({
                 title: "Succeed!",
@@ -40,13 +49,13 @@ export default function UpdateProgrammingSkillForCv() {
     return (
         <div>
             <Card color="orange" fluid>
-                <Card.Content header='Updated Language' />
+                <Card.Content header='Programming Skill' />
                 <Card.Content>
                     <Form color="orange" onSubmit={formik.handleSubmit}>
                         <Form.Field style={{ marginBottom: "1em" }}>
                             <Input
                                 style={{ width: "100%" }}
-                                error={Boolean(formik.errors.programmingName).toString()}
+                                error={Boolean(formik.errors.programmingName)}
                                 onChange={formik.handleChange}
                                 value={formik.values.programmingName}
                                 onBlur={formik.handleBlur}
@@ -96,7 +105,7 @@ export default function UpdateProgrammingSkillForCv() {
                         </Form.Field>
                         <Button
                             animated
-                            content="Updated"
+                            content="Update"
                             labelPosition="right"
                             icon="edit"
                             color="orange"

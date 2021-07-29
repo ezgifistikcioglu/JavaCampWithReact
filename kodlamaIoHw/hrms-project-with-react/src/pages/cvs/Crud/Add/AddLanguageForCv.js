@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react'
+import { useParams } from "react-router";
 import { Button, Input, Card, Form } from "semantic-ui-react";
 import { useFormik } from 'formik';
 import * as Yup from "yup";
@@ -7,7 +8,15 @@ import LanguageService from '../../../../services/languageService';
 
 
 export default function AddLanguageForCv() {
+  let { id } = useParams();
+
   let languageService = new LanguageService();
+
+  const [languageServices, setLanguageServices] = useState({});
+
+  useEffect(() => {
+    languageService.getByCvId(id).then((result) => setLanguageServices(result.data.data));
+}, [id]);
 
   const validationSchema = Yup.object({
     languageName: Yup.string().max(250, 'Must be 250 characters or less').required("Please write a language name"),
@@ -25,7 +34,7 @@ export default function AddLanguageForCv() {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       console.log("values: " + values)
-      values.cvId = parseInt(11);
+      values.cvId = parseInt(id);
 
       languageService.addLanguages(values).then((result) => console.log(result)).then(swal({
         title: "Succeed!",

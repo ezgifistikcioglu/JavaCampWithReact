@@ -8,7 +8,7 @@ export default class AdvertisementService{
         return axios.post("http://localhost:8080/api/advertisements/addAdvertisement",values)
     }
     findById(id){
-        return axios.get("http://localhost:8080/api/advertisements/findById?id="+id)
+        return axios.get("http://localhost:8080/api/advertisements/findById/"+id)
     }
     getAllOpenAndApprovedAdvertisementList(){
         return axios.get("http://localhost:8080/api/advertisements/getAllOpenAndApprovedAdvertisementList")

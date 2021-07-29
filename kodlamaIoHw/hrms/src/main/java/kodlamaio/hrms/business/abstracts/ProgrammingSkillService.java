@@ -17,4 +17,8 @@ public interface ProgrammingSkillService {
     Result update(ProgrammingSkillDto programmingSkillDto);
 
     Result delete(int id);
+
+    DataResult<List<ProgrammingSkillForCv>> getByCv_CvId(int id);
+
+    ProgrammingSkillForCv findById(int id);
 }

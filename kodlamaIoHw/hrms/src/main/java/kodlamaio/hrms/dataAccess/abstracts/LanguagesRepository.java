@@ -12,5 +12,7 @@ public interface LanguagesRepository extends JpaRepository<LanguagesForCv, Integ
 
     List<LanguagesForCv> findAllByCv_CvId(int id);
 
+    List<LanguagesForCv> getByCv_CvId(int id);
+
     Optional<LanguagesForCv> getByLanguageId(int id);
 }

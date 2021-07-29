@@ -108,10 +108,10 @@ export default function AddAdvertisement() {
 
   return (
     <div>
-      <Card color="violet" fluid>
+      <Card color="orange" fluid>
         <Card.Content header='Add Job Advertisement' />
         <Card.Content>
-          <Form color="violet" onSubmit={formik.handleSubmit}>
+          <Form color="orange" onSubmit={formik.handleSubmit}>
             <Form.Field style={{ marginBottom: "1em" }}>
               <Dropdown
                 clearable

@@ -14,6 +14,8 @@ public interface LanguageService {
 
     DataResult<LanguagesForCv> getByLanguageId(int id);
 
+    DataResult<List<LanguagesForCv>> getByCv_CvId(int id);
+
     DataResult<List<LanguagesForCv>> getAll();
 
     Result add(LanguageDto languageDto);

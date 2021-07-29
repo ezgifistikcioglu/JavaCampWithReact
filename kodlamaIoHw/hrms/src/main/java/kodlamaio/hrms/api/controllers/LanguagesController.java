@@ -4,6 +4,7 @@ import kodlamaio.hrms.business.abstracts.LanguageService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.entities.concretes.LanguagesForCv;
+import kodlamaio.hrms.entities.concretes.ProgrammingSkillForCv;
 import kodlamaio.hrms.entities.dtos.LanguageDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -35,8 +36,8 @@ public class LanguagesController {
         return ResponseEntity.ok(this.languageService.delete(id));
     }
 
-    @PostMapping("/update")
-    public ResponseEntity<Result> update(@RequestBody @Valid LanguageDto languageDto) {
+    @PutMapping("/update")
+    public ResponseEntity<Result> update(@RequestBody LanguageDto languageDto) {
         return ResponseEntity.ok(this.languageService.update(languageDto));
     }
 
@@ -49,5 +50,10 @@ public class LanguagesController {
     public ResponseEntity<DataResult<List<LanguagesForCv>>> findAllByCvId(@PathVariable("id") int id) {
         DataResult<List<LanguagesForCv>> result = languageService.findAllByCvId(id);
         return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/getByCvId/{id}")
+    public DataResult<List<LanguagesForCv>> getByCvId(@PathVariable("id") int id) {
+        return this.languageService.getByCv_CvId(id);
     }
 }

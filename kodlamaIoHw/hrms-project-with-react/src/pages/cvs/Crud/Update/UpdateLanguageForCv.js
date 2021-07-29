@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react'
+import { useParams } from "react-router";
 import { Button, Input, Card, Form } from "semantic-ui-react";
 import { useFormik } from 'formik';
 import * as Yup from "yup";
@@ -7,6 +8,13 @@ import LanguageService from '../../../../services/languageService';
 
 export default function UpdateLanguageForCv() {
     let languageService = new LanguageService();
+    let { id } = useParams();
+
+    const [languages, setLanguages] = useState({});
+
+    useEffect(() => {
+      languageService.getByCvId(id).then((result) => setLanguages(result.data.data));
+  }, [languages]);
 
     const validationSchema = Yup.object({
       languageName: Yup.string().max(250, 'Must be 250 characters or less').required("Please write a language name"),
@@ -24,9 +32,8 @@ export default function UpdateLanguageForCv() {
       },
       validationSchema: validationSchema,
       onSubmit: (values) => {
-          values.languageId = parseInt(3);
-        console.log("values: " + values)
-        values.cvId = parseInt(11);
+        values.languageId = parseInt(14);
+        values.cvId = parseInt(id);
   
         languageService.updateLanguages(values).then((result) => console.log(result)).then(swal({
           title: "Succeed!",
@@ -40,13 +47,13 @@ export default function UpdateLanguageForCv() {
     return (
       <div>
         <Card color="orange" fluid>
-          <Card.Content header='Update Language' />
+          <Card.Content header='Language' />
           <Card.Content>
             <Form color="orange" onSubmit={formik.handleSubmit}>
               <Form.Field style={{ marginBottom: "1em" }}>
                 <Input
                   style={{ width: "100%" }}
-                  error={Boolean(formik.errors.languageName).toString()}
+                  error={Boolean(formik.errors.languageName)}
                   onChange={formik.handleChange}
                   value={formik.values.languageName}
                   onBlur={formik.handleBlur}

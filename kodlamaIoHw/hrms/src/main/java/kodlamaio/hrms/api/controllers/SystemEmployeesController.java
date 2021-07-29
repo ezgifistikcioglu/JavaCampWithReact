@@ -15,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/system_employees")
+@CrossOrigin
 public class SystemEmployeesController {
     @Autowired
     private SystemEmployeeService systemEmployeeService;
@@ -47,5 +48,10 @@ public class SystemEmployeesController {
     @DeleteMapping("/deleteEmployee/{id}")
     public ResponseEntity<Result>  deleteEmployee(@PathVariable("id") int id) {
         return ResponseEntity.ok(this.systemEmployeeService.deleteEmployee(id));
+    }
+    @GetMapping("/getById/{id}")
+    public ResponseEntity<DataResult<SystemEmployee>> getById(@PathVariable("id") int id) {
+        final DataResult<SystemEmployee> result = this.systemEmployeeService.getById(id);
+        return ResponseEntity.ok(result);
     }
 }

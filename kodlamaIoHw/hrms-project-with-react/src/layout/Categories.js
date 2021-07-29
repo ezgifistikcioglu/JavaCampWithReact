@@ -40,6 +40,10 @@ export default function Categories() {
                     <ListItemText primary={<Typography type="subtitle1" style={{ color: '#ff6f00' }}>Job Seeker</Typography>} />
                 </ListItem>
                 <Divider/>
+                <ListItem button component={NavLink} to="/systemEmployees">
+                    <ListItemText primary={<Typography type="subtitle1" style={{ color: '#ff6f00' }}>System Employee</Typography>} />
+                </ListItem>
+                <Divider/>
                 <ListItem button component={NavLink} to="/settings">
                     <ListItemText primary={<Typography type="subtitle1" style={{ color: '#ff6f00' }}>Settings</Typography>} />
                 </ListItem>

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react'
+import { useParams } from "react-router";
 import { Button, Input, Card, Grid, Form } from "semantic-ui-react";
 import { useFormik } from 'formik';
 import * as Yup from "yup";
@@ -6,7 +7,15 @@ import swal from 'sweetalert';
 import EducationService from '../../../../services/educationService';
 
 export default function AddEducationForCv() {
+  let { id } = useParams();
+
   let educationService = new EducationService();
+  const [educations, setEducations] = useState({});
+
+  
+  useEffect(() => {
+    educationService.getByCvId(id).then((result) => setEducations(result.data.data));
+}, [id]);
 
   const validationSchema = Yup.object({
     schoolName: Yup.string().max(250, 'Must be 250 characters or less').required("Please write a school name"),
@@ -28,7 +37,7 @@ export default function AddEducationForCv() {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       console.log("values: " + values)
-      values.cvId = parseInt(11);
+      values.cvId = parseInt(id);
 
       educationService.addEducations(values).then((result) => console.log(result)).then(swal({
         title: "Succeed!",

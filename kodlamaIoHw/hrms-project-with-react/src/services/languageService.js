@@ -14,6 +14,9 @@ export default class LanguageService{
         return axios.get("http://localhost:8080/api/languages/findAllByCvId/"+id)
     }
     updateLanguages(values){
-        return axios.post("http://localhost:8080/api/languages/update",values)
+        return axios.put("http://localhost:8080/api/languages/update",values)
+    }
+    getByCvId(id){
+        return axios.get("http://localhost:8080/api/languages/getByCvId/"+id)
     }
 }

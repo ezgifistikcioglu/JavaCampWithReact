@@ -1,19 +1,19 @@
 import React from 'react'
-import JobAdvertisementList from '../pages/JobAdvertisementList'
+import JobAdvertisementList from '../pages/Lists/JobAdvertisementList'
 import { Route } from 'react-router'
 import { Grid, GridColumn, GridRow } from 'semantic-ui-react'
 import Categories from './Categories'
-import CvList from '../pages/CvList'
-import EmployerList from '../pages/EmployerList'
-import JobSeekerList from '../pages/JobSeekerList'
-import JobPositionList from '../pages/JobPositionList'
+import CvList from '../pages/Lists/CvList'
+import EmployerList from '../pages/Lists/EmployerList'
+import JobSeekerList from '../pages/Lists/JobSeekerList'
+import JobPositionList from '../pages/Lists/JobPositionList'
 import Settings from './Settings'
 import AddAdvertisement from '../pages/AddAdvertisement'
-import AdvertisementDetails from '../pages/AdvertisementDetails'
+import AdvertisementDetails from '../pages/Details/AdvertisementDetails'
 import EmployeeLogin from '../pages/Authentications/EmployeeRegister'
 import EmployerLogin from '../pages/Authentications/EmployerRegister'
 import JobSeekerRegister from '../pages/Authentications/JobSeekerRegister'
-import OpenAndApprovedAdvertisementList from '../pages/OpenAndApprovedAdvertisementList'
+import OpenAndApprovedAdvertisementList from '../pages/Lists/OpenAndApprovedAdvertisementList'
 import LoginPage from '../pages/Authentications/LoginPage'
 import AddCv from '../pages/cvs/AddCv'
 import CvDetails from '../pages/cvs/CvDetails'
@@ -27,6 +27,8 @@ import UpdateLanguageForCv from '../pages/cvs/Crud/Update/UpdateLanguageForCv'
 import UpdateProgrammingSkillForCv from '../pages/cvs/Crud/Update/UpdateProgrammingSkillForCv'
 import UpdateSocialMediaForCv from '../pages/cvs/Crud/Update/UpdateSocialMediaForCv'
 import UpdateWorkExperienceForCv from '../pages/cvs/Crud/Update/UpdateWorkExperienceForCv'
+import SystemEmployeeList from '../pages/Lists/SystemEmployeeList'
+import SystemEmployeeDetails from '../pages/Details/SystemEmployeeDetails'
 
 
 export default function Dashboard() {
@@ -43,10 +45,12 @@ export default function Dashboard() {
                         <Route exact path= "/positions" component={JobPositionList}/>
                         <Route exact path= "/employers" component={EmployerList}/>
                         <Route exact path= "/jobSeekers" component={JobSeekerList}/>
+                        <Route exact path= "/systemEmployees" component={SystemEmployeeList}/>
                         <Route exact path= "/cvs" component={CvList}/>
                         <Route exact path= "/settings" component={Settings}/>
                         <Route exact path= "/advertisements" component={AddAdvertisement}/>
                         <Route exact path="/advertisementDetails/:id" component={AdvertisementDetails} />
+                        <Route exact path="/systemEmployeeDetails/:id" component={SystemEmployeeDetails} />
                         <Route exact path="/employeeRegister" component={EmployeeLogin} />
                         <Route exact path="/employerRegister" component={EmployerLogin} />
                         <Route exact path="/jobSeekerRegister" component={JobSeekerRegister} />
